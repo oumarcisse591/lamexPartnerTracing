@@ -76,7 +76,7 @@ public class ReportController {
     }
 
     public ByteArrayOutputStream generateReport(String receiptCode, Date date, String remitterName, String remitterAddress, String BeneficiaryName, String beneficiaryAddress, String beneficiaryBank, String beneficiaryBankAddress, String beneficiaryAccount, String swift, double amount, String currency, Date valueDate, String paymentReference) throws IOException, JRException {
-        File file = ResourceUtils.getFile("classpath:recu.jrxml");
+//        File file = ResourceUtils.getFile("classpath:recu.jrxml");
 
 //        Resource resource = new ClassPathResource("recu.jrxml");
 
@@ -84,7 +84,7 @@ public class ReportController {
 //        File file = resource.getFile();
 
 
-//        File file = ResourceUtils.getFile("/opt/tomcat/webapps/ttapplication/WEB-INF/classes/recu.jrxml");
+        File file = ResourceUtils.getFile("/opt/tomcat/webapps/ttapplication/WEB-INF/classes/recu.jrxml");
         File downloadsDirectory = new File(System.getProperty("user.home"), "Downloads");
         String path = downloadsDirectory.getAbsolutePath();
         Map<String,Object> parameters = new HashMap<>();
@@ -118,7 +118,7 @@ public class ReportController {
     }
 
     public ByteArrayOutputStream generatePaymentReport(String ref, Date date, String partnerName, String partnerPhone, String clientName, String clientAddress, String clientIdCard, String clientPhone, double amount, double amountAED, String username) throws IOException, JRException {
-        File file = ResourceUtils.getFile("classpath:payment-receipt.jrxml");
+//        File file = ResourceUtils.getFile("classpath:payment-receipt.jrxml");
 
 //        Resource resource = new ClassPathResource("payment-receipt.jrxml");
 
@@ -126,7 +126,7 @@ public class ReportController {
 //        File file = resource.getFile();
 
 
-//        File file = ResourceUtils.getFile("/opt/tomcat/webapps/ttapplication/WEB-INF/classes/recu.jrxml");
+        File file = ResourceUtils.getFile("/opt/tomcat/webapps/ttapplication/WEB-INF/classes/payment-receipt.jrxml");
         File downloadsDirectory = new File(System.getProperty("user.home"), "Downloads");
         String path = downloadsDirectory.getAbsolutePath();
         Map<String,Object> parameters = new HashMap<>();
