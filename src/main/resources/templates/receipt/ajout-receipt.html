@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Récépissé de Transfert</title>
+
+  <!-- Favicons -->
+  <link href="assets/img/favicon.png" rel="icon">
+  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.gstatic.com" rel="preconnect">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="assets/vendor/quill/quill.snow.css" rel="stylesheet">
+  <link href="assets/vendor/quill/quill.bubble.css" rel="stylesheet">
+  <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+  <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="assets/css/style.css" rel="stylesheet">
+</head>
+<body>
+<div th:replace="/layouts/header :: header"> </div>
+<main id="main" class="main">
+
+  <div class="pagetitle">
+    <h1>Transfert</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item">Transfert</li>
+      </ol>
+    </nav>
+  </div><!-- End Page Title -->
+  <form action="#" th:action="@{/save-receipt}" th:object="${receipt}" method="POST">
+    <section class="section">
+      <div class="row">
+        <div class="col-lg-6">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Le Remettant :</h5>
+              <!--              <label for="validationDefault01" class="form-label">Le Client :</label>-->
+              <select th:field="*{society.id}" id="inputState" class="form-select">
+                <option th:each="tempSociety : ${societies}" th:text="${tempSociety.societyName}"  th:value="${tempSociety.id}" selected></option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Le client :</h5>
+              <!--              <label for="validationDefault01" class="form-label">Le Client :</label>-->
+              <select th:field="*{client.id}" id="inputState" class="form-select">
+                <option th:each="tempClient : ${clients}" th:text="${tempClient.nom}"  th:value="${tempClient.id}" selected></option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-12">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Le Bénéficiaire :</h5>
+              <!--                <label for="validationDefault01" class="form-label">Le client :</label>-->
+              <select th:field="*{beneficiary.id}" id="inputState" class="form-select">
+                <!--                <div th></div>-->
+                <option th:each="tempBeneficiary : ${beneficiaries}" th:text="${tempBeneficiary.beneficiaryName}"  th:value="${tempBeneficiary.id}" selected></option>
+              </select>
+              <label for="validationDefault01" class="form-label">Banque du client bénéficiaire :</label>
+              <input type="text" th:field="*{beneficiaryBank}" name="beneficiary_bank" class="form-control" id="validationDefault01"
+                     required>
+              <label for="validationDefault01" class="form-label">Adresse de la banque du bénéficiaire :</label>
+              <input type="text" th:field="*{beneficiaryBankAddress}" name="beneficiary_bank_adress" class="form-control" id="validationDefault01"
+                     required>
+              <label for="validationDefault01" class="form-label">Numéro IBAN rattaché :</label>
+              <input type="text" th:field="*{beneficiaryAccount}" name="beneficiary_account"  class="form-control" id="validationDefault02"
+                     required>
+              <label for="validationDefault01" class="form-label">Code Swift Correspondant :</label>
+              <input type="text" th:field="*{swift_code}" name="swift_code" class="form-control" id="validationDefault01"
+                     required>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-12">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Détails de la transaction</h5>
+              <label for="validationDefault01" class="form-label">Montant :</label>
+              <input type="text" th:field="*{amount}" name="amount" class="form-control" id="validationDefault01"
+                     required>
+              <label for="validationDefault01" class="form-label">Devise :</label>
+              <select th:field="*{currency}" name="currency" id="inputState" class="form-select">
+                <option th:value="USD" selected>Dollar Américain - USD</option>
+                <option th:value="CAD" >Dollar Canadien - CAD</option>
+                <option th:value="EUR" >Euro - EUR</option>
+                <option th:value="XAF" >FCFA Afrique Centrale - XAF</option>
+                <option th:value="XOF" >FCFA Afrique de l'Ouest - XOF</option>
+                <option th:value="GBP" >Livre Sterling - GBP</option>
+                <option th:value="NGN" >Naira - NGN</option>
+                <option th:value="RMB" >Remimbi - RMB</option>
+                <option th:value="AED" >The United Arab Emirates dirham - AED</option>
+              </select>
+              <label for="validationDefault01" class="form-label">Date de la valeur :</label>
+              <input type="date" th:field="*{valueDate}" name="value_date"  class="form-control" id="validationDefault02"
+                     required>
+              <label for="validationDefault01" class="form-label">Motif de la transaction :</label>
+              <input type="text" th:field="*{motifTransaction}" name="motif_transaction"  class="form-control" id="validationDefault02"
+                     required>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+      <div class="">
+        <button class="btn btn-primary" type="submit">Valider</button>
+      </div>
+    </section>
+  </form>
+
+
+  <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/chart.js/chart.umd.js"></script>
+  <script src="assets/vendor/echarts/echarts.min.js"></script>
+  <script src="assets/vendor/quill/quill.min.js"></script>
+  <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
+  <script src="assets/vendor/tinymce/tinymce.min.js"></script>
+  <script src="assets/vendor/php-email-form/validate.js"></script>
+
+  <!-- Template Main JS File -->
+  <script src="assets/js/main.js"></script>
+</main>
+</body>
+</html>

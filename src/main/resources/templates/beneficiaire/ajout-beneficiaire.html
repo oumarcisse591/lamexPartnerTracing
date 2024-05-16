@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Ajout d'un Bénéficiaire</title>
+
+  <!-- Favicons -->
+  <link href="assets/img/favicon.png" rel="icon">
+  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.gstatic.com" rel="preconnect">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="assets/vendor/quill/quill.snow.css" rel="stylesheet">
+  <link href="assets/vendor/quill/quill.bubble.css" rel="stylesheet">
+  <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+  <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="assets/css/style.css" rel="stylesheet">
+</head>
+<body>
+<div th:replace="/layouts/header :: header"> </div>
+<main id="main" class="main">
+  <div class="pagetitle">
+    <h1>Ajout d'un bénéficiaire</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item">bénéficiaire</li>
+        <li class="breadcrumb-item active"></li>
+      </ol>
+    </nav>
+  </div><!-- End Page Title -->
+  <section class="section">
+    <div class="row">
+      <div class="col-lg-12">
+
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Formulaire d'ajout d'un bénéficiare</h5>
+            <!-- General Form Elements -->
+            <form action="#" th:action="@{/save-beneficiary}" th:object="${beneficiary}" method="POST" class="row g-3">
+              <div class="col-md-12">
+                <label for="validationDefault01" class="form-label">Nom complet de l'entreprise bénéficiare:</label>
+                <input type="text" th:field="*{beneficiaryName}" name="beneficiary_name" class="form-control" id="validationDefault01"
+                       required>
+                <label for="validationDefault01" class="form-label">Adresse de l'entreprise bénéficiaire :</label>
+                <input type="text" th:field="*{beneficiaryAdress}" name="beneficiary_adress" class="form-control" id="validationDefault01"
+                       required>
+              </div>
+
+              <div class="col-12">
+                <button class="btn btn-primary" type="submit">Créer le bénéficiaire</button>
+              </div>
+            </form>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+</main>
+
+<script>
+  // This function will hash the password using bcrypt.
+  function hashPassword(password) {
+    const salt = bcrypt.genSaltSync(10);
+    const hashedPassword = bcrypt.hashSync(password, salt);
+    return hashedPassword;
+  }
+
+  // This function will validate the password against the hashed password.
+  function validatePassword(password, hashedPassword) {
+    return bcrypt.compareSync(password, hashedPassword);
+  }
+</script>
+
+<script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
+<script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="assets/vendor/chart.js/chart.umd.js"></script>
+<script src="assets/vendor/echarts/echarts.min.js"></script>
+<script src="assets/vendor/quill/quill.min.js"></script>
+<script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
+<script src="assets/vendor/tinymce/tinymce.min.js"></script>
+<script src="assets/vendor/php-email-form/validate.js"></script>
+
+<!-- Template Main JS File -->
+<script src="assets/js/main.js"></script>
+</body>
+</html>

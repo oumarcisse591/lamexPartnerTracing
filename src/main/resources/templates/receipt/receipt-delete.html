@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Suppression d'un transfert</title>
+
+  <!-- Favicons -->
+  <link href="assets/img/favicon.png" rel="icon">
+  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.gstatic.com" rel="preconnect">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="assets/vendor/quill/quill.snow.css" rel="stylesheet">
+  <link href="assets/vendor/quill/quill.bubble.css" rel="stylesheet">
+  <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+  <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="assets/css/style.css" rel="stylesheet">
+</head>
+<body>
+<div th:replace="/layouts/header :: header"> </div>
+<main id="main" class="main">
+  <div class="pagetitle">
+    <h1>Suppression d'un transfert</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item">Transfert</li>
+        <li class="breadcrumb-item active">Suppression d'un transfert</li>
+      </ol>
+    </nav>
+  </div><!-- End Page Title -->
+  <section class="section">
+    <div class="row">
+      <div class="col-lg-12">
+        <form action="#" th:action="@{/delete-receipt}" th:object="${receipt}" method="POST" class="row g-3">
+          <div class="col-md-12" style="display : none">
+            <input style="display:none;" type="text" th:field="*{id}" name="id" class="form-control" id="validationDefault01"
+                   required>
+            <input style="display:none;" type="text" th:field="*{codeClient}" name="code_client" class="form-control" id="validationDefault01"
+                   required>
+            <label for="validationDefault01" class="form-label">Nom complet du client ou de l'entreprise :</label>
+            <input type="text" th:field="*{nom}" name="nom" class="form-control" id="validationDefault01"
+                   required>
+            <label for="validationDefault01" class="form-label">Adresse du client :</label>
+            <input type="text" th:field="*{adresse}" name="adresse" class="form-control" id="validationDefault01"
+                   required>
+          </div>
+
+          <div class="col-12">
+            <h6>Voulez-vous supprimer ce client?</h6>
+            <h7 th:text="*{nom}"></h7>
+            <br>
+            <h7 th:text="*{codeClient}"></h7>
+            <br>
+            <button onclick="if (!(confirm('Voulez-vous vraiment supprimer ce client?'))) return false" class="btn btn-danger" type="submit">supprimer le client</button>
+          </div>
+        </form>
+
+
+      </div>
+    </div>
+  </section>
+</main>
+
+<script>
+  // This function will hash the password using bcrypt.
+  function hashPassword(password) {
+    const salt = bcrypt.genSaltSync(10);
+    const hashedPassword = bcrypt.hashSync(password, salt);
+    return hashedPassword;
+  }
+
+  // This function will validate the password against the hashed password.
+  function validatePassword(password, hashedPassword) {
+    return bcrypt.compareSync(password, hashedPassword);
+  }
+</script>
+
+<script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
+<script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="assets/vendor/chart.js/chart.umd.js"></script>
+<script src="assets/vendor/echarts/echarts.min.js"></script>
+<script src="assets/vendor/quill/quill.min.js"></script>
+<script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
+<script src="assets/vendor/tinymce/tinymce.min.js"></script>
+<script src="assets/vendor/php-email-form/validate.js"></script>
+
+<!-- Template Main JS File -->
+<script src="assets/js/main.js"></script>
+</body>
+</html>

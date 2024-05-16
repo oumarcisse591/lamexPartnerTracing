@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Faire un paiement</title>
+
+  <!-- Favicons -->
+  <link href="assets/img/favicon.png" rel="icon">
+  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.gstatic.com" rel="preconnect">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="assets/vendor/quill/quill.snow.css" rel="stylesheet">
+  <link href="assets/vendor/quill/quill.bubble.css" rel="stylesheet">
+  <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+  <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="assets/css/style.css" rel="stylesheet">
+</head>
+<body>
+<div th:replace="/layouts/header :: header"> </div>
+<main id="main" class="main">
+
+  <div class="pagetitle">
+    <h1>Paiement</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item">Paiement</li>
+      </ol>
+    </nav>
+  </div><!-- End Page Title -->
+  <form action="#" th:action="@{/save-payment}" th:object="${payment}" method="POST">
+    <section class="section">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Stock du partenaire :</h5>
+              <div th:if="${error}">
+                <div class="alert alert-danger alert-dismissible fade show" th:text="${error}" role="alert">
+                  A simple success alert—check it out!
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+              </div>
+              <select th:field="*{stock.id}"  id="inputState" class="form-select">
+                <div th:each="tempStock : ${stocks}" >
+                  <div th:if="${tempStock.partner.enabled == true}">
+                    <option th:text="${tempStock.stockName} + ' - ' + ${tempStock.balance}"  th:value="${tempStock.id}" selected></option>
+                  </div>
+                  </div>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-12">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Le Client :</h5>
+              <label for="validationDefault01" class="form-label">Nom complet du client :</label>
+              <input type="text" th:field="*{clientName}"  name="client_name" class="form-control" id="validationDefault01"
+                     required>
+              <label for="validationDefault01" class="form-label">Adresse du client et ou Numero de telephone :</label>
+              <input type="text" th:field="*{clientAddress}" name="client_address" class="form-control" id="validationDefault01"
+                     >
+              <label for="validationDefault01" class="form-label">CNI / Passeport No: :</label>
+              <input type="text" th:field="*{clientIdCard}" name="client_id_card" class="form-control" id="validationDefault02"
+                     >
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-12">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Détails de la transaction</h5>
+              <label for="validationDefault01" class="form-label">Montant en USD :</label>
+              <input type="text" th:field="*{transactionAmount}" name="transaction_amount" class="form-control" id="inputNumber" oninput="multiplyByThree()"
+                     required>
+<!--              <input type="number" id="inputNumber" oninput="multiplyByThree()">-->
+              <div class="alert alert-success alert-dismissible fade show" th:text="${message}" role="alert" id="result" style="margin-top:5px">
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+
+<!--              <label for="validationDefault01" class="form-label">Devise :</label>-->
+<!--              <select name="currency" id="inputState" class="form-select">-->
+<!--                <option th:value="AED" >The United Arab Emirates dirham - AED</option>-->
+<!--              </select>-->
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+      <div class="">
+        <button class="btn btn-primary" type="submit">Valider</button>
+      </div>
+    </section>
+  </form>
+
+  <script>
+    function multiplyByThree() {
+      // Récupérer la valeur du champ input
+      var inputValue = document.getElementById("inputNumber").value;
+
+      // Vérifier si l'entrée est un nombre valide
+      if (!isNaN(inputValue)) {
+        // Multiplier la valeur par 3
+        var result = parseFloat(inputValue) * 3.67;
+
+        // Afficher le résultat dans un élément HTML
+        document.getElementById("result").textContent = "L'equivalence en AED est " + result;
+      } else {
+        // Afficher un message d'erreur si l'entrée n'est pas un nombre valide
+        document.getElementById("result").textContent = "Veuillez saisir un nombre valide";
+      }
+    }
+  </script>
+  <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/chart.js/chart.umd.js"></script>
+  <script src="assets/vendor/echarts/echarts.min.js"></script>
+  <script src="assets/vendor/quill/quill.min.js"></script>
+  <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
+  <script src="assets/vendor/tinymce/tinymce.min.js"></script>
+  <script src="assets/vendor/php-email-form/validate.js"></script>
+
+  <!-- Template Main JS File -->
+  <script src="assets/js/main.js"></script>
+</main>
+</body>
+</html>
