@@ -35,8 +35,8 @@
                 </staticText>
                 <image>
                     <reportElement x="0" y="0" width="80" height="80" uuid="39e6e3ef-5712-4e25-91d6-750de8bdb829"/>
-<!--                    <imageExpression><![CDATA["/Users/admin/Downloads/logo.jpg"]]></imageExpression>-->
-                    <imageExpression><![CDATA["/opt/tomcat/webapps/ttapplication/WEB-INF/classes/logo.jpg"]]></imageExpression>
+                    <imageExpression><![CDATA["/Users/admin/Downloads/logo.jpg"]]></imageExpression>
+<!--                    <imageExpression><![CDATA["/opt/tomcat/webapps/ttapplication/WEB-INF/classes/logo.jpg"]]></imageExpression>-->
                 </image>
                 <staticText>
                     <reportElement x="90" y="20" width="114" height="17" uuid="edb44a21-f4c5-4bbb-8668-de40793b23fd"/>
