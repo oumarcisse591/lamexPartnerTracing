@@ -128,7 +128,7 @@
             <image hAlign="Center">
                 <reportElement x="0" y="0" width="65" height="60" uuid="94883631-a913-43e2-b182-ab8d77d0181e"/>
 <!--                <imageExpression><![CDATA["/Users/admin/Downloads/logo.jpg"]]></imageExpression>-->
-                <imageExpression><![CDATA["/opt/tomcat/webapps/ttapplication/WEB-INF/classes/logo.jpg"]]></imageExpression>
+                <imageExpression><![CDATA["/opt/tomcat/webapps/lamexPartnerTracing/WEB-INF/classes/logo.jpg"]]></imageExpression>
             </image>
             <staticText>
                 <reportElement x="300" y="50" width="130" height="20" uuid="0b3f9342-da78-4cfa-9fc5-2301c4749678"/>
