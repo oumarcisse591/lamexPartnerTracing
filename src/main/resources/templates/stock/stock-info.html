@@ -132,23 +132,27 @@
                         </div>
                         <td th:text="${tempTransaction.reason}"></td>
                         <td>
-<!--                          <span>-->
-<!--                                                    <div class="">-->
-<!--                                                    <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>-->
-<!--                                                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">-->
-<!--                                                      <li class="dropdown-header text-start">-->
-<!--                                                        <h6>Actions</h6>-->
-<!--                                                      </li>-->
-<!--                                                        <div sec:authorize="hasRole('ROLE_ADMIN')">-->
-<!--                                                            <li><a class="dropdown-item" th:href="@{/info-stock(id=${tempStock.id})}">Information sur le stock</a></li>-->
-<!--                                                      <li><a class="dropdown-item" th:href="@{/update-beneficiary(id=${tempStock.id})}">Corriger le stock</a></li>-->
-
-<!--                                                        <li><a class="dropdown-item" th:href="@{/delete-beneficiary-page(id=${tempStock.id})}">Transferer le stock</a></li>-->
-<!--                                                   </div>-->
-<!--                                                      <li><a class="dropdown-item" href="#">Annuler</a></li>-->
-<!--                                                    </ul>-->
-<!--                                                  </div>-->
-<!--                          </span>-->
+                          <span>
+                                                    <div class="">
+                                                    <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                                                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                                                      <li class="dropdown-header text-start">
+                                                        <h6>Actions</h6>
+                                                      </li>
+                                                        <div sec:authorize="hasRole('ROLE_ADMIN')">
+                                                            <div th:if="${tempTransaction.transactionType == 'recharge'}">
+                                                                <li><a class="dropdown-item" th:href="@{/rechargeReportPdf(id=${tempTransaction.idTransaction})}">imprimer le mouvement</a></li>
+                                                            </div>
+                                                        </div>
+                                                        <div sec:authorize="hasRole('ROLE_ADMIN')">
+                                                            <div th:if="${tempTransaction.transactionType == 'debit'}">
+                                                                <li><a class="dropdown-item" th:href="@{/paymentReportPdf(id=${tempTransaction.idTransaction})}">imprimer le mouvement</a></li>
+                                                            </div>
+                                                        </div>
+                                                      <li><a class="dropdown-item" href="#">Annuler</a></li>
+                                                    </ul>
+                                                  </div>
+                          </span>
                         </td>
 
 

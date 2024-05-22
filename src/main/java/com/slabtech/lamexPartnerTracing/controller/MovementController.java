@@ -3,10 +3,14 @@ package com.slabtech.lamexPartnerTracing.controller;
 import com.slabtech.lamexPartnerTracing.entity.Movement;
 import com.slabtech.lamexPartnerTracing.entity.Partner;
 import com.slabtech.lamexPartnerTracing.entity.Stock;
+import com.slabtech.lamexPartnerTracing.entity.User;
 import com.slabtech.lamexPartnerTracing.exception.InsufficientStockException;
 import com.slabtech.lamexPartnerTracing.service.MovementService;
 import com.slabtech.lamexPartnerTracing.service.StockService;
+import com.slabtech.lamexPartnerTracing.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,10 +31,13 @@ public class MovementController {
     private MovementService movementService;
     private StockService stockService;
 
+    private UserService userService;
+
     @Autowired
-    public MovementController(MovementService theMovementService, StockService theStockService){
+    public MovementController(MovementService theMovementService, StockService theStockService, UserService theUserService){
         movementService = theMovementService;
         stockService = theStockService;
+        userService = theUserService;
     }
 
     @GetMapping("/list-movement")
@@ -98,6 +105,8 @@ public class MovementController {
     public String saveRecharge(@ModelAttribute("movement")Movement theMovement, RedirectAttributes redirectAttributes){
 
         try{
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String userName = authentication.getName();
             LocalDate today = LocalDate.now();
             Date now = new Date();
             String date = today.format(DateTimeFormatter.ofPattern("yy"));
@@ -112,6 +121,8 @@ public class MovementController {
             theMovement.setTransactionDate(now);
             theMovement.setReason("Recharge du stock partenaire");
             theMovement.setTransactionType("recharge");
+            User user = userService.findByUserName(userName);
+            theMovement.setUser(user);
             Movement registeredMovement = movementService.saveMovement(theMovement);
             int id = registeredMovement.getIdTransaction();
             redirectAttributes.addFlashAttribute("message","Vous venez de faire un mouvement sur le stock");

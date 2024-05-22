@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.20.6.final using JasperReports Library version 6.20.6-5c96b6aa8a39ac1dc6b6bea4b81168e16dd39231  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="invoicePartner" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6ed60718-6137-445e-ae62-6f755cb1ff41">
+    <parameter name="dateRecharge" class="java.util.Date"/>
+    <parameter name="ref" class="java.lang.String"/>
+    <parameter name="partnerName" class="java.lang.String"/>
+    <parameter name="partnerPhone" class="java.lang.String"/>
+    <parameter name="stockName" class="java.lang.String"/>
+    <parameter name="amountRecharge" class="java.lang.Double"/>
+    <parameter name="amountRechargeAED" class="java.lang.Double"/>
+    <parameter name="username" class="java.lang.String"/>
+    <queryString>
+        <![CDATA[]]>
+    </queryString>
+    <background>
+        <band splitType="Stretch"/>
+    </background>
+    <title>
+        <band height="150" splitType="Stretch">
+            <staticText>
+                <reportElement x="380" y="2" width="50" height="20" uuid="6bfc4690-2e54-43b5-9556-ae088c09369e"/>
+                <box rightPadding="4"/>
+                <textElement textAlignment="Right" verticalAlignment="Middle"/>
+                <text><![CDATA[Date:]]></text>
+            </staticText>
+            <image hAlign="Center">
+                <reportElement x="0" y="0" width="65" height="60" uuid="d4cd819d-1e28-47bd-be02-929104b8438d"/>
+                <imageExpression><![CDATA["/Users/admin/Downloads/logo.jpg"]]></imageExpression>
+            </image>
+            <staticText>
+                <reportElement x="93" y="80" width="250" height="20" uuid="d28cc898-952f-42e9-b027-5f89bca5b007"/>
+                <box rightPadding="4"/>
+                <textElement textAlignment="Right" verticalAlignment="Middle"/>
+                <text><![CDATA[APPROVISIONNEMENT STOCK PARTENAIRE No:]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="95" y="0" width="210" height="25" uuid="a773f1af-84eb-438f-af64-5d28227b372a">
+                    <property name="local_mesure_unitheight" value="pixel"/>
+                    <property name="com.jaspersoft.studio.unit.height" value="px"/>
+                </reportElement>
+                <textElement>
+                    <font size="19" isBold="true"/>
+                </textElement>
+                <text><![CDATA[LAMEX EXCHANGE]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="95" y="55" width="205" height="15" uuid="200712f4-c733-4aad-ac73-e1070a69cc79"/>
+                <text><![CDATA[+237690536392]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="95" y="25" width="205" height="15" uuid="86fe6bb6-9b3a-45cf-b905-de0a37715527"/>
+                <text><![CDATA[Hôtel la solidarité Bali]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="95" y="40" width="205" height="15" uuid="84b47d5c-65a5-472f-96cf-8014082c08a3"/>
+                <text><![CDATA[Douala, Cameroun]]></text>
+            </staticText>
+            <image>
+                <reportElement x="0" y="0" width="80" height="80" uuid="5773669f-605a-4d2b-9be5-af962acd10a4"/>
+                <imageExpression><![CDATA["/Users/admin/Downloads/logo.jpg"]]></imageExpression>
+            </image>
+            <textField>
+                <reportElement x="343" y="79" width="124" height="22" uuid="925c49a9-c177-4467-b2ab-656107fe248d"/>
+                <textElement verticalAlignment="Middle">
+                    <font isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$P{ref}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="430" y="2" width="126" height="20" uuid="a22aac2e-2e0e-473f-ae3d-c7fd1905fa92"/>
+                <textElement verticalAlignment="Middle">
+                    <font isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$P{dateRecharge}]]></textFieldExpression>
+            </textField>
+            <line>
+                <reportElement x="-1" y="100" width="556" height="1" uuid="0c6d2ff6-eee3-4e9b-90dd-3d5d69db821a">
+                    <property name="local_mesure_unitheight" value="pixel"/>
+                    <property name="com.jaspersoft.studio.unit.height" value="px"/>
+                </reportElement>
+            </line>
+            <staticText>
+                <reportElement x="0" y="115" width="130" height="15" uuid="7a75c23f-f09d-4991-87eb-b7a42e152b03"/>
+                <text><![CDATA[Nom du partenaire:]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="0" y="130" width="130" height="15" uuid="bd1ff8a6-7168-47a5-9052-04b1952e699b"/>
+                <text><![CDATA[téléphone du partenaire :]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="130" y="114" width="205" height="16" uuid="e482cf75-5bee-47ed-97ad-0c570cf21785"/>
+                <textElement>
+                    <font isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$P{partnerName}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="130" y="130" width="205" height="14" uuid="37d1503b-489c-4b66-b53e-bcc1fc89c216"/>
+                <textElement>
+                    <font isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$P{partnerPhone}]]></textFieldExpression>
+            </textField>
+        </band>
+    </title>
+    <pageHeader>
+        <band height="26" splitType="Stretch">
+            <staticText>
+                <reportElement x="0" y="0" width="130" height="15" uuid="2896f77d-5b67-4732-9a5a-0370cea4daa9"/>
+                <text><![CDATA[Stock impacté :]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="130" y="1" width="205" height="14" uuid="7359c813-1fff-4bdb-8c99-bc7a2fc6f4e2"/>
+                <textElement>
+                    <font isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$P{stockName}]]></textFieldExpression>
+            </textField>
+        </band>
+    </pageHeader>
+    <columnHeader>
+        <band height="61" splitType="Stretch"/>
+    </columnHeader>
+    <detail>
+        <band height="161" splitType="Stretch">
+            <rectangle>
+                <reportElement x="0" y="10" width="554" height="110" forecolor="#3300FF" uuid="4cbde408-503d-4111-8e3a-4ddc7505099f"/>
+            </rectangle>
+            <textField>
+                <reportElement x="10" y="20" width="165" height="30" uuid="57435478-bf6b-499e-b8e0-663a871f2e1f"/>
+                <textFieldExpression><![CDATA["Detail de la recharge :"]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="10" y="50" width="85" height="23" uuid="a159e3b2-e029-4118-bfb1-e277ea4a3765"/>
+                <textElement verticalAlignment="Middle"/>
+                <textFieldExpression><![CDATA["Montant USD :"]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="10" y="73" width="114" height="23" uuid="015115d2-90b3-4150-bf65-5d5347858e4e"/>
+                <textElement verticalAlignment="Middle"/>
+                <textFieldExpression><![CDATA["Taux de conversion :"]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="95" y="50" width="385" height="24" uuid="8b5c8bfe-be37-478e-ab02-66f1393f767e"/>
+                <textElement textAlignment="Left" verticalAlignment="Middle">
+                    <font isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$P{amountRecharge}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="124" y="74" width="356" height="22" uuid="05d07556-e1dd-4514-a6da-4783fc7b3131"/>
+                <textElement textAlignment="Left" verticalAlignment="Middle">
+                    <font isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA["3.67"]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="13" y="96" width="117" height="23" uuid="870e73e3-424c-4e18-82c6-4726ba655cec"/>
+                <textElement textAlignment="Left" verticalAlignment="Middle"/>
+                <textFieldExpression><![CDATA["Montant en AED :"]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="130" y="96" width="314" height="22" uuid="4ef63ef7-d37a-4748-96b0-261862605fdf"/>
+                <textElement textAlignment="Left" verticalAlignment="Middle">
+                    <font isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$P{amountRechargeAED}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="7" y="130" width="133" height="30" uuid="18ad2ff1-51b1-4d86-868d-f1fdb535f3e4"/>
+                <textElement textAlignment="Left" verticalAlignment="Middle">
+                    <font isItalic="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA["Effectué par l'utilisateur :"]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="140" y="130" width="350" height="30" uuid="df2ca7a3-66c8-49c7-b83c-507c1f675681"/>
+                <textElement verticalAlignment="Middle"/>
+                <textFieldExpression><![CDATA[$P{username}]]></textFieldExpression>
+            </textField>
+        </band>
+    </detail>
+    <columnFooter>
+        <band height="58" splitType="Stretch">
+            <staticText>
+                <reportElement x="85" y="5" width="100" height="30" uuid="a46b6d08-4563-4ec0-84d8-6a20196a5952"/>
+                <text><![CDATA[Signature Guichetier]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="385" y="8" width="100" height="30" uuid="e277fc4e-c95c-43cd-874b-2b553bcc821a"/>
+                <text><![CDATA[Signature Client]]></text>
+            </staticText>
+        </band>
+    </columnFooter>
+    <pageFooter>
+        <band height="54" splitType="Stretch"/>
+    </pageFooter>
+    <summary>
+        <band height="42" splitType="Stretch"/>
+    </summary>
+</jasperReport>

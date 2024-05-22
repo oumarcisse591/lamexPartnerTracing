@@ -1,9 +1,11 @@
 package com.slabtech.lamexPartnerTracing.controller;
 
 import com.slabtech.lamexPartnerTracing.dao.ReceiptDao;
+import com.slabtech.lamexPartnerTracing.entity.Movement;
 import com.slabtech.lamexPartnerTracing.entity.Payment;
 import com.slabtech.lamexPartnerTracing.entity.Receipt;
 import com.slabtech.lamexPartnerTracing.repository.PaymentRepository;
+import com.slabtech.lamexPartnerTracing.service.MovementService;
 import com.slabtech.lamexPartnerTracing.service.PaymentService;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.export.JRPdfExporter;
@@ -42,6 +44,9 @@ public class ReportController {
     @Autowired
     private PaymentService paymentService;
 
+    @Autowired
+    private MovementService movementService;
+
     private final ResourceLoader resourceLoader;
 
     public ReportController(ResourceLoader resourceLoader) {
@@ -76,7 +81,7 @@ public class ReportController {
     }
 
     public ByteArrayOutputStream generateReport(String receiptCode, Date date, String remitterName, String remitterAddress, String BeneficiaryName, String beneficiaryAddress, String beneficiaryBank, String beneficiaryBankAddress, String beneficiaryAccount, String swift, double amount, String currency, Date valueDate, String paymentReference) throws IOException, JRException {
-//        File file = ResourceUtils.getFile("classpath:recu.jrxml");
+        File file = ResourceUtils.getFile("classpath:recu.jrxml");
 
 //        Resource resource = new ClassPathResource("recu.jrxml");
 
@@ -84,7 +89,7 @@ public class ReportController {
 //        File file = resource.getFile();
 
 
-        File file = ResourceUtils.getFile("/opt/tomcat/webapps/ttapplication/WEB-INF/classes/recu.jrxml");
+//        File file = ResourceUtils.getFile("/opt/tomcat/webapps/ttapplication/WEB-INF/classes/recu.jrxml");
         File downloadsDirectory = new File(System.getProperty("user.home"), "Downloads");
         String path = downloadsDirectory.getAbsolutePath();
         Map<String,Object> parameters = new HashMap<>();
@@ -118,7 +123,7 @@ public class ReportController {
     }
 
     public ByteArrayOutputStream generatePaymentReport(String ref, Date date, String partnerName, String partnerPhone, String clientName, String clientAddress, String clientIdCard, String clientPhone, double amount, double amountAED, String username) throws IOException, JRException {
-//        File file = ResourceUtils.getFile("classpath:payment-receipt.jrxml");
+        File file = ResourceUtils.getFile("classpath:payment-receipt.jrxml");
 
 //        Resource resource = new ClassPathResource("payment-receipt.jrxml");
 
@@ -126,7 +131,7 @@ public class ReportController {
 //        File file = resource.getFile();
 
 
-        File file = ResourceUtils.getFile("/opt/tomcat/webapps/ttapplication/WEB-INF/classes/payment-receipt.jrxml");
+//        File file = ResourceUtils.getFile("/opt/tomcat/webapps/ttapplication/WEB-INF/classes/payment-receipt.jrxml");
         File downloadsDirectory = new File(System.getProperty("user.home"), "Downloads");
         String path = downloadsDirectory.getAbsolutePath();
         Map<String,Object> parameters = new HashMap<>();
@@ -174,6 +179,61 @@ public class ReportController {
         String username = thePayment.getUser().getName();
 
         ByteArrayOutputStream reportStream = generatePaymentReport(ref, datePayment, partnerName, partnerPhone, clientName, clientAddress, clientIdCard, clientPhone, amount, amountAED, username);
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.APPLICATION_PDF);
+
+        return new ResponseEntity<>(reportStream.toByteArray(), httpHeaders, HttpStatus.OK);
+    }
+
+    public ByteArrayOutputStream generateRechargeReport(String ref, Date date, String partnerName, String partnerPhone, String stockName, double amount, double amountAED, String username) throws IOException, JRException {
+        File file = ResourceUtils.getFile("classpath:invoicePartner.jrxml");
+
+//        Resource resource = new ClassPathResource("payment-receipt.jrxml");
+
+        // Obtenir un objet File à partir de la ressource
+//        File file = resource.getFile();
+
+
+//        File file = ResourceUtils.getFile("/opt/tomcat/webapps/ttapplication/WEB-INF/classes/payment-receipt.jrxml");
+        File downloadsDirectory = new File(System.getProperty("user.home"), "Downloads");
+        String path = downloadsDirectory.getAbsolutePath();
+        Map<String,Object> parameters = new HashMap<>();
+        parameters.put("ref", ref);
+        parameters.put("dateRecharge", date);
+        parameters.put("partnerName", partnerName);
+        parameters.put("partnerPhone", partnerPhone);
+        parameters.put("stockName", stockName);
+        parameters.put("amountRecharge", amount);
+        parameters.put("amountRechargeAED", amountAED);
+        parameters.put("username", username);
+
+        JasperReport report = JasperCompileManager.compileReport(String.valueOf(file));
+        JasperPrint print = JasperFillManager.fillReport(report, parameters, new JREmptyDataSource());
+//        JasperExportManager.exportReportToPdfFile(print, path+ receiptCode +"/report.pdf");
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        JRPdfExporter exporter = new JRPdfExporter();
+        SimplePdfExporterConfiguration configuration = new SimplePdfExporterConfiguration();
+        configuration.setCompressed(true);
+        exporter.setConfiguration(configuration);
+        exporter.setExporterInput(new SimpleExporterInput(print));
+        exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(byteArrayOutputStream));
+        exporter.exportReport();
+        return byteArrayOutputStream;
+    }
+
+    @GetMapping("/rechargeReportPdf")
+    public ResponseEntity rechargeReport(@RequestParam("id") int theId, Model theModel) throws JRException, IOException{
+        Movement theMovement = movementService.findMovementById(theId);
+        String ref = theMovement.getReferenceTransaction();
+        Date datePayment = theMovement.getTransactionDate();
+        String partnerName = theMovement.getStock().getPartner().getPartnerName();
+        String partnerPhone = theMovement.getStock().getPartner().getPartnerPhone();
+        String stockName = theMovement.getStock().getStockName();
+        double amount = theMovement.getTransactionAmount();
+        double amountAED = theMovement.getTransactionAmount() * 3.67;
+        String username = theMovement.getUser().getName();
+
+        ByteArrayOutputStream reportStream = generateRechargeReport(ref, datePayment, partnerName, partnerPhone, stockName, amount, amountAED, username);
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_PDF);
 

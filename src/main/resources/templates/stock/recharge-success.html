@@ -57,9 +57,10 @@
                         <h7 style="font-weight: bold; font-size: 16px" >Montant de la recharge : <span th:text="${movement.transactionAmount}"></span><span>USD</span></h7>
                         <br>
                         <br>
-                        <a>
+                        <a th:href="@{/rechargeReportPdf(id=*{idTransaction})}" target="_blank">
                             <button class="btn btn-primary" type="submit">imprimer le recu</button>
                         </a>
+                        <a th:href="@{/rechargeReportPdf(id=*{idTransaction})}"></a>
                     </div>
                 </div>
 
