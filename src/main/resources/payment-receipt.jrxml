@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.20.6.final using JasperReports Library version 6.20.6-5c96b6aa8a39ac1dc6b6bea4b81168e16dd39231  -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Invoice" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="4eedbb89-b4f6-4469-9ab6-f642a1688cf7">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Invoice" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="4eedbb89-b4f6-4469-9ab6-f642a1688cf7" >
     <style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
     <style name="SubTitle" forecolor="#CCCCCC" fontName="Times New Roman" fontSize="18" isBold="false" pdfFontName="Times-Roman"/>
     <style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true"/>
@@ -144,19 +144,19 @@
                 <textElement>
                     <font size="19" isBold="true"/>
                 </textElement>
-                <text><![CDATA[LAMEX EXCHANGE]]></text>
+                <text><![CDATA[LAMEX]]></text>
             </staticText>
             <staticText>
                 <reportElement x="95" y="55" width="205" height="15" uuid="b8cc42fd-b569-497d-834d-7e854040ad18"/>
-                <text><![CDATA[+237690536392]]></text>
+                <text><![CDATA[]]></text>
             </staticText>
             <staticText>
                 <reportElement x="95" y="25" width="205" height="15" uuid="c226e44d-3bb5-4145-b0b3-903bf1d79fde"/>
-                <text><![CDATA[Hôtel la solidarité Bali]]></text>
+                <text><![CDATA[DUBAI]]></text>
             </staticText>
             <staticText>
                 <reportElement x="95" y="40" width="205" height="15" uuid="b96f7183-44f8-43ad-ba60-43d8fbf50b6e"/>
-                <text><![CDATA[Douala, Cameroun]]></text>
+                <text><![CDATA[]]></text>
             </staticText>
             <image>
                 <reportElement x="0" y="0" width="80" height="80" uuid="fd060dd1-bad4-48e9-a334-3b2e322b3d90"/>
@@ -233,7 +233,7 @@
                 <textElement verticalAlignment="Middle"/>
                 <textFieldExpression><![CDATA["Taux de conversion :"]]></textFieldExpression>
             </textField>
-            <textField>
+            <textField pattern="#,###.00">
                 <reportElement x="95" y="50" width="385" height="24" uuid="ac9f9444-4271-428c-9932-cf39ba4b0846"/>
                 <textElement textAlignment="Left" verticalAlignment="Middle">
                     <font isBold="true"/>
@@ -252,7 +252,7 @@
                 <textElement textAlignment="Left" verticalAlignment="Middle"/>
                 <textFieldExpression><![CDATA["Montant à collecter  en AED :"]]></textFieldExpression>
             </textField>
-            <textField>
+            <textField pattern="##,###.00">
                 <reportElement x="166" y="96" width="314" height="22" uuid="f19ca5fb-158f-4764-a9f9-328900fc448b"/>
                 <textElement textAlignment="Left" verticalAlignment="Middle">
                     <font isBold="true"/>

@@ -34,7 +34,6 @@
 <body>
 <div th:replace="/layouts/header :: header"> </div>
 <main id="main" class="main">
-
     <div class="pagetitle">
         <h1>Liste des paiements</h1>
         <nav>
@@ -116,7 +115,7 @@
                                         <td th:text="${tempPayment.clientName}"></td>
                                         <td th:text="${tempPayment.stock.stockName}"></td>
                                         <td th:text="${tempPayment.stock.partner.partnerName}"></td>
-                                        <td th:text="${tempPayment.transactionAmount}"></td>
+                                        <td th:text="${#numbers.formatDecimal(tempPayment.transactionAmount, 0, 'COMMA', 2, 'POINT')}"></td>
                                         <td>
 <!--                                            <span><a class="icon" href="#"><i class="bi bi-cursor-fill"></i></a></span>-->
                                             <span><a class="icon" th:href="@{/paymentReportPdf(id=${tempPayment.idTransaction})}" target="_blank"><i class="bi bi-file-earmark-pdf-fill"></i>recu-<span  href="#" th:text="${tempPayment.referenceTransaction}">recu</span></a></span>

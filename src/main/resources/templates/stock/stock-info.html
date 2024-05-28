@@ -58,7 +58,7 @@
                 <label for="validationDefault01" class="form-label">Description : <span th:text="*{stockDescription}" style="font-weight:bold"></span></label><br>
                 <label for="validationDefault01" class="form-label">Créé le : <span th:text="*{createdAt}" style="font-weight:bold"></span></label><br>
                 <label for="validationDefault01" class="form-label">Partenaire Titulaire du Stock : <span th:text="*{partner.partnerName}" style="font-weight:bold"></span></label><br><br>
-                <label for="validationDefault01" class="form-label">Stock Actuel : <span th:text="*{balance}" style="font-weight:bold"></span><span>USD</span></sp></label><br>
+                <label for="validationDefault01" class="form-label">Stock Actuel : <span th:text="*{#numbers.formatDecimal(balance, 0, 'COMMA', 2, 'POINT')}" style="font-weight:bold"></span><span>USD</span></sp></label><br>
                 <label for="validationDefault01" class="form-label">Dernier Mouvement : <span style="font-weight:bold"></span><span></span></sp></label><br>
               </div>
               <div class="col-12">
@@ -101,24 +101,24 @@
 
 <!--                      Affichage des montants des transactions en USD-->
                         <div th:if="${tempTransaction.transactionType == 'credit'}">
-                            <td ><span style="color: green">+</span><span th:text="${tempTransaction.transactionAmount}"></span></td>
+                            <td ><span style="color: green">+</span><span th:text="${#numbers.formatDecimal(tempTransaction.transactionAmount, 0, 'COMMA', 2, 'POINT')}"></span></td>
                         </div>
                         <div th:if="${tempTransaction.transactionType == 'debit'}">
-                            <td><span style="color: red">-</span><span style="color: red" th:text="${tempTransaction.transactionAmount}"></span></td>
+                            <td><span style="color: red">-</span><span style="color: red" th:text="${#numbers.formatDecimal(tempTransaction.transactionAmount, 0, 'COMMA', 2, 'POINT')}"></span></td>
                         </div>
                       <div th:if="${tempTransaction.transactionType == 'recharge'}">
-                          <td ><span style="color: green">+</span><span th:text="${tempTransaction.transactionAmount}"></span></td>
+                          <td ><span style="color: green">+</span><span th:text="${#numbers.formatDecimal(tempTransaction.transactionAmount, 0, 'COMMA', 2, 'POINT')}"></span></td>
                       </div>
 
 <!--                      Affichage des montants des transactions en AED-->
                       <div th:if="${tempTransaction.transactionType == 'credit'}">
-                          <td ><span style="color: green">+</span><span th:text="${tempTransaction.transactionAmount * 3.67}"></span></td>
+                          <td ><span style="color: green">+</span><span th:text="${#numbers.formatDecimal(tempTransaction.transactionAmount * 3.67 , 0, 'COMMA', 2, 'POINT')}"></span></td>
                       </div>
                       <div th:if="${tempTransaction.transactionType == 'debit'}">
-                          <td><span style="color: red">-</span><span style="color: red" th:text="${tempTransaction.transactionAmount * 3.67}"></span></td>
+                          <td><span style="color: red">-</span><span style="color: red" th:text="${#numbers.formatDecimal(tempTransaction.transactionAmount * 3.67 , 0, 'COMMA', 2, 'POINT')}"></span></td>
                       </div>
                       <div th:if="${tempTransaction.transactionType == 'recharge'}">
-                          <td ><span style="color: green">+</span><span th:text="${tempTransaction.transactionAmount * 3.67}"></span></td>
+                          <td ><span style="color: green">+</span><span th:text="${#numbers.formatDecimal(tempTransaction.transactionAmount * 3.67 , 0, 'COMMA', 2, 'POINT')}"></span></td>
                       </div>
 
                         <div th:if="${tempTransaction.transactionType == 'credit'}">

@@ -54,4 +54,14 @@ public class PaymentServiceImpl implements PaymentService{
         }
         return paymentRepository.save(thePayment);
     }
+
+    @Override
+    public long getTotalTransactions() {
+        return paymentRepository.countAllTransactions();
+    }
+
+    @Override
+    public List<Payment> getLatestPayments() {
+        return paymentRepository.findTop5ByOrderByDateDesc();
+    }
 }

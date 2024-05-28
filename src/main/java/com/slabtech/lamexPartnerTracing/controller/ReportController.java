@@ -8,6 +8,7 @@ import com.slabtech.lamexPartnerTracing.repository.PaymentRepository;
 import com.slabtech.lamexPartnerTracing.service.MovementService;
 import com.slabtech.lamexPartnerTracing.service.PaymentService;
 import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.engine.data.JRXmlDataSource;
 import net.sf.jasperreports.engine.export.JRPdfExporter;
 import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
@@ -30,10 +31,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Controller
 public class ReportController {
@@ -123,7 +121,8 @@ public class ReportController {
     }
 
     public ByteArrayOutputStream generatePaymentReport(String ref, Date date, String partnerName, String partnerPhone, String clientName, String clientAddress, String clientIdCard, String clientPhone, double amount, double amountAED, String username) throws IOException, JRException {
-        File file = ResourceUtils.getFile("classpath:payment-receipt.jrxml");
+//        File file = ResourceUtils.getFile("classpath:payment-receipt.jrxml");
+        Locale locale = new Locale("en", "US");
 
 //        Resource resource = new ClassPathResource("payment-receipt.jrxml");
 
@@ -131,7 +130,7 @@ public class ReportController {
 //        File file = resource.getFile();
 
 
-//        File file = ResourceUtils.getFile("/opt/tomcat/webapps/ttapplication/WEB-INF/classes/payment-receipt.jrxml");
+        File file = ResourceUtils.getFile("/opt/tomcat/webapps/ttapplication/WEB-INF/classes/payment-receipt.jrxml");
         File downloadsDirectory = new File(System.getProperty("user.home"), "Downloads");
         String path = downloadsDirectory.getAbsolutePath();
         Map<String,Object> parameters = new HashMap<>();
@@ -147,6 +146,7 @@ public class ReportController {
         parameters.put("amount", amount);
         parameters.put("amountAED", amountAED);
         parameters.put("username", username);
+        parameters.put( JRParameter.REPORT_LOCALE, locale );
 
         JasperReport report = JasperCompileManager.compileReport(String.valueOf(file));
         JasperPrint print = JasperFillManager.fillReport(report, parameters, new JREmptyDataSource());
@@ -186,15 +186,15 @@ public class ReportController {
     }
 
     public ByteArrayOutputStream generateRechargeReport(String ref, Date date, String partnerName, String partnerPhone, String stockName, double amount, double amountAED, String username) throws IOException, JRException {
-        File file = ResourceUtils.getFile("classpath:invoicePartner.jrxml");
-
+//        File file = ResourceUtils.getFile("classpath:invoicePartner.jrxml");
+        Locale locale = new Locale("en", "US");
 //        Resource resource = new ClassPathResource("payment-receipt.jrxml");
 
         // Obtenir un objet File à partir de la ressource
 //        File file = resource.getFile();
 
 
-//        File file = ResourceUtils.getFile("/opt/tomcat/webapps/ttapplication/WEB-INF/classes/payment-receipt.jrxml");
+        File file = ResourceUtils.getFile("/opt/tomcat/webapps/ttapplication/WEB-INF/classes/payment-receipt.jrxml");
         File downloadsDirectory = new File(System.getProperty("user.home"), "Downloads");
         String path = downloadsDirectory.getAbsolutePath();
         Map<String,Object> parameters = new HashMap<>();
@@ -206,6 +206,7 @@ public class ReportController {
         parameters.put("amountRecharge", amount);
         parameters.put("amountRechargeAED", amountAED);
         parameters.put("username", username);
+        parameters.put( JRParameter.REPORT_LOCALE, locale );
 
         JasperReport report = JasperCompileManager.compileReport(String.valueOf(file));
         JasperPrint print = JasperFillManager.fillReport(report, parameters, new JREmptyDataSource());

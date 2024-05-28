@@ -40,4 +40,9 @@ public class PartnerServiceImpl implements PartnerService{
     public Partner savePartner(Partner thePartner) {
         return partnerRepository.save(thePartner);
     }
+
+    @Override
+    public long countAllPartners() {
+        return partnerRepository.countAllPartners();
+    }
 }

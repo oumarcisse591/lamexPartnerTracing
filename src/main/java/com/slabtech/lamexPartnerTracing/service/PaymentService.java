@@ -13,4 +13,8 @@ public interface PaymentService {
     Payment findPaymentById(int theId);
 
     Payment savePayment(Payment thePayment);
+
+    long getTotalTransactions();
+
+    List<Payment> getLatestPayments();
 }

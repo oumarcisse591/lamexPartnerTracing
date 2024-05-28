@@ -7,14 +7,35 @@
     <title>TT | Dashboard</title>
     <meta content="" name="description">
     <meta content="" name="keywords">
+
+    <!-- Favicons -->
+    <link href="assets/img/favicon.png" rel="icon">
+    <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+    <link href="assets/vendor/quill/quill.snow.css" rel="stylesheet">
+    <link href="assets/vendor/quill/quill.bubble.css" rel="stylesheet">
+    <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+    <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
+
+    <!-- Template Main CSS File -->
+    <link href="assets/css/style.css" rel="stylesheet">
 </head>
 
 <body>
-<th:block th:include="link.html"></th:block>
+<!--<th:block th:include="link.html"></th:block>-->
 <div th:replace="/layouts/header :: header"> </div>
 <main id="main" class="main">
     <div class="pagetitle">
         <h1>Dashboard</h1>
+        <h1 style="font-size: 18px">Bienvenu <span th:text="*{userName}">User</span></h1>
         <nav>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="index.html">Home</a></li>
@@ -68,13 +89,13 @@
                                 </ul>
                             </div>
                             <div class="card-body">
-                                <h5 class="card-title">Clients <span>| actuellement</span></h5>
+                                <h5 class="card-title">Paiements <span>| actuellement</span></h5>
                                 <div class="d-flex align-items-center">
                                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                                         <i class="bi bi-person"></i>
                                     </div>
                                     <div class="ps-3">
-                                        <h6 th:text="${clientCount}"></h6>
+                                        <h6 th:text="${paymentCount}"></h6>
                                     </div>
                                 </div>
                             </div>
@@ -108,6 +129,56 @@
                         </div>
                     </div>
                     <!-- End Customers Card -->
+                    <div class="col-8">
+                        <div class="card info-card sales-card">
+                            <div class="filter">
+                                <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                                    <li class="dropdown-header text-start">
+                                        <h6>Filter</h6>
+                                    </li>
+                                    <li><a class="dropdown-item" href="#">Accéder à la liste des transferts</a></li>
+                                </ul>
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">Stocks <span>| actuellement</span></h5>
+                                <div class="d-flex align-items-center">
+                                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                        <i class="bi bi-currency-dollar"></i>
+                                    </div>
+                                    <div class="ps-3">
+                                        <h6 th:text="${stockCount}"></h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xxl-4 col-md-6">
+                        <div class="card info-card sales-card">
+                            <div class="filter">
+                                <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                                    <li class="dropdown-header text-start">
+                                        <h6>Filter</h6>
+                                    </li>
+                                    <li><a class="dropdown-item" href="#">Accéder à la liste des transferts</a></li>
+                                </ul>
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">Partenaires <span>| actuellement</span></h5>
+                                <div class="d-flex align-items-center">
+                                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                        <i class="bi bi-currency-dollar"></i>
+                                    </div>
+                                    <div class="ps-3">
+                                        <h6 th:text="${partnerCount}"></h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- Recent Sales -->
                     <div class="col-12">
                         <div class="card recent-sales overflow-auto">
@@ -162,6 +233,61 @@
                         </div>
                     </div>
                     <!-- End Recent Sales -->
+
+                    <!-- Recent Sales -->
+                    <div class="col-12">
+                        <div class="card recent-sales overflow-auto">
+                            <div class="filter">
+                                <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                                    <li class="dropdown-header text-start">
+                                        <h6>Filter</h6>
+                                    </li>
+                                    <li><a class="dropdown-item" href="#">Today</a></li>
+                                    <li><a class="dropdown-item" href="#">This Month</a></li>
+                                    <li><a class="dropdown-item" href="#">This Year</a></li>
+                                </ul>
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">Paiements Récents <span></span></h5>
+                                <div th:if="${message}">
+                                    <div class="alert alert-success alert-dismissible fade show" th:text="${message}" role="alert">
+                                        A simple success alert—check it out!
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                    </div>
+                                </div>
+                                <table class="table table-borderless datatable">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Reference</th>
+                                        <th scope="col">Date du paiement</th>
+                                        <th scope="col">Nom du client</th>
+                                        <th scope="col">Stock impacte</th>
+                                        <th scope="col">Partenaire</th>
+                                        <th scope="col">Montant</th>
+                                        <th scope="col">Actions</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="tempPayment, iterStat : ${payments}">
+                                        <th scope="row"><a href="#" th:text="${iterStat.count}"></a></th>
+                                        <td th:text="${tempPayment.referenceTransaction}"></td>
+                                        <td th:text="${tempPayment.transactionDate}"></td>
+                                        <td th:text="${tempPayment.clientName}"></td>
+                                        <td th:text="${tempPayment.stock.stockName}"></td>
+                                        <td th:text="${tempPayment.stock.partner.partnerName}"></td>
+                                        <td th:text="${#numbers.formatDecimal(tempPayment.transactionAmount, 0, 'COMMA', 2, 'POINT')}"></td>
+                                        <td>
+                                            <span><a class="icon" th:href="@{/paymentReportPdf(id=${tempPayment.idTransaction})}" target="_blank"><i class="bi bi-file-earmark-pdf-fill"></i>recu-<span  href="#" th:text="${tempPayment.referenceTransaction}">recu</span></a></span>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Recent Sales -->
                 </div>
             </div>
         </div>
@@ -179,6 +305,7 @@
 </footer><!-- End Footer -->
 
 <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+<!-- Vendor JS Files -->
 <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
 <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="assets/vendor/chart.js/chart.umd.js"></script>

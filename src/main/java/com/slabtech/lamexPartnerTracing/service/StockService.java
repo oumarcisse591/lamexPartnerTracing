@@ -16,4 +16,6 @@ public interface StockService {
     void decreaseStockQuantity(int id, double amount);
 
     void rechargeStockQuantity(int id, double amount);
+
+    long countAllStocks();
 }

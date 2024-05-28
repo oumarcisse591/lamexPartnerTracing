@@ -59,7 +59,7 @@
                         <div>
                             <p>Nom du Stock : <span th:text="${movement.stock.stockName}" style="font-weight: bold;"></span></p>
                             <p>Partenaire Titulaire : <span th:text="${movement.stock.partner.partnerName}" style="font-weight: bold;"></span></p>
-                            <p>USD en stock : <span th:text="${movement.stock.balance}" style="font-weight: bold;"></span></p>
+                            <p>USD en stock : <span th:text="${#numbers.formatDecimal(movement.stock.balance, 0, 'COMMA', 2, 'POINT')}" style="font-weight: bold;"></span></p>
 
                         </div>
                         <div class="col-md-6">
