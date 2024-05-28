@@ -23,12 +23,6 @@
                 <textElement textAlignment="Right" verticalAlignment="Middle"/>
                 <text><![CDATA[Date:]]></text>
             </staticText>
-            <image hAlign="Center">
-                <reportElement x="0" y="0" width="65" height="60" uuid="d4cd819d-1e28-47bd-be02-929104b8438d"/>
-<!--                <imageExpression><![CDATA["/Users/admin/Downloads/logo.jpg"]]></imageExpression>-->
-                <imageExpression><![CDATA["/opt/tomcat/webapps/LamexPartnerTracing/WEB-INF/classes/logo.jpg"]]></imageExpression>
-
-            </image>
             <staticText>
                 <reportElement x="93" y="80" width="250" height="20" uuid="d28cc898-952f-42e9-b027-5f89bca5b007"/>
                 <box rightPadding="4"/>
@@ -57,11 +51,6 @@
                 <reportElement x="95" y="40" width="205" height="15" uuid="84b47d5c-65a5-472f-96cf-8014082c08a3"/>
                 <text><![CDATA[Douala, Cameroun]]></text>
             </staticText>
-            <image>
-                <reportElement x="0" y="0" width="80" height="80" uuid="5773669f-605a-4d2b-9be5-af962acd10a4"/>
-<!--                <imageExpression><![CDATA["/Users/admin/Downloads/logo.jpg"]]></imageExpression>-->
-                <imageExpression><![CDATA["/opt/tomcat/webapps/LamexPartnerTracing/WEB-INF/classes/logo.jpg"]]></imageExpression>
-            </image>
             <textField>
                 <reportElement x="343" y="79" width="124" height="22" uuid="925c49a9-c177-4467-b2ab-656107fe248d"/>
                 <textElement verticalAlignment="Middle">
@@ -83,37 +72,41 @@
                 </reportElement>
             </line>
             <staticText>
-                <reportElement x="0" y="115" width="130" height="15" uuid="7a75c23f-f09d-4991-87eb-b7a42e152b03"/>
-                <text><![CDATA[Nom du partenaire:]]></text>
+                <reportElement x="0" y="115" width="65" height="15" uuid="7a75c23f-f09d-4991-87eb-b7a42e152b03"/>
+                <text><![CDATA[Nom :]]></text>
             </staticText>
             <staticText>
-                <reportElement x="0" y="130" width="130" height="15" uuid="bd1ff8a6-7168-47a5-9052-04b1952e699b"/>
-                <text><![CDATA[téléphone du partenaire :]]></text>
+                <reportElement x="0" y="130" width="65" height="15" uuid="bd1ff8a6-7168-47a5-9052-04b1952e699b"/>
+                <text><![CDATA[téléphone :]]></text>
             </staticText>
             <textField>
-                <reportElement x="130" y="114" width="205" height="16" uuid="e482cf75-5bee-47ed-97ad-0c570cf21785"/>
+                <reportElement x="65" y="115" width="205" height="16" uuid="e482cf75-5bee-47ed-97ad-0c570cf21785"/>
                 <textElement>
                     <font isBold="true"/>
                 </textElement>
                 <textFieldExpression><![CDATA[$P{partnerName}]]></textFieldExpression>
             </textField>
             <textField>
-                <reportElement x="130" y="130" width="205" height="14" uuid="37d1503b-489c-4b66-b53e-bcc1fc89c216"/>
+                <reportElement x="65" y="130" width="205" height="14" uuid="37d1503b-489c-4b66-b53e-bcc1fc89c216"/>
                 <textElement>
                     <font isBold="true"/>
                 </textElement>
                 <textFieldExpression><![CDATA[$P{partnerPhone}]]></textFieldExpression>
             </textField>
+            <image>
+                <reportElement x="0" y="0" width="80" height="80" uuid="5773669f-605a-4d2b-9be5-af962acd10a4"/>
+                <imageExpression><![CDATA["/opt/tomcat/webapps/LamexPartnerTracing/WEB-INF/classes/logo.jpg"]]></imageExpression>
+            </image>
         </band>
     </title>
     <pageHeader>
-        <band height="26" splitType="Stretch">
+        <band height="45" splitType="Stretch">
             <staticText>
-                <reportElement x="0" y="0" width="130" height="15" uuid="2896f77d-5b67-4732-9a5a-0370cea4daa9"/>
+                <reportElement x="0" y="0" width="95" height="15" uuid="2896f77d-5b67-4732-9a5a-0370cea4daa9"/>
                 <text><![CDATA[Stock impacté :]]></text>
             </staticText>
             <textField>
-                <reportElement x="130" y="1" width="205" height="14" uuid="7359c813-1fff-4bdb-8c99-bc7a2fc6f4e2"/>
+                <reportElement x="95" y="1" width="205" height="14" uuid="7359c813-1fff-4bdb-8c99-bc7a2fc6f4e2"/>
                 <textElement>
                     <font isBold="true"/>
                 </textElement>
@@ -125,7 +118,7 @@
         <band height="61" splitType="Stretch"/>
     </columnHeader>
     <detail>
-        <band height="161" splitType="Stretch">
+        <band height="125" splitType="Stretch">
             <rectangle>
                 <reportElement x="0" y="10" width="554" height="110" forecolor="#3300FF" uuid="4cbde408-503d-4111-8e3a-4ddc7505099f"/>
             </rectangle>
@@ -143,7 +136,7 @@
                 <textElement verticalAlignment="Middle"/>
                 <textFieldExpression><![CDATA["Taux de conversion :"]]></textFieldExpression>
             </textField>
-            <textField>
+            <textField pattern="#,##0.00#;#,##0.00#-" isBlankWhenNull="true">
                 <reportElement x="95" y="50" width="385" height="24" uuid="8b5c8bfe-be37-478e-ab02-66f1393f767e"/>
                 <textElement textAlignment="Left" verticalAlignment="Middle">
                     <font isBold="true"/>
@@ -162,41 +155,42 @@
                 <textElement textAlignment="Left" verticalAlignment="Middle"/>
                 <textFieldExpression><![CDATA["Montant en AED :"]]></textFieldExpression>
             </textField>
-            <textField>
+            <textField pattern="#,##0.00#;#,##0.00#-">
                 <reportElement x="130" y="96" width="314" height="22" uuid="4ef63ef7-d37a-4748-96b0-261862605fdf"/>
                 <textElement textAlignment="Left" verticalAlignment="Middle">
                     <font isBold="true"/>
                 </textElement>
                 <textFieldExpression><![CDATA[$P{amountRechargeAED}]]></textFieldExpression>
             </textField>
+        </band>
+    </detail>
+    <columnFooter>
+        <band height="45" splitType="Stretch">
             <textField>
-                <reportElement x="7" y="130" width="133" height="30" uuid="18ad2ff1-51b1-4d86-868d-f1fdb535f3e4"/>
+                <reportElement x="-3" y="8" width="133" height="30" uuid="e549fe6d-6b17-451d-b726-1ac583aaeb8b"/>
                 <textElement textAlignment="Left" verticalAlignment="Middle">
                     <font isItalic="true"/>
                 </textElement>
                 <textFieldExpression><![CDATA["Effectué par l'utilisateur :"]]></textFieldExpression>
             </textField>
             <textField>
-                <reportElement x="140" y="130" width="350" height="30" uuid="df2ca7a3-66c8-49c7-b83c-507c1f675681"/>
+                <reportElement x="130" y="8" width="350" height="30" uuid="32906ce6-303b-40cc-8a7c-0de508d06313"/>
                 <textElement verticalAlignment="Middle"/>
                 <textFieldExpression><![CDATA[$P{username}]]></textFieldExpression>
             </textField>
         </band>
-    </detail>
-    <columnFooter>
-        <band height="58" splitType="Stretch">
+    </columnFooter>
+    <pageFooter>
+        <band height="54" splitType="Stretch">
             <staticText>
-                <reportElement x="85" y="5" width="100" height="30" uuid="a46b6d08-4563-4ec0-84d8-6a20196a5952"/>
+                <reportElement x="80" y="0" width="100" height="30" uuid="a2b2696e-bf1d-460f-9361-16996a99a862"/>
                 <text><![CDATA[Signature Guichetier]]></text>
             </staticText>
             <staticText>
-                <reportElement x="385" y="8" width="100" height="30" uuid="e277fc4e-c95c-43cd-874b-2b553bcc821a"/>
+                <reportElement x="380" y="3" width="100" height="30" uuid="5b8dc55f-447c-47f0-9f75-fbbad24305bf"/>
                 <text><![CDATA[Signature Client]]></text>
             </staticText>
         </band>
-    </columnFooter>
-    <pageFooter>
-        <band height="54" splitType="Stretch"/>
     </pageFooter>
     <summary>
         <band height="42" splitType="Stretch"/>
