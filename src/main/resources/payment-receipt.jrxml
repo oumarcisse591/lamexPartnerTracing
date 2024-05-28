@@ -155,6 +155,7 @@
             </staticText>
             <image>
                 <reportElement x="0" y="0" width="80" height="80" uuid="fd060dd1-bad4-48e9-a334-3b2e322b3d90"/>
+<!--                <imageExpression><![CDATA["/Users/admin/Downloads/logo.jpg"]]></imageExpression>-->
                 <imageExpression><![CDATA["/opt/tomcat/webapps/LamexPartnerTracing/WEB-INF/classes/logo.jpg"]]></imageExpression>
             </image>
             <textField>

@@ -79,7 +79,7 @@ public class ReportController {
     }
 
     public ByteArrayOutputStream generateReport(String receiptCode, Date date, String remitterName, String remitterAddress, String BeneficiaryName, String beneficiaryAddress, String beneficiaryBank, String beneficiaryBankAddress, String beneficiaryAccount, String swift, double amount, String currency, Date valueDate, String paymentReference) throws IOException, JRException {
-        File file = ResourceUtils.getFile("classpath:recu.jrxml");
+//        File file = ResourceUtils.getFile("classpath:recu.jrxml");
 
 //        Resource resource = new ClassPathResource("recu.jrxml");
 
@@ -87,7 +87,7 @@ public class ReportController {
 //        File file = resource.getFile();
 
 
-//        File file = ResourceUtils.getFile("/opt/tomcat/webapps/ttapplication/WEB-INF/classes/recu.jrxml");
+        File file = ResourceUtils.getFile("/opt/tomcat/webapps/ttapplication/WEB-INF/classes/recu.jrxml");
         File downloadsDirectory = new File(System.getProperty("user.home"), "Downloads");
         String path = downloadsDirectory.getAbsolutePath();
         Map<String,Object> parameters = new HashMap<>();
