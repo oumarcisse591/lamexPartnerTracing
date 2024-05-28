@@ -26,7 +26,7 @@
             <image hAlign="Center">
                 <reportElement x="0" y="0" width="65" height="60" uuid="d4cd819d-1e28-47bd-be02-929104b8438d"/>
 <!--                <imageExpression><![CDATA["/Users/admin/Downloads/logo.jpg"]]></imageExpression>-->
-                <imageExpression><![CDATA["/opt/tomcat/webapps/lamexPartnerTracing/WEB-INF/classes/logo.jpg"]]></imageExpression>
+                <imageExpression><![CDATA["/opt/tomcat/webapps/LamexPartnerTracing/WEB-INF/classes/logo.jpg"]]></imageExpression>
 
             </image>
             <staticText>
@@ -60,7 +60,7 @@
             <image>
                 <reportElement x="0" y="0" width="80" height="80" uuid="5773669f-605a-4d2b-9be5-af962acd10a4"/>
 <!--                <imageExpression><![CDATA["/Users/admin/Downloads/logo.jpg"]]></imageExpression>-->
-                <imageExpression><![CDATA["/opt/tomcat/webapps/lamexPartnerTracing/WEB-INF/classes/logo.jpg"]]></imageExpression>
+                <imageExpression><![CDATA["/opt/tomcat/webapps/LamexPartnerTracing/WEB-INF/classes/logo.jpg"]]></imageExpression>
             </image>
             <textField>
                 <reportElement x="343" y="79" width="124" height="22" uuid="925c49a9-c177-4467-b2ab-656107fe248d"/>
