@@ -92,7 +92,8 @@
                                     <tr>
                                         <th scope="col">#</th>
                                         <th scope="col">Nom du stock</th>
-                                        <th scope="col">Balance</th>
+                                        <th scope="col">Balance USD</th>
+                                        <th scope="col">Balance AED</th>
                                         <th scope="col">Partenaire</th>
                                         <th scope="col">Date de creation</th>
                                         <th scope="col">Status</th>
@@ -111,6 +112,7 @@
                                                     </a>
                                                 </td>
                                                 <td th:text="${#numbers.formatDecimal(tempStock.balance, 0, 'COMMA', 2, 'POINT')}"></td>
+                                                <td th:text="${#numbers.formatDecimal(tempStock.balance*3.67, 0, 'COMMA', 2, 'POINT')}"></td>
                                                 <td th:text="${tempStock.partner.partnerName}"></td>
                                                 <td th:text="${tempStock.createdAt}"></td>
                                                 <td><span class="badge bg-success">Actif</span></td>

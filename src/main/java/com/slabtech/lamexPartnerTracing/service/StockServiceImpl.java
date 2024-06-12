@@ -77,4 +77,9 @@ public class StockServiceImpl implements StockService{
         return stockRepository.countAllStocks();
     }
 
+    @Override
+    public long countAllDisabledStocks() {
+        return stockRepository.countInactiveStocks();
+    }
+
 }

@@ -64,4 +64,9 @@ public class PaymentServiceImpl implements PaymentService{
     public List<Payment> getLatestPayments() {
         return paymentRepository.findTop5ByOrderByDateDesc();
     }
+
+    @Override
+    public Payment getLastPayment() {
+        return paymentRepository.findFirstByOrderByIdTransactionDesc();
+    }
 }

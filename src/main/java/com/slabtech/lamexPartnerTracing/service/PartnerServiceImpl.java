@@ -45,4 +45,9 @@ public class PartnerServiceImpl implements PartnerService{
     public long countAllPartners() {
         return partnerRepository.countAllPartners();
     }
+
+    @Override
+    public long countInactivePartners() {
+        return partnerRepository.countInactivePartners();
+    }
 }

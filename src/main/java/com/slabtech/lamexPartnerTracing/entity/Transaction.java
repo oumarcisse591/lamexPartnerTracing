@@ -29,6 +29,11 @@ public class Transaction {
     @Column(name = "transaction_amount")
     private double transactionAmount;
 
+    private String signature;
+
+    @Column(name = "signature_agent")
+    private String signatureAgent;
+
     @ManyToOne
     private Stock stock;
 
@@ -70,6 +75,14 @@ public class Transaction {
         this.transactionAmount = transactionAmount;
     }
 
+    public String getSignature() {
+        return signature;
+    }
+
+    public void setSignature(String signature) {
+        this.signature = signature;
+    }
+
     public Stock getStock() {
         return stock;
     }
@@ -106,6 +119,14 @@ public class Transaction {
         return referenceTransaction;
     }
 
+    public String getSignatureAgent() {
+        return signatureAgent;
+    }
+
+    public void setSignatureAgent(String signatureAgent) {
+        this.signatureAgent = signatureAgent;
+    }
+
     public void setReferenceTransaction(String referenceTransaction) {
         this.referenceTransaction = referenceTransaction;
     }
@@ -117,7 +138,7 @@ public class Transaction {
         this.idTransaction = idTransaction;
     }
 
-    public Transaction(int idTransaction, String referenceTransaction, String transactionType, Date transactionDate, String reason, double transactionAmount, Stock stock, Partner partner, User user) {
+    public Transaction(int idTransaction, String referenceTransaction, String transactionType, Date transactionDate, String reason, double transactionAmount, String signature, String signatureAgent, Stock stock, Partner partner, User user) {
         this.idTransaction = idTransaction;
         this.referenceTransaction = referenceTransaction;
         this.transactionType = transactionType;
@@ -127,6 +148,8 @@ public class Transaction {
         this.stock = stock;
         this.partner = partner;
         this.user = user;
+        this.signature = signature;
+        this.signatureAgent = signatureAgent;
     }
 
     @Override
@@ -138,6 +161,8 @@ public class Transaction {
                 ", transactionDate=" + transactionDate +
                 ", reason='" + reason + '\'' +
                 ", transactionAmount=" + transactionAmount +
+                ", signature=" + signature +
+                ", signatureAgent=" + signatureAgent +
                 ", stock=" + stock +
                 ", partner=" + partner +
                 ", user=" + user +

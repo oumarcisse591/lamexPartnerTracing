@@ -17,4 +17,6 @@ public interface PaymentService {
     long getTotalTransactions();
 
     List<Payment> getLatestPayments();
+
+    Payment getLastPayment();
 }

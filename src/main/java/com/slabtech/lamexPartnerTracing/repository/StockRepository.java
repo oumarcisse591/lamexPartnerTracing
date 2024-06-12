@@ -11,4 +11,7 @@ public interface StockRepository extends JpaRepository<Stock, Integer> {
 
     @Query("SELECT COUNT(s) FROM Stock s")
     long countAllStocks();
+
+    @Query("SELECT COUNT(s) FROM Stock s WHERE s.enabled = false")
+    long countInactiveStocks();
 }

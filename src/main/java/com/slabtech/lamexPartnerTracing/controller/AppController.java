@@ -51,6 +51,9 @@ public class AppController {
         long paymentCount = paymentService.getTotalTransactions();
         long stockCount = stockService.countAllStocks();
         long partnerCount = partnerService.countAllPartners();
+        Payment theLastPayment = paymentService.getLastPayment();
+        long inactiveStocksCount = stockService.countAllDisabledStocks();
+        long inactivePartnersCount = partnerService.countInactivePartners();
         theModel.addAttribute("receiptCount", receiptCount);
         theModel.addAttribute("clientCount", clientCount);
         theModel.addAttribute("userCount", userCount);
@@ -61,6 +64,9 @@ public class AppController {
         theModel.addAttribute("partnerCount", partnerCount);
         theModel.addAttribute("payments", payments);
         theModel.addAttribute("userName", userName);
+        theModel.addAttribute("lastPayment", theLastPayment);
+        theModel.addAttribute("inactiveStocks", inactiveStocksCount);
+        theModel.addAttribute("inactivePartners", inactivePartnersCount);
         return "index";
     }
 }

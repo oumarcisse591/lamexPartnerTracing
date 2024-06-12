@@ -46,8 +46,8 @@ public class Movement extends Transaction{
         this.movementCode = movementCode;
     }
 
-    public Movement(int idTransaction, String referenceTransaction, String transactionType, Date transactionDate, String reason, double transactionAmount, Stock stock, Partner partner, User user, String movementTitle, String movementCode) {
-        super(idTransaction, referenceTransaction, transactionType, transactionDate, reason, transactionAmount, stock, partner, user);
+    public Movement(int idTransaction, String referenceTransaction, String transactionType, Date transactionDate, String reason, double transactionAmount, String signature, String signatureAgent, Stock stock, Partner partner, User user, String movementTitle, String movementCode) {
+        super(idTransaction, referenceTransaction, transactionType, transactionDate, reason, transactionAmount, signature, signatureAgent, stock, partner, user);
         this.movementTitle = movementTitle;
         this.movementCode = movementCode;
     }

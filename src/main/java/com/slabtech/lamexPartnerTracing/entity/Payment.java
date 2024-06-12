@@ -20,6 +20,9 @@ public class Payment extends Transaction{
     @Column(name = "client_phone")
     private String clientPhone;
 
+    @Column(name = "photo")
+    private String photo;
+
     public String getClientName() {
         return clientName;
     }
@@ -52,6 +55,14 @@ public class Payment extends Transaction{
         this.clientPhone = clientPhone;
     }
 
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
+    }
+
     public Payment() {
     }
 
@@ -59,19 +70,21 @@ public class Payment extends Transaction{
         this.clientName = clientName;
     }
 
-    public Payment(String clientName, String clientIdCard, String clientAddress, String clientPhone) {
+    public Payment(String clientName, String clientIdCard, String clientAddress, String clientPhone, String photo) {
         this.clientName = clientName;
         this.clientIdCard = clientIdCard;
         this.clientAddress = clientAddress;
         this.clientPhone = clientPhone;
+        this.photo = photo;
     }
 
-    public Payment(int idTransaction, String referenceTransaction, String transactionType, Date transactionDate, String reason, double transactionAmount, Stock stock, Partner partner, User user, String clientName, String clientIdCard, String clientAddress, String clientPhone) {
-        super(idTransaction, referenceTransaction, transactionType, transactionDate, reason, transactionAmount, stock, partner, user);
+    public Payment(int idTransaction, String referenceTransaction, String transactionType, Date transactionDate, String reason, double transactionAmount, String signature, String signatureAgent, Stock stock, Partner partner, User user, String clientName, String clientIdCard, String clientAddress, String clientPhone, String photo) {
+        super(idTransaction, referenceTransaction, transactionType, transactionDate, reason, transactionAmount, signature, signatureAgent, stock, partner, user);
         this.clientName = clientName;
         this.clientIdCard = clientIdCard;
         this.clientAddress = clientAddress;
         this.clientPhone = clientPhone;
+        this.photo = photo;
     }
 
     @Override
@@ -81,6 +94,7 @@ public class Payment extends Transaction{
                 ", clientIdCard='" + clientIdCard + '\'' +
                 ", clientAddress='" + clientAddress + '\'' +
                 ", clientPhone='" + clientPhone + '\'' +
+                ", photo='" + photo + '\'' +
                 '}';
     }
 }

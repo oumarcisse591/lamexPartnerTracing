@@ -8,4 +8,7 @@ public interface PartnerRepository extends JpaRepository<Partner, Integer> {
 
     @Query("SELECT COUNT(p) FROM Partner p")
     long countAllPartners();
+
+    @Query("SELECT COUNT(p) FROM Partner p WHERE p.enabled = false")
+    long countInactivePartners();
 }

@@ -34,8 +34,8 @@
 <div th:replace="/layouts/header :: header"> </div>
 <main id="main" class="main">
     <div class="pagetitle">
-        <h1>Dashboard</h1>
-        <h1 style="font-size: 18px">Bienvenu <span th:text="*{userName}">User</span></h1>
+<!--        <h1>Dashboard</h1>-->
+        <h1>Bonjour  <span th:text="*{userName}">User</span></h1>
         <nav>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="index.html">Home</a></li>
@@ -65,7 +65,7 @@
                                 <h5 class="card-title">Transferts <span>| actuellement</span></h5>
                                 <div class="d-flex align-items-center">
                                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                                        <i class="bi bi-currency-dollar"></i>
+                                        <i class="bi bi-cursor-fill"></i>
                                     </div>
                                     <div class="ps-3">
                                         <h6 th:text="${receiptCount}"></h6>
@@ -85,17 +85,20 @@
                                     <li class="dropdown-header text-start">
                                         <h6>Filter</h6>
                                     </li>
-                                    <li><a class="dropdown-item" href="#">Accéder à la liste des clients</a></li>
+                                    <li><a class="dropdown-item" href="#">Accéder à la liste des paiements</a></li>
                                 </ul>
                             </div>
                             <div class="card-body">
                                 <h5 class="card-title">Paiements <span>| actuellement</span></h5>
                                 <div class="d-flex align-items-center">
                                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                                        <i class="bi bi-person"></i>
+                                        <i class="bi bi-cash"></i>
                                     </div>
                                     <div class="ps-3">
                                         <h6 th:text="${paymentCount}"></h6>
+                                        <div th:if="${lastPayment != null}">
+                                            <span class="text-success small pt-1 fw-bold">Dernier paiement: </span><span class="text-success small pt-1 fw-bold" th:text="${lastPayment.transactionAmount + 'USD'}"></span> <span class="text-muted small pt-2 ps-1" th:text="${lastPayment.clientName}"></span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -129,7 +132,7 @@
                         </div>
                     </div>
                     <!-- End Customers Card -->
-                    <div class="col-8">
+                    <div class="col-xxl-4 col-xl-12">
                         <div class="card info-card sales-card">
                             <div class="filter">
                                 <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
@@ -137,17 +140,18 @@
                                     <li class="dropdown-header text-start">
                                         <h6>Filter</h6>
                                     </li>
-                                    <li><a class="dropdown-item" href="#">Accéder à la liste des transferts</a></li>
+                                    <li><a class="dropdown-item" href="#">Accéder à la liste des stocks</a></li>
                                 </ul>
                             </div>
                             <div class="card-body">
                                 <h5 class="card-title">Stocks <span>| actuellement</span></h5>
                                 <div class="d-flex align-items-center">
                                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                                        <i class="bi bi-currency-dollar"></i>
+                                        <i class="bi bi-wallet"></i>
                                     </div>
                                     <div class="ps-3">
                                         <h6 th:text="${stockCount}"></h6>
+                                        <span class="text-danger small pt-1 fw-bold" th:text="${inactiveStocks}">1</span> <span class="text-muted small pt-2 ps-1">stock(s) inactif(s)</span>
                                     </div>
                                 </div>
                             </div>
@@ -162,17 +166,43 @@
                                     <li class="dropdown-header text-start">
                                         <h6>Filter</h6>
                                     </li>
-                                    <li><a class="dropdown-item" href="#">Accéder à la liste des transferts</a></li>
+                                    <li><a class="dropdown-item" href="#">Accéder à la liste des partenaires</a></li>
                                 </ul>
                             </div>
                             <div class="card-body">
                                 <h5 class="card-title">Partenaires <span>| actuellement</span></h5>
                                 <div class="d-flex align-items-center">
                                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                                        <i class="bi bi-currency-dollar"></i>
+                                        <i class="bi bi-file-earmark-person"></i>
                                     </div>
                                     <div class="ps-3">
                                         <h6 th:text="${partnerCount}"></h6>
+                                        <span class="text-danger small pt-1 fw-bold" th:text="${inactivePartners}">1</span> <span class="text-muted small pt-2 ps-1">partenaire(s) inactif(s)</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xxl-4 col-md-6">
+                        <div class="card info-card sales-card">
+                            <div class="filter">
+                                <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                                    <li class="dropdown-header text-start">
+                                        <h6>Filter</h6>
+                                    </li>
+                                    <li><a class="dropdown-item" href="#">Accéder aux informations de la societe</a></li>
+                                </ul>
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">La societe <span>| actuellement</span></h5>
+                                <div class="d-flex align-items-center">
+                                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                        <i class="bi bi-bank"></i>
+                                    </div>
+                                    <div class="ps-3">
+                                        <h6>1</h6>
                                     </div>
                                 </div>
                             </div>

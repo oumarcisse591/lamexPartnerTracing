@@ -18,4 +18,6 @@ public interface StockService {
     void rechargeStockQuantity(int id, double amount);
 
     long countAllStocks();
+
+    long countAllDisabledStocks();
 }

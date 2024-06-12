@@ -258,7 +258,7 @@
                 <textElement textAlignment="Center" rotation="Left">
                     <font size="12" isBold="true"/>
                 </textElement>
-                <text><![CDATA[EXEMPLAIRE CLIENT]]></text>
+                <text><![CDATA[EXEMPLAIRE BUREAU]]></text>
             </staticText>
         </band>
     </columnHeader>
@@ -276,14 +276,14 @@
                 <textElement verticalAlignment="Middle"/>
                 <textFieldExpression><![CDATA[$P{username}]]></textFieldExpression>
             </textField>
+            <image scaleImage="FillFrame">
+                <reportElement x="167" y="50" width="240" height="160" uuid="14ea79a4-64a9-43d3-8622-b3d3db4f4a54"/>
+                <imageExpression><![CDATA[$P{photo} != null ? new java.io.File($P{photo}).exists() ? $P{photo} : null : null]]></imageExpression>
+            </image>
 <!--            <image scaleImage="FillFrame">-->
 <!--                <reportElement x="167" y="50" width="240" height="160" uuid="14ea79a4-64a9-43d3-8622-b3d3db4f4a54"/>-->
-<!--                <imageExpression><![CDATA[$P{photo} != null ? new java.io.File($P{photo}).exists() ? $P{photo} : null : null]]></imageExpression>-->
+<!--                <imageExpression><![CDATA[$P{photo}]]></imageExpression>-->
 <!--            </image>-->
-            <!--            <image scaleImage="FillFrame">-->
-            <!--                <reportElement x="167" y="50" width="240" height="160" uuid="14ea79a4-64a9-43d3-8622-b3d3db4f4a54"/>-->
-            <!--                <imageExpression><![CDATA[$P{photo}]]></imageExpression>-->
-            <!--            </image>-->
         </band>
     </detail>
     <lastPageFooter>

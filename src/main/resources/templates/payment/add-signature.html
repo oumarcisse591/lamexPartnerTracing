@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Signature</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="assets/img/favicon.png" rel="icon">
+  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.gstatic.com" rel="preconnect">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="assets/vendor/quill/quill.snow.css" rel="stylesheet">
+  <link href="assets/vendor/quill/quill.bubble.css" rel="stylesheet">
+  <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+  <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="assets/css/style.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/signature_pad@2.3.2/dist/signature_pad.min.js"></script>
+  <style>
+    #signature-pad {
+        border: 1px solid black;
+        width: 19em;
+        height: 150px;
+    }
+  </style>
+</head>
+<body>
+<main id="main" class="main">
+  <div th:object="${payment}">
+    <h1>Paiement initie</h1>
+    <h6>Reference : <span th:text="${payment.referenceTransaction}"></span></h6>
+    <h6>Paiement de <span th:text="${#numbers.formatDecimal(payment.transactionAmount, 0, 'COMMA', 2, 'POINT')} + 'USD'"></span> <span th:text="' (' + (${#numbers.formatDecimal(payment.transactionAmount*3.67, 0, 'COMMA', 2, 'POINT')}) + ' AED)'">(</span> A <span th:text="${payment.clientName}"></span> </h6>
+    <h3>M./MME <span th:text="${payment.clientName}"></span>, Signez dans le cadre SVP</h3>
+    <h6>Signature et date du jour:</h6>
+  </div>
+  <form id="invoiceForm" th:action="@{/save-paymentSignature}" th:object="${payment}" method="post" enctype="multipart/form-data">
+    <!-- Autres champs de formulaire pour la facture -->
+    <input type="hidden" th:field="*{idTransaction}"  name="id_transaction" class="form-control" id="validationDefault01"
+           required>
+    <div id="signature-pad">
+      <canvas></canvas>
+    </div>
+    <div style="margin-top: 5px;">
+      <button class="btn" type="button" id="clear">Effacer</button>
+      <input type="hidden" name="signature" id="signature">
+      <button id="save" class="btn btn-success" type="submit">Soumettre</button>
+    </div>
+
+  </form>
+
+  <script>
+    var canvas = document.querySelector("canvas");
+    var signaturePad = new SignaturePad(canvas);
+
+    document.getElementById("clear").addEventListener("click", function () {
+        signaturePad.clear();
+    });
+
+    document.getElementById("save").addEventListener("click", function () {
+        if (!signaturePad.isEmpty()) {
+            var dataURL = signaturePad.toDataURL();
+            document.getElementById("signature").value = dataURL;
+        } else {
+            alert("Mettez votre signature d'abord SVP");
+        }
+    });
+  </script>
+</main>
+</body>
+</html>

@@ -22,4 +22,6 @@ public interface PaymentRepository extends JpaRepository<Payment, Integer> {
     default List<Payment> findTop5ByOrderByDateDesc() {
         return findLatestPayments((Pageable) PageRequest.of(0, 5));
     }
+
+    Payment findFirstByOrderByIdTransactionDesc();
 }

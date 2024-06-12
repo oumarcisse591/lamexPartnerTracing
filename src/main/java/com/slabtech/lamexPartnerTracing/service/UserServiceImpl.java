@@ -6,6 +6,7 @@ import com.slabtech.lamexPartnerTracing.dao.UserDao;
 import com.slabtech.lamexPartnerTracing.entity.Role;
 import com.slabtech.lamexPartnerTracing.entity.User;
 import com.slabtech.lamexPartnerTracing.repository.UserRepository;
+import com.slabtech.lamexPartnerTracing.security.CustomUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -43,7 +44,7 @@ public class UserServiceImpl implements UserService{
             throw new UsernameNotFoundException("Identifiant ou mot de passe érroné");
         }
 //        return new CustomUserDetails(user);
-        return new org.springframework.security.core.userdetails.User(user.getUserName(), user.getPassword(), mapRolesToAuthorities(user.getRoles()));
+        return new CustomUserDetails(user.getUserName(), user.getPassword(), mapRolesToAuthorities(user.getRoles()), user.getName());
     }
 
     private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles){

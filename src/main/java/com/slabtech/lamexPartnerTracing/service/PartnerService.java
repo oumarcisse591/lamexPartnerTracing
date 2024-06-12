@@ -9,6 +9,6 @@ public interface PartnerService {
     List<Partner> findAllPartner();
     Partner findPartnerById(int theId);
     Partner savePartner(Partner thePartner);
-
     long countAllPartners();
+    long countInactivePartners();
 }
