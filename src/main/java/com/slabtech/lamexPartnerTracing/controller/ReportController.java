@@ -131,7 +131,7 @@ public class ReportController {
 //        File file = resource.getFile();
 
 
-        File file = ResourceUtils.getFile("/opt/tomcat/webapps/TestLamexPartnerTracing/WEB-INF/classes/payment-receipt.jrxml");
+        File file = ResourceUtils.getFile("/opt/tomcat/webapps/TestLamexPartnerTracing/WEB-INF/classes/payment-receipt-office.jrxml");
         File downloadsDirectory = new File(System.getProperty("user.home"), "Downloads");
         String path = downloadsDirectory.getAbsolutePath();
         Map<String,Object> parameters = new HashMap<>();
@@ -268,7 +268,7 @@ public class ReportController {
     }
 
     public ByteArrayOutputStream generateRechargeReport(String ref, Date date, String partnerName, String partnerPhone, String stockName, double amount, double amountAED, String username) throws IOException, JRException {
-        File file = ResourceUtils.getFile("classpath:invoicePartner.jrxml");
+//        File file = ResourceUtils.getFile("classpath:invoicePartner.jrxml");
         Locale locale = new Locale("en", "US");
 //        Resource resource = new ClassPathResource("payment-receipt.jrxml");
 
@@ -276,7 +276,7 @@ public class ReportController {
 //        File file = resource.getFile();
 
 
-//        File file = ResourceUtils.getFile("/opt/tomcat/webapps/LamexPartnerTracing/WEB-INF/classes/invoicePartner.jrxml");
+        File file = ResourceUtils.getFile("/opt/tomcat/webapps/TestLamexPartnerTracing/WEB-INF/classes/invoicePartner.jrxml");
         File downloadsDirectory = new File(System.getProperty("user.home"), "Downloads");
         String path = downloadsDirectory.getAbsolutePath();
         Map<String,Object> parameters = new HashMap<>();

@@ -86,7 +86,7 @@
 	</dependencies>
 
 	<build>
-		<finalName>TestLamexPartnerTracing</finalName>
+		<finalName>LamexPartnerTracing</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>

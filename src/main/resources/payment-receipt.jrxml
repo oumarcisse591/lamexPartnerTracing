@@ -258,7 +258,7 @@
                 <textElement textAlignment="Center" rotation="Left">
                     <font size="12" isBold="true"/>
                 </textElement>
-                <text><![CDATA[EXEMPLAIRE CLIENT]]></text>
+                <text><![CDATA[EXEMPLAIRE_CLIENT]]></text>
             </staticText>
         </band>
     </columnHeader>
