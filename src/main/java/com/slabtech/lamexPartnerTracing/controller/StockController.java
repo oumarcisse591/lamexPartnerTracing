@@ -62,6 +62,7 @@ public class StockController {
         List<Transaction> transactions = transactionService.findTransactionsByStockId(theId);
         theModel.addAttribute("theStock", theStock);
         theModel.addAttribute("transactions", transactions);
+        theModel.addAttribute("stockBalance", stockService.calculateBalance(theId));
         return "stock/stock-info";
     }
 

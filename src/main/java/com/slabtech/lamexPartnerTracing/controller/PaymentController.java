@@ -32,10 +32,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Base64;
-import java.util.Date;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 public class PaymentController {
@@ -68,8 +66,14 @@ public class PaymentController {
     public String addPayment(Model theModel){
         Payment payment = new Payment();
         List<Stock> stocks = stockService.findAllStock();
+        Map<Integer, Double> stockBalances = stocks.stream()
+                .collect(Collectors.toMap(
+                        Stock::getId,
+                        stock -> stockService.calculateBalance(stock.getId())
+                ));
         theModel.addAttribute("payment", payment);
         theModel.addAttribute("stocks", stocks);
+        theModel.addAttribute("stockBalances", stockBalances);
         return "payment/add-payment";
     }
 

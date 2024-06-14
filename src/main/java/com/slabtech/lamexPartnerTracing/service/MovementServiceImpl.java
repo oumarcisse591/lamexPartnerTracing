@@ -42,7 +42,7 @@ public class MovementServiceImpl implements MovementService{
     @Override
     public Movement saveMovement(Movement theMovement) {
         if (theMovement.getTransactionType().equals("debit")){
-                stockService.decreaseStockQuantity(theMovement.getStock().getId(), theMovement.getTransactionAmount());
+            stockService.decreaseStockQuantity(theMovement.getStock().getId(), theMovement.getTransactionAmount());
         }
         else if (theMovement.getTransactionType().equals("credit")){
             stockService.increaseStockQuantity(theMovement.getStock().getId(), theMovement.getTransactionAmount());

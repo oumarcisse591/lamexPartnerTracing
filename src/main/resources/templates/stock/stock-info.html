@@ -58,8 +58,9 @@
                 <label for="validationDefault01" class="form-label">Description : <span th:text="*{stockDescription}" style="font-weight:bold"></span></label><br>
                 <label for="validationDefault01" class="form-label">Créé le : <span th:text="*{createdAt}" style="font-weight:bold"></span></label><br>
                 <label for="validationDefault01" class="form-label">Partenaire Titulaire du Stock : <span th:text="*{partner.partnerName}" style="font-weight:bold"></span></label><br><br>
-                <label for="validationDefault01" class="form-label">Stock Actuel : <span th:text="*{#numbers.formatDecimal(balance, 0, 'COMMA', 2, 'POINT')}" style="font-weight:bold"></span><span>USD</span></sp></label><br>
-                <label for="validationDefault01" class="form-label">Dernier Mouvement : <span style="font-weight:bold"></span><span></span></sp></label><br>
+<!--                <label for="validationDefault01" class="form-label">Stock Actuel : <span th:text="*{#numbers.formatDecimal(balance, 0, 'COMMA', 2, 'POINT')}" style="font-weight:bold"></span><span>USD</span></sp></label><br>-->
+                  <label for="validationDefault01" class="form-label">Stock Actuel : <span th:text="${#numbers.formatDecimal(stockBalance, 0, 'COMMA', 2, 'POINT')}" style="font-weight:bold"></span><span>USD</span></sp></label><br>
+<!--                  <label for="validationDefault01" class="form-label">Dernier Mouvement : <span style="font-weight:bold"></span><span></span></sp></label><br>-->
               </div>
               <div class="col-12">
                   <a th:href="@{/add-recharge(id=${theStock.id})}">

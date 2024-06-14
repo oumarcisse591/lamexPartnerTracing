@@ -88,7 +88,7 @@ public class ReportController {
 //        File file = resource.getFile();
 
 
-        File file = ResourceUtils.getFile("/opt/tomcat/webapps/TestLamexPartnerTracing/WEB-INF/classes/recu.jrxml");
+        File file = ResourceUtils.getFile("/opt/tomcat/webapps/LamexPartnerTracing/WEB-INF/classes/recu.jrxml");
         File downloadsDirectory = new File(System.getProperty("user.home"), "Downloads");
         String path = downloadsDirectory.getAbsolutePath();
         Map<String,Object> parameters = new HashMap<>();
@@ -131,7 +131,7 @@ public class ReportController {
 //        File file = resource.getFile();
 
 
-        File file = ResourceUtils.getFile("/opt/tomcat/webapps/TestLamexPartnerTracing/WEB-INF/classes/payment-receipt-office.jrxml");
+        File file = ResourceUtils.getFile("/opt/tomcat/webapps/LamexPartnerTracing/WEB-INF/classes/payment-receipt-office.jrxml");
         File downloadsDirectory = new File(System.getProperty("user.home"), "Downloads");
         String path = downloadsDirectory.getAbsolutePath();
         Map<String,Object> parameters = new HashMap<>();
@@ -205,7 +205,7 @@ public class ReportController {
 //        File file = resource.getFile();
 
 
-        File file = ResourceUtils.getFile("/opt/tomcat/webapps/TestLamexPartnerTracing/WEB-INF/classes/payment-receipt.jrxml");
+        File file = ResourceUtils.getFile("/opt/tomcat/webapps/LamexPartnerTracing/WEB-INF/classes/payment-receipt.jrxml");
         File downloadsDirectory = new File(System.getProperty("user.home"), "Downloads");
         String path = downloadsDirectory.getAbsolutePath();
         Map<String,Object> parameters = new HashMap<>();
@@ -276,7 +276,7 @@ public class ReportController {
 //        File file = resource.getFile();
 
 
-        File file = ResourceUtils.getFile("/opt/tomcat/webapps/TestLamexPartnerTracing/WEB-INF/classes/invoicePartner.jrxml");
+        File file = ResourceUtils.getFile("/opt/tomcat/webapps/LamexPartnerTracing/WEB-INF/classes/invoicePartner.jrxml");
         File downloadsDirectory = new File(System.getProperty("user.home"), "Downloads");
         String path = downloadsDirectory.getAbsolutePath();
         Map<String,Object> parameters = new HashMap<>();

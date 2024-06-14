@@ -20,4 +20,8 @@ public interface StockService {
     long countAllStocks();
 
     long countAllDisabledStocks();
+
+    double calculateBalance(int id);
+
+
 }

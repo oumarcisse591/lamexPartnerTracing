@@ -3,6 +3,7 @@ package com.slabtech.lamexPartnerTracing.service;
 import com.slabtech.lamexPartnerTracing.entity.Stock;
 import com.slabtech.lamexPartnerTracing.exception.InsufficientStockException;
 import com.slabtech.lamexPartnerTracing.repository.StockRepository;
+import com.slabtech.lamexPartnerTracing.repository.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,10 +14,12 @@ import java.util.Optional;
 public class StockServiceImpl implements StockService{
 
     private StockRepository stockRepository;
+    private TransactionRepository transactionRepository;
 
     @Autowired
-    public StockServiceImpl(StockRepository theStockRepository){
+    public StockServiceImpl(StockRepository theStockRepository, TransactionRepository theTransactionRepository){
         stockRepository = theStockRepository;
+        transactionRepository = theTransactionRepository;
     }
     @Override
     public List<Stock> findAllStock() {
@@ -45,10 +48,9 @@ public class StockServiceImpl implements StockService{
     @Override
     public void increaseStockQuantity(int id, double amount) {
         Stock stock = stockRepository.findById(id).orElse(null);
-        if (stock != null){
-            stock.setBalance(stock.getBalance() + (amount));
+            double newBalance = calculateBalance(id);
+            stock.setBalance(newBalance);
             stockRepository.save(stock);
-        }
     }
 
     @Override
@@ -58,7 +60,8 @@ public class StockServiceImpl implements StockService{
             if (stock.getBalance() < amount){
                 throw new InsufficientStockException("Stock insuffisant pour cette operation ");
             }
-            stock.setBalance(stock.getBalance() - (amount));
+            double newBalance = calculateBalance(id);
+            stock.setBalance(newBalance);
             stockRepository.save(stock);
         }
     }
@@ -67,7 +70,8 @@ public class StockServiceImpl implements StockService{
     public void rechargeStockQuantity(int id, double amount) {
         Stock stock = stockRepository.findById(id).orElse(null);
         if (stock != null){
-            stock.setBalance(stock.getBalance() + (amount));
+            double newBalance = calculateBalance(id);
+            stock.setBalance(newBalance);
             stockRepository.save(stock);
         }
     }
@@ -81,5 +85,19 @@ public class StockServiceImpl implements StockService{
     public long countAllDisabledStocks() {
         return stockRepository.countInactiveStocks();
     }
+
+    @Override
+    public double calculateBalance(int id) {
+        Double creditSum = transactionRepository.sumAmountByStockIdAndType(id, "credit");
+        Double debitSum = transactionRepository.sumAmountByStockIdAndType(id, "debit");
+        Double rechargeSum = transactionRepository.sumAmountByStockIdAndType(id, "recharge");
+
+        creditSum = (creditSum == null) ? 0 : creditSum;
+        debitSum = (debitSum == null) ? 0 : debitSum;
+        rechargeSum = (rechargeSum == null) ? 0 : rechargeSum;
+
+        return (creditSum + rechargeSum) - debitSum;
+    }
+
 
 }

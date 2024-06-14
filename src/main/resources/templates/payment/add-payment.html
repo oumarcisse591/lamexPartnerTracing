@@ -59,12 +59,15 @@
                   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
               </div>
-              <select th:field="*{stock.id}"  id="inputState" class="form-select">
-                <div th:each="tempStock : ${stocks}" >
-                  <div th:if="${tempStock.partner.enabled == true}">
-                    <option th:text="${tempStock.stockName} + ' - ' + ${tempStock.balance}"  th:value="${tempStock.id}" selected></option>
+              <select th:field="*{stock.id}" id="inputState" class="form-select">
+                <div th:each="tempStock, iterStat : ${stocks}">
+                  <div th:if="${tempStock.partner.enabled}">
+                    <option th:text="${tempStock.stockName} + ' - ' + ${#numbers.formatDecimal(stockBalances[tempStock.id], 0, 'COMMA', 2, 'POINT')}"
+                            th:value="${tempStock.id}"
+                            th:selected="${iterStat.index == 0}">
+                    </option>
                   </div>
-                  </div>
+                </div>
               </select>
             </div>
           </div>
