@@ -92,6 +92,8 @@ public class MovementController {
             theMovement.setTransactionDate(now);
             Movement registeredMovement = movementService.saveMovement(theMovement);
             int id = registeredMovement.getIdTransaction();
+            int idStock = registeredMovement.getStock().getId();
+            stockService.calculateBalance(idStock);
             redirectAttributes.addFlashAttribute("message","Vous venez de faire un mouvement sur le stock");
             return "redirect:/list-stock";
         }
@@ -125,6 +127,8 @@ public class MovementController {
             theMovement.setUser(user);
             Movement registeredMovement = movementService.saveMovement(theMovement);
             int id = registeredMovement.getIdTransaction();
+            int idStock = registeredMovement.getStock().getId();
+            stockService.calculateBalance(idStock);
             redirectAttributes.addFlashAttribute("message","Vous venez de faire un mouvement sur le stock");
             return "redirect:/recharge-success?id="+ id;
         }

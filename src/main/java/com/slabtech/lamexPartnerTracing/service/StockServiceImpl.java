@@ -88,6 +88,7 @@ public class StockServiceImpl implements StockService{
 
     @Override
     public double calculateBalance(int id) {
+        Stock stock = stockRepository.findById(id).orElse(null);
         Double creditSum = transactionRepository.sumAmountByStockIdAndType(id, "credit");
         Double debitSum = transactionRepository.sumAmountByStockIdAndType(id, "debit");
         Double rechargeSum = transactionRepository.sumAmountByStockIdAndType(id, "recharge");
@@ -95,8 +96,10 @@ public class StockServiceImpl implements StockService{
         creditSum = (creditSum == null) ? 0 : creditSum;
         debitSum = (debitSum == null) ? 0 : debitSum;
         rechargeSum = (rechargeSum == null) ? 0 : rechargeSum;
-
-        return (creditSum + rechargeSum) - debitSum;
+        double newBalance = (creditSum + rechargeSum) - debitSum;
+        stock.setBalance(newBalance);
+        stockRepository.save(stock);
+        return newBalance;
     }
 
 

@@ -73,7 +73,7 @@ public class ReportController {
         String paymentReference = theReceipt.getMotifTransaction();
         ByteArrayOutputStream reportStream = generateReport(ref, date, remitterName, remitterAddress, beneficiaryName, beneficiaryAddress, beneficiaryBank, beneficiaryBankAddress, beneficiaryAccount, swift, amount, currency, valueDate, paymentReference);
         HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + ref + ".pdf");
+//        httpHeaders.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + ref + ".pdf");
         httpHeaders.setContentType(MediaType.APPLICATION_PDF);
 
         return new ResponseEntity<>(reportStream.toByteArray(), httpHeaders, HttpStatus.OK);
@@ -122,7 +122,7 @@ public class ReportController {
     }
 
     public ByteArrayOutputStream generatePaymentReport(String ref, Date date, String partnerName, String partnerPhone, String clientName, String clientAddress, String clientIdCard, String clientPhone, double amount, double amountAED, String photo, String signature, String signatureAgent, String username) throws IOException, JRException {
-//        File file = ResourceUtils.getFile("classpath:payment-receipt-office.jrxml");
+        File file = ResourceUtils.getFile("classpath:payment-receipt-office.jrxml");
         Locale locale = new Locale("en", "US");
 
 //        Resource resource = new ClassPathResource("payment-receipt.jrxml");
@@ -131,7 +131,7 @@ public class ReportController {
 //        File file = resource.getFile();
 
 
-        File file = ResourceUtils.getFile("/opt/tomcat/webapps/LamexPartnerTracing/WEB-INF/classes/payment-receipt-office.jrxml");
+//        File file = ResourceUtils.getFile("/opt/tomcat/webapps/LamexPartnerTracing/WEB-INF/classes/payment-receipt-office.jrxml");
         File downloadsDirectory = new File(System.getProperty("user.home"), "Downloads");
         String path = downloadsDirectory.getAbsolutePath();
         Map<String,Object> parameters = new HashMap<>();
@@ -187,10 +187,12 @@ public class ReportController {
 
         ByteArrayOutputStream reportStream = generatePaymentReport(ref, datePayment, partnerName, partnerPhone, clientName, clientAddress, clientIdCard, clientPhone, amount, amountAED, photo, signature, signatureAgent, username);
         HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + ref + "-" +clientName+".pdf");
+//        httpHeaders.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + ref + "-" +clientName+".pdf");
         httpHeaders.setContentType(MediaType.APPLICATION_PDF);
 
         return new ResponseEntity<>(reportStream.toByteArray(), httpHeaders, HttpStatus.OK);
+
+
     }
 
     // La Facture du Client
@@ -261,7 +263,7 @@ public class ReportController {
 
         ByteArrayOutputStream reportStream = generatePaymentReportClient(ref, datePayment, partnerName, partnerPhone, clientName, clientAddress, clientIdCard, clientPhone, amount, amountAED, photo, signature, signatureAgent, username);
         HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + ref + "-" +clientName+".pdf");
+//        httpHeaders.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + ref + "-" +clientName+".pdf");
         httpHeaders.setContentType(MediaType.APPLICATION_PDF);
 
         return new ResponseEntity<>(reportStream.toByteArray(), httpHeaders, HttpStatus.OK);
@@ -318,7 +320,7 @@ public class ReportController {
 
         ByteArrayOutputStream reportStream = generateRechargeReport(ref, datePayment, partnerName, partnerPhone, stockName, amount, amountAED, username);
         HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + ref + "-" +partnerName+".pdf");
+//        httpHeaders.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + ref + "-" +partnerName+".pdf");
         httpHeaders.setContentType(MediaType.APPLICATION_PDF);
 
         return new ResponseEntity<>(reportStream.toByteArray(), httpHeaders, HttpStatus.OK);
