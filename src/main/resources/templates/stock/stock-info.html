@@ -69,7 +69,9 @@
                 <a th:href="@{/add-movement(id=${theStock.id})}">
                   <button class="btn btn-warning" type="submit">Corriger le stock</button>
                 </a>
-                <button class="btn btn-info" type="submit">Modifier les informations du stock</button>
+                  <a th:href="@{/modify-stockInfo(id=${theStock.id})}">
+                      <button class="btn btn-info" type="submit">Modifier les informations du stock</button>
+                  </a>
               </div>
               <div class="card-body">
                 <h5 class="card-title">Récentes transactions sur le stock <span th:text="*{stockName}"></span></h5>

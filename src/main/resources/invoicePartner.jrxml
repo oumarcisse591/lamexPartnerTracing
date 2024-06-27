@@ -95,8 +95,8 @@
             </textField>
             <image>
                 <reportElement x="0" y="0" width="80" height="80" uuid="5773669f-605a-4d2b-9be5-af962acd10a4"/>
-                <imageExpression><![CDATA["/Users/admin/Downloads/logo.jpg"]]></imageExpression>
-                <!--                <imageExpression><![CDATA["/opt/tomcat/webapps/LamexPartnerTracing/WEB-INF/classes/logo.jpg"]]></imageExpression>-->
+<!--                <imageExpression><![CDATA["/Users/admin/Downloads/logo.jpg"]]></imageExpression>-->
+                                <imageExpression><![CDATA["/opt/tomcat/webapps/LamexPartnerTracing/WEB-INF/classes/logo.jpg"]]></imageExpression>
             </image>
         </band>
     </title>

@@ -102,6 +102,15 @@
               <div class="alert alert-success alert-dismissible fade show" th:text="${message}" role="alert" id="result" style="margin-top:5px">
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
               </div>
+              <label for="validationDefault01" class="form-label">En quelle devise souhaitez vous faire le paiement?</label>
+              <select th:field="*{currencyPayment}" class="form-select" aria-label="Default select example">
+                <option th:field="*{currencyPayment}" th:value="USD">USD</option>
+                <option th:field="*{currencyPayment}" th:value="AED">AED</option>
+              </select>
+              <div class="col-sm-12">
+                <label for="validationDefault01" class="form-label">Entrez une remarque sur ce paiement</label>
+                <textarea class="form-control" th:field="*{remark}" name="remark" style="height: 100px"></textarea>
+              </div>
 
 <!--              <label for="validationDefault01" class="form-label">Devise :</label>-->
 <!--              <select name="currency" id="inputState" class="form-select">-->

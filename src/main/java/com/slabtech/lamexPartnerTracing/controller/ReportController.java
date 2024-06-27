@@ -121,7 +121,7 @@ public class ReportController {
         return byteArrayOutputStream;
     }
 
-    public ByteArrayOutputStream generatePaymentReport(String ref, Date date, String partnerName, String partnerPhone, String clientName, String clientAddress, String clientIdCard, String clientPhone, double amount, double amountAED, String photo, String signature, String signatureAgent, String username) throws IOException, JRException {
+    public ByteArrayOutputStream generatePaymentReport(String ref, Date date, String partnerCode, String partnerName, String partnerPhone, String clientName, String clientAddress, String clientIdCard, String clientPhone, double amount, double amountAED, String photo, String remark, String country, String currencyPayment, String signature, String signatureAgent, String username) throws IOException, JRException {
 //        File file = ResourceUtils.getFile("classpath:payment-receipt-office.jrxml");
         Locale locale = new Locale("en", "US");
 
@@ -138,6 +138,7 @@ public class ReportController {
         parameters.put("ref", ref);
         parameters.put("datePayment", date);
         parameters.put("date", date);
+        parameters.put("partnerCode", partnerCode);
         parameters.put("partnerName", partnerName);
         parameters.put("partnerPhone", partnerPhone);
         parameters.put("clientName", clientName);
@@ -147,6 +148,9 @@ public class ReportController {
         parameters.put("amount", amount);
         parameters.put("amountAED", amountAED);
         parameters.put("photo",(photo != null && !photo.isEmpty()) ? photo : null);
+        parameters.put("remark",(remark != null && !remark.isEmpty()) ? remark : "Aucune remarque");
+        parameters.put("stockCountry",(country != null && !country.isEmpty()) ? country : "Not specified");
+        parameters.put("currencyPayment",(currencyPayment != null && !currencyPayment.isEmpty()) ? currencyPayment : "Not specified");
         parameters.put("username", username);
         parameters.put("signature", (signature != null && !signature.isEmpty()) ? signature : null);
         parameters.put("signatureAgent", (signatureAgent != null && !signatureAgent.isEmpty()) ? signatureAgent : null);
@@ -172,8 +176,11 @@ public class ReportController {
 
         String ref = thePayment.getReferenceTransaction();
         Date datePayment = thePayment.getTransactionDate();
+        String partnerCode = thePayment.getStock().getPartner().getPartnerCode();
         String partnerName = thePayment.getStock().getPartner().getPartnerName();
         String partnerPhone = thePayment.getStock().getPartner().getPartnerPhone();
+        String country = thePayment.getStock().getCountry().getCountryName();
+        String currencyPayment = thePayment.getCurrencyPayment();
         String clientName = thePayment.getClientName();
         String clientAddress = thePayment.getClientAddress();
         String clientIdCard = thePayment.getClientIdCard();
@@ -181,11 +188,12 @@ public class ReportController {
         double amount = thePayment.getTransactionAmount();
         double amountAED = thePayment.getTransactionAmount() * 3.67;
         String photo = thePayment.getPhoto();
+        String remark = thePayment.getRemark();
         String signature = thePayment.getSignature();
         String signatureAgent = thePayment.getSignatureAgent();
         String username = thePayment.getUser().getName();
 
-        ByteArrayOutputStream reportStream = generatePaymentReport(ref, datePayment, partnerName, partnerPhone, clientName, clientAddress, clientIdCard, clientPhone, amount, amountAED, photo, signature, signatureAgent, username);
+        ByteArrayOutputStream reportStream = generatePaymentReport(ref, datePayment, partnerCode, partnerName, partnerPhone, clientName, clientAddress, clientIdCard, clientPhone, amount, amountAED, photo, remark, country, currencyPayment, signature, signatureAgent, username);
         HttpHeaders httpHeaders = new HttpHeaders();
 //        httpHeaders.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + ref + "-" +clientName+".pdf");
         httpHeaders.setContentType(MediaType.APPLICATION_PDF);
@@ -197,7 +205,7 @@ public class ReportController {
 
     // La Facture du Client
 
-    public ByteArrayOutputStream generatePaymentReportClient(String ref, Date date, String partnerName, String partnerPhone, String clientName, String clientAddress, String clientIdCard, String clientPhone, double amount, double amountAED, String photo, String signature, String signatureAgent, String username) throws IOException, JRException {
+    public ByteArrayOutputStream generatePaymentReportClient(String ref, Date date, String partnerCode, String partnerName, String partnerPhone, String clientName, String clientAddress, String clientIdCard, String clientPhone, double amount, double amountAED, String photo, String remark, String currencyPayment, String country, String signature, String signatureAgent,  String username) throws IOException, JRException {
 //        File file = ResourceUtils.getFile("classpath:payment-receipt.jrxml");
         Locale locale = new Locale("en", "US");
 
@@ -214,6 +222,7 @@ public class ReportController {
         parameters.put("ref", ref);
         parameters.put("datePayment", date);
         parameters.put("date", date);
+        parameters.put("partnerCode", partnerCode);
         parameters.put("partnerName", partnerName);
         parameters.put("partnerPhone", partnerPhone);
         parameters.put("clientName", clientName);
@@ -223,6 +232,9 @@ public class ReportController {
         parameters.put("amount", amount);
         parameters.put("amountAED", amountAED);
         parameters.put("photo",(photo != null && !photo.isEmpty()) ? photo : null);
+        parameters.put("remark",(remark != null && !remark.isEmpty()) ? remark : "Aucune remarque");
+        parameters.put("stockCountry",(country != null && !country.isEmpty()) ? country : "Not specified");
+        parameters.put("currencyPayment",(currencyPayment != null && !currencyPayment.isEmpty()) ? currencyPayment : "Not specified");
         parameters.put("username", username);
         parameters.put("signature", (signature != null && !signature.isEmpty()) ? signature : null);
         parameters.put("signatureAgent", (signatureAgent != null && !signatureAgent.isEmpty()) ? signatureAgent : null);
@@ -248,8 +260,11 @@ public class ReportController {
 
         String ref = thePayment.getReferenceTransaction();
         Date datePayment = thePayment.getTransactionDate();
+        String partnerCode = thePayment.getStock().getPartner().getPartnerCode();
         String partnerName = thePayment.getStock().getPartner().getPartnerName();
         String partnerPhone = thePayment.getStock().getPartner().getPartnerPhone();
+        String country = thePayment.getStock().getCountry().getCountryName();
+        String currencyPayment = thePayment.getCurrencyPayment();
         String clientName = thePayment.getClientName();
         String clientAddress = thePayment.getClientAddress();
         String clientIdCard = thePayment.getClientIdCard();
@@ -257,11 +272,12 @@ public class ReportController {
         double amount = thePayment.getTransactionAmount();
         double amountAED = thePayment.getTransactionAmount() * 3.67;
         String photo = thePayment.getPhoto();
+        String remark = thePayment.getRemark();
         String signature = thePayment.getSignature();
         String signatureAgent = thePayment.getSignatureAgent();
         String username = thePayment.getUser().getName();
 
-        ByteArrayOutputStream reportStream = generatePaymentReportClient(ref, datePayment, partnerName, partnerPhone, clientName, clientAddress, clientIdCard, clientPhone, amount, amountAED, photo, signature, signatureAgent, username);
+        ByteArrayOutputStream reportStream = generatePaymentReportClient(ref, datePayment, partnerCode, partnerName, partnerPhone, clientName, clientAddress, clientIdCard, clientPhone, amount, amountAED, photo, remark, country,currencyPayment, signature, signatureAgent, username);
         HttpHeaders httpHeaders = new HttpHeaders();
 //        httpHeaders.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + ref + "-" +clientName+".pdf");
         httpHeaders.setContentType(MediaType.APPLICATION_PDF);

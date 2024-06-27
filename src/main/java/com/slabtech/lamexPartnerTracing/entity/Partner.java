@@ -11,6 +11,9 @@ public class Partner {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idPartner;
 
+    @Column(name = "partner_code")
+    private String partnerCode;
+
     @Column(name = "partner_name")
     private String partnerName;
 
@@ -31,6 +34,14 @@ public class Partner {
 
     @OneToMany(mappedBy = "partner")
     private List<Transaction> transactions;
+
+    public String getPartnerCode() {
+        return partnerCode;
+    }
+
+    public void setPartnerCode(String partnerCode) {
+        this.partnerCode = partnerCode;
+    }
 
     public int getIdPartner() {
         return idPartner;
@@ -103,9 +114,10 @@ public class Partner {
         this.idPartner = idPartner;
     }
 
-    public Partner(int idPartner, String partnerName, String partnerEmail, String partnerAddress, boolean enabled, String partnerPhone, List<Stock> stocks, List<Transaction> transactions) {
+    public Partner(int idPartner, String partnerName, String partnerCode, String partnerEmail, String partnerAddress, boolean enabled, String partnerPhone, List<Stock> stocks, List<Transaction> transactions) {
         this.idPartner = idPartner;
         this.partnerName = partnerName;
+        this.partnerCode = partnerCode;
         this.partnerEmail = partnerEmail;
         this.partnerAddress = partnerAddress;
         this.enabled = enabled;
@@ -119,6 +131,7 @@ public class Partner {
         return "Partner{" +
                 "idPartner=" + idPartner +
                 ", partnerName='" + partnerName + '\'' +
+                ", partnerCode='" + partnerCode + '\'' +
                 ", partnerEmail='" + partnerEmail + '\'' +
                 ", partnerAddress='" + partnerAddress + '\'' +
                 ", enabled=" + enabled +

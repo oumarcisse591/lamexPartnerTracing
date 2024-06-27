@@ -157,6 +157,7 @@ public class PaymentController {
             thePayment.setReason(thePayment.getReason());
             thePayment.setPartner(thePayment.getPartner());
             thePayment.setStock(thePayment.getStock());
+            thePayment.setCurrencyPayment(thePayment.getCurrencyPayment());
             thePayment.setClientPhone(thePayment.getClientPhone());
             thePayment.setTransactionType(thePayment.getTransactionType());
             thePayment.setTransactionDate(thePayment.getTransactionDate());

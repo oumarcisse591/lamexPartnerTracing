@@ -55,6 +55,10 @@
                             <label for="validationDefault01" class="form-label">Description du stock :</label>
                             <input type="text" th:field="*{stockDescription}" name="stock_description" class="form-control" id="validationDefault01"
                                    required>
+                            <label for="validationDefault01" class="form-label">Selectionner le pays du Stock :</label>
+                            <select th:field="*{country.idCountry}" id="inputState" class="form-select">
+                                <option th:each="tempCountry : ${countries}" th:text="${tempCountry.countryName}"  th:value="${tempCountry.idCountry}" selected></option>
+                            </select>
 <!--                            <label for="validationDefault01" class="form-label">Definir un Stock initial :</label>-->
 <!--                            <input type="text" th:field="*{balance}" name="balance"  class="form-control" id="validationDefault02"-->
 <!--                                   required>-->

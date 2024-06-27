@@ -32,8 +32,19 @@ public class Stock {
     @ManyToOne
     private Partner partner;
 
+    @ManyToOne
+    private Country country;
+
     @OneToMany(mappedBy = "stock")
     private List<Transaction> transactions;
+
+    public Country getCountry() {
+        return country;
+    }
+
+    public void setCountry(Country country) {
+        this.country = country;
+    }
 
     public boolean isEnabled() {
         return enabled;
@@ -106,7 +117,7 @@ public class Stock {
         this.id = id;
     }
 
-    public Stock(int id, String stockName, String stockDescription, double balance, Date createdAt, Partner partner, boolean enabled, List<Transaction> transactions) {
+    public Stock(int id, String stockName, String stockDescription, double balance, Date createdAt, Partner partner, boolean enabled, Country country, List<Transaction> transactions) {
         this.id = id;
         this.stockName = stockName;
         this.stockDescription = stockDescription;
@@ -115,6 +126,7 @@ public class Stock {
         this.partner = partner;
         this.enabled = enabled;
         this.transactions = transactions;
+        this.country =country;
     }
 
     @Override
@@ -127,6 +139,7 @@ public class Stock {
                 ", partner=" + partner +
                 ", enabled=" + enabled +
                 ", stockDescription=" + stockDescription+
+                ", country=" + country +
                 ", transactions=" + transactions +
                 '}';
     }

@@ -1,13 +1,7 @@
 package com.slabtech.lamexPartnerTracing.controller;
 
-import com.slabtech.lamexPartnerTracing.entity.Movement;
-import com.slabtech.lamexPartnerTracing.entity.Partner;
-import com.slabtech.lamexPartnerTracing.entity.Stock;
-import com.slabtech.lamexPartnerTracing.entity.Transaction;
-import com.slabtech.lamexPartnerTracing.service.MovementService;
-import com.slabtech.lamexPartnerTracing.service.PartnerService;
-import com.slabtech.lamexPartnerTracing.service.StockService;
-import com.slabtech.lamexPartnerTracing.service.TransactionService;
+import com.slabtech.lamexPartnerTracing.entity.*;
+import com.slabtech.lamexPartnerTracing.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,14 +24,16 @@ public class StockController {
     private PartnerService partnerService;
     private TransactionService transactionService;
     private MovementService movementService;
+    private CountryService countryService;
 
 
     @Autowired
-    public StockController(StockService theStockService, PartnerService thePartnerService, TransactionService theTransactionService, MovementService theMovementService){
+    public StockController(StockService theStockService, PartnerService thePartnerService, TransactionService theTransactionService, MovementService theMovementService, CountryService theCountryService){
         stockService = theStockService;
         partnerService = thePartnerService;
         transactionService = theTransactionService;
         movementService = theMovementService;
+        countryService = theCountryService;
     }
 
     @GetMapping("/list-stock")
@@ -51,9 +47,18 @@ public class StockController {
     public String addStockPage(Model theModel){
         Stock stock = new Stock();
         List<Partner> partners = partnerService.findAllPartner();
+        List<Country> countries = countryService.findAllCountry();
         theModel.addAttribute("stock", stock);
         theModel.addAttribute("partners", partners);
+        theModel.addAttribute("countries", countries);
         return "stock/add-stock";
+    }
+
+    @GetMapping("/modify-stockInfo")
+    public String modifyStockInfo(@RequestParam("id") int theId, Model theModel){
+        Stock theStock = stockService.findStockById(theId);
+        theModel.addAttribute("theStock", theStock);
+        return "stock/modify-stock-info";
     }
 
     @GetMapping("/info-stock")
@@ -82,6 +87,14 @@ public class StockController {
 
 
         theStock.setCreatedAt(now);
+        theStock.setEnabled(true);
+        stockService.saveStock(theStock);
+        redirectAttributes.addFlashAttribute("message","Le stock a été créé");
+        return "redirect:/list-stock";
+    }
+
+    @PostMapping("/save-modify-stock")
+    public String saveModifyStock(@ModelAttribute("stock") Stock theStock, RedirectAttributes redirectAttributes){
         theStock.setEnabled(true);
         stockService.saveStock(theStock);
         redirectAttributes.addFlashAttribute("message","Le stock a été créé");

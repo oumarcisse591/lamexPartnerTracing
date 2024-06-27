@@ -13,7 +13,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.mail.Part;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 @Controller
 public class PartnerController {
@@ -62,7 +66,15 @@ public class PartnerController {
 
     @PostMapping("/save-partner")
     public String savePartner(@ModelAttribute("partner")Partner thePartner, RedirectAttributes redirectAttributes){
+        LocalDate today = LocalDate.now();
+        Date now = new Date();
+        String date = today.format(DateTimeFormatter.ofPattern("yy"));
+        String month = today.format(DateTimeFormatter.ofPattern("MM"));
+        Random random = new Random();
+        int randomNumber = random.nextInt(900000) + 100000;
+        String code = "PT" + month + date + randomNumber;
         thePartner.setEnabled(true);
+        thePartner.setPartnerCode(code);
         partnerService.savePartner(thePartner);
         redirectAttributes.addFlashAttribute("message","Le partenaire a été créé avec succès");
         return "redirect:/list-partner";

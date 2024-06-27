@@ -23,6 +23,28 @@ public class Payment extends Transaction{
     @Column(name = "photo")
     private String photo;
 
+    @Column(name = "remark")
+    private String remark;
+
+    @Column(name = "currency_payment")
+    private String currencyPayment;
+
+    public String getCurrencyPayment() {
+        return currencyPayment;
+    }
+
+    public void setCurrencyPayment(String currencyPayment) {
+        this.currencyPayment = currencyPayment;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
     public String getClientName() {
         return clientName;
     }
@@ -70,21 +92,24 @@ public class Payment extends Transaction{
         this.clientName = clientName;
     }
 
-    public Payment(String clientName, String clientIdCard, String clientAddress, String clientPhone, String photo) {
+    public Payment(String clientName, String clientIdCard, String clientAddress, String clientPhone, String photo, String remark) {
         this.clientName = clientName;
         this.clientIdCard = clientIdCard;
         this.clientAddress = clientAddress;
         this.clientPhone = clientPhone;
         this.photo = photo;
+        this.remark = photo;
     }
 
-    public Payment(int idTransaction, String referenceTransaction, String transactionType, Date transactionDate, String reason, double transactionAmount, String signature, String signatureAgent, Stock stock, Partner partner, User user, String clientName, String clientIdCard, String clientAddress, String clientPhone, String photo) {
+    public Payment(int idTransaction, String referenceTransaction, String transactionType, Date transactionDate, String reason, double transactionAmount, String signature, String signatureAgent, Stock stock, Partner partner, User user, String clientName, String clientIdCard, String clientAddress, String clientPhone, String photo, String remark, String currencyPayment) {
         super(idTransaction, referenceTransaction, transactionType, transactionDate, reason, transactionAmount, signature, signatureAgent, stock, partner, user);
         this.clientName = clientName;
         this.clientIdCard = clientIdCard;
         this.clientAddress = clientAddress;
         this.clientPhone = clientPhone;
         this.photo = photo;
+        this.remark = remark;
+        this.currencyPayment = currencyPayment;
     }
 
     @Override
@@ -95,6 +120,8 @@ public class Payment extends Transaction{
                 ", clientAddress='" + clientAddress + '\'' +
                 ", clientPhone='" + clientPhone + '\'' +
                 ", photo='" + photo + '\'' +
+                ", remark='" + remark + '\'' +
+                ", currencyPayment='" + currencyPayment + '\'' +
                 '}';
     }
 }
