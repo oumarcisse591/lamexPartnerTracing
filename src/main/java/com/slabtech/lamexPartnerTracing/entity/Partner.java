@@ -3,13 +3,15 @@ package com.slabtech.lamexPartnerTracing.entity;
 import jakarta.persistence.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 public class Partner {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idPartner;
+    @GeneratedValue
+    @Column(updatable = false, nullable = false)
+    private UUID idPartner;
 
     @Column(name = "partner_code")
     private String partnerCode;
@@ -20,6 +22,8 @@ public class Partner {
     @Column(name = "partner_email")
     private String partnerEmail;
 
+    @Column(name = "partner_country")
+    private String partnerCountry;
     @Column(name = "partner_address")
     private String partnerAddress;
 
@@ -35,6 +39,28 @@ public class Partner {
     @OneToMany(mappedBy = "partner")
     private List<Transaction> transactions;
 
+    @OneToMany(mappedBy = "partner")
+    private List<User> users;
+
+    @OneToMany(mappedBy = "partner")
+    private List<Guichet> guichets;
+
+    public String getPartnerCountry() {
+        return partnerCountry;
+    }
+
+    public void setPartnerCountry(String partnerCountry) {
+        this.partnerCountry = partnerCountry;
+    }
+
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
+    }
+
     public String getPartnerCode() {
         return partnerCode;
     }
@@ -43,11 +69,11 @@ public class Partner {
         this.partnerCode = partnerCode;
     }
 
-    public int getIdPartner() {
+    public UUID getIdPartner() {
         return idPartner;
     }
 
-    public void setIdPartner(int idPartner) {
+    public void setIdPartner(UUID idPartner) {
         this.idPartner = idPartner;
     }
 
@@ -110,11 +136,11 @@ public class Partner {
     public Partner() {
     }
 
-    public Partner(int idPartner) {
+    public Partner(UUID idPartner) {
         this.idPartner = idPartner;
     }
 
-    public Partner(int idPartner, String partnerName, String partnerCode, String partnerEmail, String partnerAddress, boolean enabled, String partnerPhone, List<Stock> stocks, List<Transaction> transactions) {
+    public Partner(UUID idPartner, String partnerName, String partnerCode, String partnerEmail, String partnerAddress, boolean enabled, String partnerPhone, List<Stock> stocks, List<Transaction> transactions, String partnerCountry, List<User> users) {
         this.idPartner = idPartner;
         this.partnerName = partnerName;
         this.partnerCode = partnerCode;
@@ -124,6 +150,8 @@ public class Partner {
         this.partnerPhone = partnerPhone;
         this.stocks = stocks;
         this.transactions = transactions;
+        this.partnerCountry = partnerCountry;
+        this.users = users;
     }
 
     @Override

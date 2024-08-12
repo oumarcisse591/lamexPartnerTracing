@@ -1,14 +1,17 @@
 package com.slabtech.lamexPartnerTracing.entity;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.GenericGenerator;
 
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 public class Country {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idCountry;
+    @GeneratedValue
+    @Column(updatable = false, nullable = false)
+    private UUID idCountry;
 
     @Column(name = "country_name")
     private String countryName;
@@ -16,22 +19,22 @@ public class Country {
     @Column(name = "country_code")
     private String countryCode;
 
-    @OneToMany(mappedBy = "country")
-    private List<Stock> stocks;
+//    @OneToMany(mappedBy = "country")
+//    private List<Stock> stocks;
 
-    public List<Stock> getStocks() {
-        return stocks;
-    }
+//    public List<Stock> getStocks() {
+//        return stocks;
+//    }
+//
+//    public void setStocks(List<Stock> stocks) {
+//        this.stocks = stocks;
+//    }
 
-    public void setStocks(List<Stock> stocks) {
-        this.stocks = stocks;
-    }
-
-    public int getIdCountry() {
+    public UUID getIdCountry() {
         return idCountry;
     }
 
-    public void setIdCountry(int idCountry) {
+    public void setIdCountry(UUID idCountry) {
         this.idCountry = idCountry;
     }
 
@@ -54,15 +57,15 @@ public class Country {
     public Country() {
     }
 
-    public Country(int idCountry) {
+    public Country(UUID idCountry) {
         this.idCountry = idCountry;
     }
 
-    public Country(int idCountry, String countryName, String countryCode, List<Stock> stocks) {
+    public Country(UUID idCountry, String countryName, String countryCode, List<Stock> stocks) {
         this.idCountry = idCountry;
         this.countryName = countryName;
         this.countryCode = countryCode;
-        this.stocks = stocks;
+//        this.stocks = stocks;
     }
 
     @Override
@@ -71,7 +74,7 @@ public class Country {
                 "idCountry=" + idCountry +
                 ", countryName='" + countryName + '\'' +
                 ", countryCode='" + countryCode + '\'' +
-                ", stocks='" + stocks + '\'' +
+//                ", stocks='" + stocks + '\'' +
                 '}';
     }
 }

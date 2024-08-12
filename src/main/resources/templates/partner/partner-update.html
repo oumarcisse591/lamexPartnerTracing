@@ -26,13 +26,15 @@
     <link href="assets/css/style.css" rel="stylesheet">
 </head>
 <body>
-<div th:replace="/layouts/header :: header"> </div>
+<div th:insert="~{/layouts/header :: header}"></div>
 <main id="main" class="main">
     <div class="pagetitle">
         <h1>Modification d'un partenaire</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                <li class="breadcrumb-item">
+                    <a href="index.html">Home</a>
+                </li>
                 <li class="breadcrumb-item">Gestion du stock</li>
                 <li class="breadcrumb-item">partenaires</li>
                 <li class="breadcrumb-item active"></li>
@@ -47,52 +49,101 @@
                     <div class="card-body">
                         <h5 class="card-title">Modification d'un partenaire</h5>
                         <!-- General Form Elements -->
-                        <form action="#" th:action="@{/saveUpdate-partner}" th:object="${thePartner}" method="POST" class="row g-3">
+                        <form
+                                action="#"
+                                th:action="@{/saveUpdate-partner}"
+                                th:object="${thePartner}"
+                                method="POST"
+                                class="row g-3"
+                        >
                             <div class="col-md-12">
-                                <input type="hidden" th:field="*{idPartner}" name="id_partner" class="form-control" id="validationDefault01"
+                                <input
+                                        type="hidden"
+                                        th:field="*{idPartner}"
+                                        name="id_partner"
+                                        class="form-control"
+                                        id="validationDefault01"
                                        required>
-                                <input type="hidden" th:field="*{partnerCode}" name="code_partner" class="form-control" id="validationDefault01"
+                                <input
+                                        type="hidden"
+                                        th:field="*{partnerCode}"
+                                        name="code_partner"
+                                        class="form-control"
+                                        id="validationDefault02"
                                        required>
-                                <label for="validationDefault01" class="form-label">Nom complet du Partenaire:</label>
-                                <input type="text" th:field="*{partnerName}" name="partner_name" class="form-control" id="validationDefault01"
-                                       required>
-                                <label for="validationDefault01" class="form-label">Adresse du Partenaire:</label>
-                                <input type="text" th:field="*{partnerAddress}" name="partner_address" class="form-control" id="validationDefault02"
-                                       required>
-                                <label for="validationDefault01" class="form-label">Adresse email ou courriel du Partenaire:</label>
-                                <input type="text" th:field="*{partnerEmail}" name="partner_email" class="form-control" id="validationDefault03"
-                                       required>
-                                <label for="validationDefault01" class="form-label">Numéro de téléphone du partenaire :</label>
-                                <input type="text" th:field="*{partnerPhone}" name="partner_phone" class="form-control" id="validationDefault04"
-                                       required>
+                                <label
+                                        for="validationDefault01"
+                                        class="form-label"
+                                >
+                                    Nom complet du Partenaire:
+                                </label>
+                                <input
+                                        type="text"
+                                        th:field="*{partnerName}"
+                                        name="partner_name"
+                                        class="form-control"
+                                        id="validationDefault03"
+                                       required
+                                >
+                                <label
+                                        for="validationDefault01"
+                                        class="form-label"
+                                >
+                                    Adresse du Partenaire:
+                                </label>
+                                <input
+                                        type="text"
+                                        th:field="*{partnerAddress}"
+                                        name="partner_address"
+                                        class="form-control"
+                                        id="validationDefault04"
+                                       required
+                                >
+                                <label
+                                        for="validationDefault01"
+                                        class="form-label"
+                                >
+                                    Adresse email ou courriel du Partenaire:
+                                </label>
+                                <input
+                                        type="text"
+                                        th:field="*{partnerEmail}"
+                                        name="partner_email"
+                                        class="form-control"
+                                        id="validationDefault05"
+                                       required
+                                >
+                                <label
+                                        for="validationDefault01"
+                                        class="form-label"
+                                >
+                                    Numéro de téléphone du partenaire :
+                                </label>
+                                <input
+                                        type="text"
+                                        th:field="*{partnerPhone}"
+                                        name="partner_phone"
+                                        class="form-control"
+                                        id="validationDefault06"
+                                       required
+                                >
                             </div>
 
                             <div class="col-12">
-                                <button class="btn btn-primary" type="submit">Modifier le partenaire</button>
+                                <button
+                                        class="btn btn-primary"
+                                        type="submit"
+                                >
+                                    Modifier le partenaire
+                                </button>
                             </div>
                         </form>
-
                     </div>
                 </div>
-
             </div>
         </div>
     </section>
 </main>
-
-<script>
-    // This function will hash the password using bcrypt.
-    function hashPassword(password) {
-      const salt = bcrypt.genSaltSync(10);
-      const hashedPassword = bcrypt.hashSync(password, salt);
-      return hashedPassword;
-    }
-
-    // This function will validate the password against the hashed password.
-    function validatePassword(password, hashedPassword) {
-      return bcrypt.compareSync(password, hashedPassword);
-    }
-</script>
 
 <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
 <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

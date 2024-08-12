@@ -1,13 +1,15 @@
 package com.slabtech.lamexPartnerTracing.controller;
 
 import com.slabtech.lamexPartnerTracing.dao.ReceiptDao;
-import com.slabtech.lamexPartnerTracing.entity.Movement;
-import com.slabtech.lamexPartnerTracing.entity.Payment;
-import com.slabtech.lamexPartnerTracing.entity.Receipt;
+import com.slabtech.lamexPartnerTracing.entity.*;
 import com.slabtech.lamexPartnerTracing.repository.PaymentRepository;
+import com.slabtech.lamexPartnerTracing.repository.TransactionRepository;
 import com.slabtech.lamexPartnerTracing.service.MovementService;
 import com.slabtech.lamexPartnerTracing.service.PaymentService;
+import com.slabtech.lamexPartnerTracing.service.StockService;
+import com.slabtech.lamexPartnerTracing.service.TransactionService;
 import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.data.JRXmlDataSource;
 import net.sf.jasperreports.engine.export.JRPdfExporter;
 import net.sf.jasperreports.export.SimpleExporterInput;
@@ -44,6 +46,12 @@ public class ReportController {
 
     @Autowired
     private MovementService movementService;
+
+    @Autowired
+    private StockService stockService;
+
+    @Autowired
+    private TransactionService transactionService;
 
     private final ResourceLoader resourceLoader;
 
@@ -171,7 +179,7 @@ public class ReportController {
     }
 
     @GetMapping("/paymentReportPdf")
-    public ResponseEntity paymentReport(@RequestParam("id") int theId, Model theModel) throws JRException, IOException{
+    public ResponseEntity paymentReport(@RequestParam("id") UUID theId, Model theModel) throws JRException, IOException{
         Payment thePayment = paymentService.findPaymentById(theId);
 
         String ref = thePayment.getReferenceTransaction();
@@ -255,7 +263,7 @@ public class ReportController {
     }
 
     @GetMapping("/paymentReportClientPdf")
-    public ResponseEntity paymentReportClient(@RequestParam("id") int theId, Model theModel) throws JRException, IOException{
+    public ResponseEntity paymentReportClient(@RequestParam("id") UUID theId, Model theModel) throws JRException, IOException{
         Payment thePayment = paymentService.findPaymentById(theId);
 
         String ref = thePayment.getReferenceTransaction();
@@ -323,7 +331,7 @@ public class ReportController {
     }
 
     @GetMapping("/rechargeReportPdf")
-    public ResponseEntity rechargeReport(@RequestParam("id") int theId, Model theModel) throws JRException, IOException{
+    public ResponseEntity rechargeReport(@RequestParam("id") UUID theId, Model theModel) throws JRException, IOException{
         Movement theMovement = movementService.findMovementById(theId);
         String ref = theMovement.getReferenceTransaction();
         Date datePayment = theMovement.getTransactionDate();
@@ -337,6 +345,55 @@ public class ReportController {
         ByteArrayOutputStream reportStream = generateRechargeReport(ref, datePayment, partnerName, partnerPhone, stockName, amount, amountAED, username);
         HttpHeaders httpHeaders = new HttpHeaders();
 //        httpHeaders.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + ref + "-" +partnerName+".pdf");
+        httpHeaders.setContentType(MediaType.APPLICATION_PDF);
+
+        return new ResponseEntity<>(reportStream.toByteArray(), httpHeaders, HttpStatus.OK);
+    }
+
+    public ByteArrayOutputStream mouvementReport(UUID theId) throws IOException, JRException {
+//        File file = ResourceUtils.getFile("classpath:mouvement.jrxml");
+        List<Transaction> transactions = transactionService.findTransactionsByStockId(theId);
+        Stock stock = stockService.findStockById(theId);
+        Locale locale = new Locale("en", "US");
+        Double creditSum = stockService.creditSum(theId);
+        Double debitSum = stockService.debitSum(theId);
+        Double rechargeSum = stockService.rechargeSum(theId);
+//        Resource resource = new ClassPathResource("payment-receipt.jrxml");
+
+        // Obtenir un objet File à partir de la ressource
+//        File file = resource.getFile();
+
+
+        File file = ResourceUtils.getFile("/opt/tomcat/webapps/LamexPartnerTracing/WEB-INF/classes/mouvement.jrxml");
+        File downloadsDirectory = new File(System.getProperty("user.home"), "Downloads");
+        String path = downloadsDirectory.getAbsolutePath();
+        JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(transactions);
+        Map<String,Object> parameters = new HashMap<>();
+        parameters.put( JRParameter.REPORT_LOCALE, locale );
+        parameters.put("creditSum", creditSum);
+        parameters.put("debitSum", debitSum);
+        parameters.put("rechargeSum", rechargeSum);
+        parameters.put("stockName", stock.getStockName());
+
+        JasperReport report = JasperCompileManager.compileReport(String.valueOf(file));
+        JasperPrint print = JasperFillManager.fillReport(report, parameters, dataSource);
+//        JasperExportManager.exportReportToPdfFile(print, path+ receiptCode +"/report.pdf");
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        JRPdfExporter exporter = new JRPdfExporter();
+        SimplePdfExporterConfiguration configuration = new SimplePdfExporterConfiguration();
+        configuration.setCompressed(true);
+        exporter.setConfiguration(configuration);
+        exporter.setExporterInput(new SimpleExporterInput(print));
+        exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(byteArrayOutputStream));
+        exporter.exportReport();
+        return byteArrayOutputStream;
+    }
+
+    @GetMapping("/mouvementReportPdf")
+    public ResponseEntity mouvementReport(@RequestParam("id") UUID theId, Model theModel) throws JRException, IOException{
+
+        ByteArrayOutputStream reportStream = mouvementReport(theId);
+        HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_PDF);
 
         return new ResponseEntity<>(reportStream.toByteArray(), httpHeaders, HttpStatus.OK);

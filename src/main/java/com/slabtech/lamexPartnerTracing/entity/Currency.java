@@ -2,30 +2,33 @@ package com.slabtech.lamexPartnerTracing.entity;
 
 import jakarta.persistence.*;
 
+import java.util.UUID;
+
 @Entity
 public class Currency {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idCurrency;
+    @GeneratedValue
+    @Column(updatable = false, nullable = false)
+    private UUID idCurrency;
 
     @Column(name = "currency_name")
     private String CurrencyName;
 
-    public Currency(int idCurrency) {
+    public Currency(UUID idCurrency) {
         this.idCurrency = idCurrency;
     }
 
-    public Currency(int idCurrency, String currencyName) {
+    public Currency(UUID idCurrency, String currencyName) {
         this.idCurrency = idCurrency;
         CurrencyName = currencyName;
     }
 
-    public int getIdCurrency() {
+    public UUID getIdCurrency() {
         return idCurrency;
     }
 
-    public void setIdCurrency(int idCurrency) {
+    public void setIdCurrency(UUID idCurrency) {
         this.idCurrency = idCurrency;
     }
 

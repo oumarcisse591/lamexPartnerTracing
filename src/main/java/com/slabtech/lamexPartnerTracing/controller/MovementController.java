@@ -5,6 +5,7 @@ import com.slabtech.lamexPartnerTracing.entity.Partner;
 import com.slabtech.lamexPartnerTracing.entity.Stock;
 import com.slabtech.lamexPartnerTracing.entity.User;
 import com.slabtech.lamexPartnerTracing.exception.InsufficientStockException;
+import com.slabtech.lamexPartnerTracing.repository.UserRepository;
 import com.slabtech.lamexPartnerTracing.service.MovementService;
 import com.slabtech.lamexPartnerTracing.service.StockService;
 import com.slabtech.lamexPartnerTracing.service.UserService;
@@ -24,6 +25,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
+import java.util.UUID;
 
 @Controller
 public class MovementController {
@@ -32,6 +34,9 @@ public class MovementController {
     private StockService stockService;
 
     private UserService userService;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     public MovementController(MovementService theMovementService, StockService theStockService, UserService theUserService){
@@ -48,7 +53,7 @@ public class MovementController {
     }
 
     @GetMapping("/add-movement")
-    public String addMovementPage(@RequestParam("id") int theId, Model theModel){
+    public String addMovementPage(@RequestParam("id") UUID theId, Model theModel){
         Movement movement = new Movement();
         Stock theStock = stockService.findStockById(theId);
         movement.setStock(theStock);
@@ -58,7 +63,7 @@ public class MovementController {
     }
 
     @GetMapping("/add-recharge")
-    public String addRecharge(@RequestParam("id") int theId, Model theModel){
+    public String addRecharge(@RequestParam("id") UUID theId, Model theModel){
         Movement movement = new Movement();
         Stock theStock = stockService.findStockById(theId);
         movement.setStock(theStock);
@@ -68,7 +73,7 @@ public class MovementController {
     }
 
     @GetMapping("/recharge-success")
-    public String recharge(@RequestParam("id") int theId, Model theModel){
+    public String recharge(@RequestParam("id") UUID theId, Model theModel){
         Movement movement = movementService.findMovementById(theId);
         theModel.addAttribute("movement", movement);
         return "stock/recharge-success";
@@ -78,6 +83,12 @@ public class MovementController {
     public String saveMovement(@ModelAttribute("movement")Movement theMovement, RedirectAttributes redirectAttributes){
 
         try{
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String userName = authentication.getName();
+
+            // Récupérer l'utilisateur courant à partir du nom d'utilisateur
+            User currentUser = userRepository.findByUserName(userName);
+
             LocalDate today = LocalDate.now();
             Date now = new Date();
             String date = today.format(DateTimeFormatter.ofPattern("yy"));
@@ -90,9 +101,10 @@ public class MovementController {
 
             theMovement.setReferenceTransaction(code);
             theMovement.setTransactionDate(now);
+            theMovement.setUser(currentUser);
             Movement registeredMovement = movementService.saveMovement(theMovement);
-            int id = registeredMovement.getIdTransaction();
-            int idStock = registeredMovement.getStock().getId();
+            UUID id = registeredMovement.getIdTransaction();
+            UUID idStock = registeredMovement.getStock().getId();
             stockService.calculateBalance(idStock);
             redirectAttributes.addFlashAttribute("message","Vous venez de faire un mouvement sur le stock");
             return "redirect:/list-stock";
@@ -126,8 +138,8 @@ public class MovementController {
             User user = userService.findByUserName(userName);
             theMovement.setUser(user);
             Movement registeredMovement = movementService.saveMovement(theMovement);
-            int id = registeredMovement.getIdTransaction();
-            int idStock = registeredMovement.getStock().getId();
+            UUID id = registeredMovement.getIdTransaction();
+            UUID idStock = registeredMovement.getStock().getId();
             stockService.calculateBalance(idStock);
             redirectAttributes.addFlashAttribute("message","Vous venez de faire un mouvement sur le stock");
             return "redirect:/recharge-success?id="+ id;

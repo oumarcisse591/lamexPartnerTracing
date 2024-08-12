@@ -31,11 +31,26 @@
 
 <body>
 <!--<th:block th:include="link.html"></th:block>-->
-<div th:replace="/layouts/header :: header"> </div>
+<div th:insert="~{/layouts/header :: header}"></div>
 <main id="main" class="main">
     <div class="pagetitle">
 <!--        <h1>Dashboard</h1>-->
         <h1>Bonjour  <span th:text="*{userName}">User</span></h1>
+        <h2 style="font-size: 20px">
+            Vous êtes
+            <span>
+                <span th:each="role : ${roles}">
+                    <span th:if="${role.name == 'ROLE_SUPERADMIN'}">SuperAdmin</span>
+                    <span th:if="${role.name == 'ROLE_ADMIN'}">ADMIN</span>
+                    <span th:if="${role.name != 'ROLE_SUPERADMIN' && role.name != 'ROLE_ADMIN'}">Unknown Role</span>
+                </span>
+            </span>
+        </h2>
+        <h2 th:text="${globalVariable != null && !globalVariable.isEmpty() ? 'Entité partenaire relié à votre compte: ' + globalVariable : 'Aucun partenaire relié à votre compte (Vous ne pouvez pas faire de paiements)'}" style="font-size: 20px">
+            Vous êtes aussi un Admin reliée au Partenaire
+            <span th:text="${globalVariable}"></span>
+            pour les paiements
+        </h2>
         <nav>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="index.html">Home</a></li>
@@ -50,30 +65,32 @@
             <div class="col-lg-12">
                 <div class="row">
                     <!-- Sales Card -->
-                    <div class="col-xxl-4 col-md-6">
-                        <div class="card info-card sales-card">
-                            <div class="filter">
-                                <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                                    <li class="dropdown-header text-start">
-                                        <h6>Filter</h6>
-                                    </li>
-                                    <li><a class="dropdown-item" href="#">Accéder à la liste des transferts</a></li>
-                                </ul>
-                            </div>
-                            <div class="card-body">
-                                <h5 class="card-title">Transferts <span>| actuellement</span></h5>
-                                <div class="d-flex align-items-center">
-                                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                                        <i class="bi bi-cursor-fill"></i>
-                                    </div>
-                                    <div class="ps-3">
-                                        <h6 th:text="${receiptCount}"></h6>
+
+                        <div sec:authorize="hasRole('ROLE_SUPERADMIN')" class="col-xxl-4 col-md-6">
+                            <div class="card info-card sales-card">
+                                <div class="filter">
+                                    <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                                        <li class="dropdown-header text-start">
+                                            <h6>Filter</h6>
+                                        </li>
+                                        <li><a class="dropdown-item" href="#">Accéder à la liste des transferts</a></li>
+                                    </ul>
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">Transferts <span>| actuellement</span></h5>
+                                    <div class="d-flex align-items-center">
+                                        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                            <i class="bi bi-cursor-fill"></i>
+                                        </div>
+                                        <div class="ps-3">
+                                            <h6 th:text="${receiptCount}"></h6>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+
                     <!-- End Sales Card -->
 
                     <!-- Revenue Card -->
@@ -94,11 +111,14 @@
                                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                                         <i class="bi bi-cash"></i>
                                     </div>
-                                    <div class="ps-3">
+                                    <div class="ps-3" sec:authorize="hasRole('ROLE_SUPERADMIN')">
                                         <h6 th:text="${paymentCount}"></h6>
                                         <div th:if="${lastPayment != null}">
                                             <span class="text-success small pt-1 fw-bold">Dernier paiement: </span><span class="text-success small pt-1 fw-bold" th:text="${lastPayment.transactionAmount + 'USD'}"></span> <span class="text-muted small pt-2 ps-1" th:text="${lastPayment.clientName}"></span>
                                         </div>
+                                    </div>
+                                    <div class="ps-3" sec:authorize="hasRole('ROLE_ADMIN')">
+                                        <h6 th:text="${paymentCountPartner}"></h6>
                                     </div>
                                 </div>
                             </div>
@@ -120,12 +140,20 @@
                             </div>
                             <div class="card-body">
                                 <h5 class="card-title">Utilisateurs <span>| actuellement</span></h5>
-                                <div class="d-flex align-items-center">
+                                <div class="d-flex align-items-center" sec:authorize="hasRole('ROLE_SUPERADMIN')">
                                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                                         <i class="bi bi-people"></i>
                                     </div>
                                     <div class="ps-3">
                                         <h6 th:text="${userCount}"></h6>
+                                    </div>
+                                </div>
+                                <div class="d-flex align-items-center" sec:authorize="hasRole('ROLE_ADMIN')">
+                                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                        <i class="bi bi-people"></i>
+                                    </div>
+                                    <div class="ps-3">
+                                        <h6 th:text="${userCountPartner}"></h6>
                                     </div>
                                 </div>
                             </div>
@@ -145,7 +173,7 @@
                             </div>
                             <div class="card-body">
                                 <h5 class="card-title">Stocks <span>| actuellement</span></h5>
-                                <div class="d-flex align-items-center">
+                                <div class="d-flex align-items-center" sec:authorize="hasRole('ROLE_SUPERADMIN')">
                                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                                         <i class="bi bi-wallet"></i>
                                     </div>
@@ -154,173 +182,234 @@
                                         <span class="text-danger small pt-1 fw-bold" th:text="${inactiveStocks}">1</span> <span class="text-muted small pt-2 ps-1">stock(s) inactif(s)</span>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-xxl-4 col-md-6">
-                        <div class="card info-card sales-card">
-                            <div class="filter">
-                                <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                                    <li class="dropdown-header text-start">
-                                        <h6>Filter</h6>
-                                    </li>
-                                    <li><a class="dropdown-item" href="#">Accéder à la liste des partenaires</a></li>
-                                </ul>
-                            </div>
-                            <div class="card-body">
-                                <h5 class="card-title">Partenaires <span>| actuellement</span></h5>
-                                <div class="d-flex align-items-center">
+                                <div class="d-flex align-items-center" sec:authorize="hasRole('ROLE_ADMIN')">
                                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                                        <i class="bi bi-file-earmark-person"></i>
+                                        <i class="bi bi-wallet"></i>
                                     </div>
                                     <div class="ps-3">
-                                        <h6 th:text="${partnerCount}"></h6>
-                                        <span class="text-danger small pt-1 fw-bold" th:text="${inactivePartners}">1</span> <span class="text-muted small pt-2 ps-1">partenaire(s) inactif(s)</span>
+                                        <h6 th:text="${stockCountPartner}"></h6>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="col-xxl-4 col-md-6">
-                        <div class="card info-card sales-card">
-                            <div class="filter">
-                                <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                                    <li class="dropdown-header text-start">
-                                        <h6>Filter</h6>
-                                    </li>
-                                    <li><a class="dropdown-item" href="#">Accéder aux informations de la societe</a></li>
-                                </ul>
-                            </div>
-                            <div class="card-body">
-                                <h5 class="card-title">La societe <span>| actuellement</span></h5>
-                                <div class="d-flex align-items-center">
-                                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                                        <i class="bi bi-bank"></i>
-                                    </div>
-                                    <div class="ps-3">
-                                        <h6>1</h6>
+                        <div sec:authorize="hasRole('ROLE_SUPERADMIN')" class="col-xxl-4 col-md-6">
+                            <div class="card info-card sales-card">
+                                <div class="filter">
+                                    <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                                        <li class="dropdown-header text-start">
+                                            <h6>Filter</h6>
+                                        </li>
+                                        <li><a class="dropdown-item" href="#">Accéder à la liste des partenaires</a></li>
+                                    </ul>
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">Partenaires <span>| actuellement</span></h5>
+                                    <div class="d-flex align-items-center">
+                                        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                            <i class="bi bi-file-earmark-person"></i>
+                                        </div>
+                                        <div class="ps-3">
+                                            <h6 th:text="${partnerCount}"></h6>
+                                            <span class="text-danger small pt-1 fw-bold" th:text="${inactivePartners}">1</span> <span class="text-muted small pt-2 ps-1">partenaire(s) inactif(s)</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    <!-- Recent Sales -->
-                    <div class="col-12">
-                        <div class="card recent-sales overflow-auto">
-                            <div class="filter">
-                                <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                                    <li class="dropdown-header text-start">
-                                        <h6>Filter</h6>
-                                    </li>
-                                    <li><a class="dropdown-item" href="#">Today</a></li>
-                                    <li><a class="dropdown-item" href="#">This Month</a></li>
-                                    <li><a class="dropdown-item" href="#">This Year</a></li>
-                                </ul>
-                            </div>
-                            <div class="card-body">
-                                <h5 class="card-title">Transferts Récents <span></span></h5>
-                                <div th:if="${message}">
-                                    <div class="alert alert-success alert-dismissible fade show" th:text="${message}" role="alert">
-                                        A simple success alert—check it out!
-                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        <div sec:authorize="hasRole('ROLE_SUPERADMIN')" class="col-xxl-4 col-md-6">
+                            <div class="card info-card sales-card">
+                                <div class="filter">
+                                    <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                                        <li class="dropdown-header text-start">
+                                            <h6>Filter</h6>
+                                        </li>
+                                        <li><a class="dropdown-item" href="#">Accéder aux informations de la societe</a></li>
+                                    </ul>
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">La societe <span>| actuellement</span></h5>
+                                    <div class="d-flex align-items-center">
+                                        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                            <i class="bi bi-bank"></i>
+                                        </div>
+                                        <div class="ps-3">
+                                            <h6>1</h6>
+                                        </div>
                                     </div>
                                 </div>
-                                <table class="table table-borderless datatable">
-                                    <thead>
-                                    <tr>
-                                        <th scope="col">Code du transfert</th>
-                                        <th scope="col">Remettant</th>
-                                        <th scope="col">Bénéficiaire</th>
-                                        <th scope="col">Banque Bénéficiaire</th>
-                                        <th scope="col">IBAN</th>
-                                        <th scope="col">Code Swift</th>
-                                        <th scope="col">Montant</th>
-                                        <th scope="col">Devise</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr th:each="tempReceipt : ${receipts}">
-                                        <!--                    <th th:text="${tempReceipt.id}" scope="row"><a href="#"></a></th>-->
-                                        <th scope="row"><a href="#" th:text="${tempReceipt.receiptCode}"></a></th>
-                                        <td th:text="${tempReceipt.society.societyName}"></td>
-                                        <td th:text="${tempReceipt.beneficiary.beneficiaryName}"></td>
-                                        <td th:text="${tempReceipt.beneficiaryBank}"></td>
-                                        <td th:text="${tempReceipt.beneficiaryAccount}"></td>
-                                        <td th:text="${tempReceipt.swift_code}"></td>
-                                        <td th:text="${tempReceipt.amount}"></td>
-                                        <td th:text="${tempReceipt.currency}"></td>
-                                        <!--                    <td><span class="badge bg-success">Approved</span></td>-->
-                                    </tr>
-                                    </tbody>
-                                </table>
                             </div>
                         </div>
-                    </div>
+
+                            <div sec:authorize="hasRole('ROLE_SUPERADMIN')" class="card recent-sales overflow-auto">
+                                <div class="filter">
+                                    <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                                        <li class="dropdown-header text-start">
+                                            <h6>Filter</h6>
+                                        </li>
+                                        <li><a class="dropdown-item" href="#">Today</a></li>
+                                        <li><a class="dropdown-item" href="#">This Month</a></li>
+                                        <li><a class="dropdown-item" href="#">This Year</a></li>
+                                    </ul>
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">Transferts Récents <span></span></h5>
+                                    <div th:if="${message}">
+                                        <div class="alert alert-success alert-dismissible fade show" th:text="${message}" role="alert">
+                                            A simple success alert—check it out!
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                        </div>
+                                    </div>
+                                    <table class="table table-borderless datatable">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col">Code du transfert</th>
+                                            <th scope="col">Remettant</th>
+                                            <th scope="col">Bénéficiaire</th>
+                                            <th scope="col">Banque Bénéficiaire</th>
+                                            <th scope="col">IBAN</th>
+                                            <th scope="col">Code Swift</th>
+                                            <th scope="col">Montant</th>
+                                            <th scope="col">Devise</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr th:each="tempReceipt : ${receipts}">
+                                            <!--                    <th th:text="${tempReceipt.id}" scope="row"><a href="#"></a></th>-->
+                                            <th scope="row"><a href="#" th:text="${tempReceipt.receiptCode}"></a></th>
+                                            <td th:text="${tempReceipt.society.societyName}"></td>
+                                            <td th:text="${tempReceipt.beneficiary.beneficiaryName}"></td>
+                                            <td th:text="${tempReceipt.beneficiaryBank}"></td>
+                                            <td th:text="${tempReceipt.beneficiaryAccount}"></td>
+                                            <td th:text="${tempReceipt.swift_code}"></td>
+                                            <td th:text="${tempReceipt.amount}"></td>
+                                            <td th:text="${tempReceipt.currency}"></td>
+                                            <!--                    <td><span class="badge bg-success">Approved</span></td>-->
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
                     <!-- End Recent Sales -->
 
                     <!-- Recent Sales -->
-                    <div class="col-12">
-                        <div class="card recent-sales overflow-auto">
-                            <div class="filter">
-                                <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                                    <li class="dropdown-header text-start">
-                                        <h6>Filter</h6>
-                                    </li>
-                                    <li><a class="dropdown-item" href="#">Today</a></li>
-                                    <li><a class="dropdown-item" href="#">This Month</a></li>
-                                    <li><a class="dropdown-item" href="#">This Year</a></li>
-                                </ul>
-                            </div>
-                            <div class="card-body">
-                                <h5 class="card-title">Paiements Récents <span></span></h5>
-                                <div th:if="${message}">
-                                    <div class="alert alert-success alert-dismissible fade show" th:text="${message}" role="alert">
-                                        A simple success alert—check it out!
-                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                                    </div>
+                        <div sec:authorize="hasRole('ROLE_SUPERADMIN')" class="col-12">
+                            <div class="card recent-sales overflow-auto">
+                                <div class="filter">
+                                    <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                                        <li class="dropdown-header text-start">
+                                            <h6>Filter</h6>
+                                        </li>
+                                        <li><a class="dropdown-item" href="#">Today</a></li>
+                                        <li><a class="dropdown-item" href="#">This Month</a></li>
+                                        <li><a class="dropdown-item" href="#">This Year</a></li>
+                                    </ul>
                                 </div>
-                                <table class="table table-borderless datatable">
-                                    <thead>
-                                    <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">Reference</th>
-                                        <th scope="col">Date du paiement</th>
-                                        <th scope="col">Nom du client</th>
-                                        <th scope="col">Stock impacte</th>
-                                        <th scope="col">Partenaire</th>
-                                        <th scope="col">Montant</th>
-                                        <th scope="col">Actions</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr th:each="tempPayment, iterStat : ${payments}">
-                                        <th scope="row"><a href="#" th:text="${iterStat.count}"></a></th>
-                                        <td th:text="${tempPayment.referenceTransaction}"></td>
-                                        <td th:text="${tempPayment.transactionDate}"></td>
-                                        <td th:text="${tempPayment.clientName}"></td>
-                                        <td th:text="${tempPayment.stock.stockName}"></td>
-                                        <td th:text="${tempPayment.stock.partner.partnerName}"></td>
-                                        <td th:text="${#numbers.formatDecimal(tempPayment.transactionAmount, 0, 'COMMA', 2, 'POINT')}"></td>
-                                        <td>
-                                            <span><a class="icon" th:href="@{/paymentReportPdf(id=${tempPayment.idTransaction})}" target="_blank"><i class="bi bi-file-earmark-pdf-fill"></i>recu-<span  href="#" th:text="${tempPayment.referenceTransaction}">recu</span></a></span>
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                </table>
+                                <div class="card-body">
+                                    <h5 class="card-title">Paiements Récents <span></span></h5>
+                                    <div th:if="${message}">
+                                        <div class="alert alert-success alert-dismissible fade show" th:text="${message}" role="alert">
+                                            A simple success alert—check it out!
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                        </div>
+                                    </div>
+                                    <table class="table table-borderless datatable">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">Reference</th>
+                                            <th scope="col">Date du paiement</th>
+                                            <th scope="col">Nom du client</th>
+                                            <th scope="col">Stock impacte</th>
+                                            <th scope="col">Partenaire</th>
+                                            <th scope="col">Montant</th>
+                                            <th scope="col">Actions</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr th:each="tempPayment, iterStat : ${payments}">
+                                            <th scope="row"><a href="#" th:text="${iterStat.count}"></a></th>
+                                            <td th:text="${tempPayment.referenceTransaction}"></td>
+                                            <td th:text="${tempPayment.transactionDate}"></td>
+                                            <td th:text="${tempPayment.clientName}"></td>
+                                            <td th:text="${tempPayment.stock.stockName}"></td>
+                                            <td th:text="${tempPayment.stock.partner.partnerName}"></td>
+                                            <td th:text="${#numbers.formatDecimal(tempPayment.transactionAmount, 0, 'COMMA', 2, 'POINT')}"></td>
+                                            <td>
+                                                <span><a class="icon" th:href="@{/paymentReportPdf(id=${tempPayment.idTransaction})}" target="_blank"><i class="bi bi-file-earmark-pdf-fill"></i>recu-<span th:text="${tempPayment.referenceTransaction}">recu</span></a></span>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
-                    </div>
                     <!-- End Recent Sales -->
+
+                <!-- Paiements recents en fonction du Partenaire -->
+                <div sec:authorize="hasRole('ROLE_ADMIN')" class="col-12">
+                    <div class="card recent-sales overflow-auto">
+                        <div class="filter">
+                            <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                                <li class="dropdown-header text-start">
+                                    <h6>Filter</h6>
+                                </li>
+                                <li><a class="dropdown-item" href="#">Today</a></li>
+                                <li><a class="dropdown-item" href="#">This Month</a></li>
+                                <li><a class="dropdown-item" href="#">This Year</a></li>
+                            </ul>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">Paiements Récents <span></span></h5>
+                            <div th:if="${message}">
+                                <div class="alert alert-success alert-dismissible fade show" th:text="${message}" role="alert">
+                                    A simple success alert—check it out!
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            </div>
+                            <table class="table table-borderless datatable">
+                                <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Reference</th>
+                                    <th scope="col">Date du paiement</th>
+                                    <th scope="col">Nom du client</th>
+                                    <th scope="col">Stock impacte</th>
+                                    <th scope="col">Montant</th>
+                                    <th scope="col">Actions</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="tempPayment, iterStat : ${latestPaymentsPartner}">
+                                    <th scope="row"><a href="#" th:text="${iterStat.count}"></a></th>
+                                    <td th:text="${tempPayment.referenceTransaction}"></td>
+                                    <td th:text="${tempPayment.transactionDate}"></td>
+                                    <td th:text="${tempPayment.clientName}"></td>
+                                    <td th:text="${tempPayment.stock.stockName}"></td>
+                                    <td th:text="${#numbers.formatDecimal(tempPayment.transactionAmount, 0, 'COMMA', 2, 'POINT')}"></td>
+                                    <td>
+                                        <span><a class="icon" th:href="@{/paymentReportPdf(id=${tempPayment.idTransaction})}" target="_blank"><i class="bi bi-file-earmark-pdf-fill"></i>recu-<span th:text="${tempPayment.referenceTransaction}">recu</span></a></span>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Paiements recents en fonction du Partenaire -->
+
                 </div>
             </div>
-        </div>
+
     </section>
 
 </main><!-- End #main -->

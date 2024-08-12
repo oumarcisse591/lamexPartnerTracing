@@ -5,13 +5,15 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 public class Stock {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    @GeneratedValue
+    @Column(updatable = false, nullable = false)
+    private UUID id;
 
     @Column(name = "stock_name")
     private String stockName;
@@ -38,6 +40,9 @@ public class Stock {
     @OneToMany(mappedBy = "stock")
     private List<Transaction> transactions;
 
+    @ManyToOne
+    private Guichet guichet;
+
     public Country getCountry() {
         return country;
     }
@@ -62,11 +67,11 @@ public class Stock {
         this.stockDescription = stockDescription;
     }
 
-    public int getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -113,11 +118,11 @@ public class Stock {
     public Stock() {
     }
 
-    public Stock(int id) {
+    public Stock(UUID id) {
         this.id = id;
     }
 
-    public Stock(int id, String stockName, String stockDescription, double balance, Date createdAt, Partner partner, boolean enabled, Country country, List<Transaction> transactions) {
+    public Stock(UUID id, String stockName, String stockDescription, double balance, Date createdAt, Partner partner, boolean enabled, Country country, List<Transaction> transactions) {
         this.id = id;
         this.stockName = stockName;
         this.stockDescription = stockDescription;

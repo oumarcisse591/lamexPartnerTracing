@@ -32,7 +32,7 @@
 </head>
 
 <body>
-<div th:replace="/layouts/header :: header"> </div>
+<div th:insert="~{/layouts/header :: header}"></div>
 <main id="main" class="main">
 
     <div class="pagetitle">
@@ -70,7 +70,7 @@
 
                             <div class="card-body">
                                 <h5 class="card-title"><span><i style="font-size: 50px" class="bi bi-wallet"></i></span></h5>
-                                <div class="col-12">
+                                <div class="col-12" sec:authorize="hasRole('ROLE_SUPERADMIN')">
                                     <a th:href="@{/add-stock}" href="#">
                                         <button class="btn btn-success" type="submit"> + Nouveau Stock</button>
                                     </a>
@@ -87,7 +87,7 @@
                                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                                     </div>
                                 </div>
-                                <table class="table table-borderless datatable">
+                                <table class="table table-borderless datatable" sec:authorize="hasRole('ROLE_ADMIN')">
                                     <thead>
                                     <tr>
                                         <th scope="col">#</th>
@@ -140,6 +140,59 @@
                                     </tbody>
                                 </table>
 
+<!--                                Liste pour le superadmin-->
+
+                                <table class="table table-borderless datatable" sec:authorize="hasRole('ROLE_SUPERADMIN')" >
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Nom du stock</th>
+                                        <th scope="col">Balance USD</th>
+                                        <th scope="col">Balance AED</th>
+                                        <th scope="col">Partenaire</th>
+                                        <th scope="col">Date de creation</th>
+                                        <th scope="col">Status</th>
+                                        <th scope="col">Actions</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="tempStock, iterStat : ${stocks}">
+                                        <div th:if="${tempStock.enabled == true}">
+                                                <th th:text="${iterStat.count}" scope="row"><a href="#"></a></th>
+                                                <td>
+                                                    <a th:href="@{/info-stock(id=${tempStock.id})}">
+                                                        <i class="bi bi-wallet"></i>
+                                                        <span th:text="${tempStock.stockName}"></span>
+                                                    </a>
+                                                </td>
+                                                <td th:text="${#numbers.formatDecimal(tempStock.balance, 0, 'COMMA', 2, 'POINT')}"></td>
+                                                <td th:text="${#numbers.formatDecimal(tempStock.balance*3.67, 0, 'COMMA', 2, 'POINT')}"></td>
+                                                <td th:text="${tempStock.partner.partnerName}"></td>
+                                                <td th:text="${tempStock.createdAt}"></td>
+                                                <td><span class="badge bg-success">Actif</span></td>
+                                                <td>
+                                                 <span>
+                                                    <div class="">
+                                                    <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                                                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                                                      <li class="dropdown-header text-start">
+                                                        <h6>Actions</h6>
+                                                      </li>
+                                                        <div sec:authorize="hasRole('ROLE_ADMIN')">
+                                                            <li><a class="dropdown-item" th:href="@{/info-stock(id=${tempStock.id})}">Information sur le stock</a></li>
+                                                            <!--                                                      <li><a class="dropdown-item" th:href="@{/update-beneficiary(id=${tempStock.id})}">Corriger le stock</a></li>-->
+                                                            <!--                                                        <li><a class="dropdown-item" th:href="@{/delete-beneficiary-page(id=${tempStock.id})}">Transferer le stock</a></li>-->
+                                                   </div>
+                                                      <li><a class="dropdown-item" href="#">Annuler</a></li>
+                                                    </ul>
+                                                  </div>
+                                                </span>
+                                                </td>
+                                            </div>
+                                    </tr>
+                                    </tbody>
+                                </table>
+
                             </div>
 
                         </div>
@@ -178,55 +231,3 @@
 </body>
 
 </html>
-<!--<table class="table">-->
-<!--  <thead>-->
-<!--  <tr>-->
-<!--    <th scope="col">#</th>-->
-<!--    <th scope="col">Code du client</th>-->
-<!--    <th scope="col">Nom</th>-->
-<!--    <th scope="col">Adresse</th>-->
-<!--    <th scope="col">Banque</th>-->
-<!--    <th scope="col">Numero de compte</th>-->
-<!--    <th scope="col">Actions</th>-->
-<!--  </tr>-->
-<!--  </thead>-->
-<!--  <tbody>-->
-<!--  <tr th:each="tempClient : ${clients}">-->
-<!--    <th th:text="${tempClient.id}" scope="row"></th>-->
-<!--    <td th:text="${tempClient.codeClient}"></td>-->
-<!--    <td th:text="${tempClient.nom}"></td>-->
-<!--    <td th:text="${tempClient.adresse}"></td>-->
-<!--    <td th:text="${tempClient.banque}"></td>-->
-<!--    <td th:text="${tempClient.numeroDeCompte}"></td>-->
-<!--    <td>-->
-<!--      <a th:href="@{/update-user(id=${tempClient.id})}">-->
-<!--        <button  class="btn btn-primary">Update</button>-->
-<!--      </a>-->
-<!--      <a  th:href="@{/delete-user(id=${tempClient.id})}"-->
-<!--          onclick="if (!(confirm('Are you sure you want to delete?'))) return false">-->
-<!--        <button class="btn btn-danger">Delete</button>-->
-<!--      </a>-->
-<!--      <div class="modal fade" id="basicModal" tabindex="-1">-->
-<!--        <div class="modal-dialog">-->
-<!--          <div class="modal-content">-->
-<!--            <div class="modal-header">-->
-<!--              <h5 class="modal-title">Suppression d'une session</h5>-->
-<!--              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>-->
-<!--            </div>-->
-<!--            <div class="modal-body">-->
-<!--              Vous etes sur le point de supprimer l'utilisateur <p th:text="${tempUser.userName}"></p>. cela supprimera toute la session et entrainera ainsi la suppression du tableau-->
-<!--            </div>-->
-<!--            <div class="modal-footer">-->
-<!--              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>-->
-<!--              <a th:href="@{/delete-user(id=${tempUser.id})}">-->
-<!--                <button type="button" class="btn btn-danger">Supprimer la session</button>-->
-<!--              </a>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--    </td>-->
-<!--  </tr>-->
-<!--  </tbody>-->
-<!--</table>-->
-<!--&lt;!&ndash; End Default Table Example &ndash;&gt;-->

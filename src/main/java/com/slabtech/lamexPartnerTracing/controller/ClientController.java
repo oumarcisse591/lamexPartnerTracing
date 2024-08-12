@@ -23,7 +23,6 @@ public class ClientController {
 
     private ClientDao clientDao;
 
-
 //    JavaMailSender javaMailSender;
 
 //    Configuration configuration;

@@ -1,202 +1,349 @@
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Info sur le Stock</title>
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns="http://www.w3.org/1999/html" lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <title>Info sur le Stock</title>
 
-  <!-- Favicons -->
-  <link href="assets/img/favicon.png" rel="icon">
-  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+      <!-- Favicons -->
+      <link href="assets/img/favicon.png" rel="icon">
+      <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 
-  <!-- Google Fonts -->
-  <link href="https://fonts.gstatic.com" rel="preconnect">
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+      <!-- Google Fonts -->
+      <link href="https://fonts.gstatic.com" rel="preconnect">
+      <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
 
-  <!-- Vendor CSS Files -->
-  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-  <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
-  <link href="assets/vendor/quill/quill.snow.css" rel="stylesheet">
-  <link href="assets/vendor/quill/quill.bubble.css" rel="stylesheet">
-  <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
-  <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
+      <!-- Vendor CSS Files -->
+      <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+      <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+      <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+      <link href="assets/vendor/quill/quill.snow.css" rel="stylesheet">
+      <link href="assets/vendor/quill/quill.bubble.css" rel="stylesheet">
+      <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+      <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
 
-  <!-- Template Main CSS File -->
-  <link href="assets/css/style.css" rel="stylesheet">
-</head>
-<body>
-<div th:replace="/layouts/header :: header"> </div>
-<main id="main" class="main">
-  <div class="pagetitle">
-    <h1>Information sur le stock</h1>
-    <nav>
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-        <li class="breadcrumb-item">Stock</li>
-        <li class="breadcrumb-item active"></li>
-      </ol>
-    </nav>
-  </div><!-- End Page Title -->
-  <section class="section">
-    <div class="row">
-      <div class="col-lg-12">
-
-        <div class="card">
-          <div class="card-body">
-            <h5 class="card-title"><span><i style="font-size: 50px" class="bi bi-wallet"></i></span></h5>
-            <h5 class="card-title">Information sur le stock</h5>
-            <!-- General Form Elements -->
-            <div th:object="${theStock}" method="POST" class="row g-3">
-              <div class="col-md-12">
-                <input type="hidden" th:field="*{id}" name="id" class="form-control" id="validationDefault01"
-                       required>
-                <label for="validationDefault01" class="form-label">
-                  Nom du Stock :
-                  <span type="text" th:text="*{stockName}" style="font-weight:bold"></span>
-                  <span class="badge rounded-pill bg-success">Actif</span>
-                </label><br>
-                <label for="validationDefault01" class="form-label">Description : <span th:text="*{stockDescription}" style="font-weight:bold"></span></label><br>
-                <label for="validationDefault01" class="form-label">Créé le : <span th:text="*{createdAt}" style="font-weight:bold"></span></label><br>
-                <label for="validationDefault01" class="form-label">Partenaire Titulaire du Stock : <span th:text="*{partner.partnerName}" style="font-weight:bold"></span></label><br><br>
-<!--                <label for="validationDefault01" class="form-label">Stock Actuel : <span th:text="*{#numbers.formatDecimal(balance, 0, 'COMMA', 2, 'POINT')}" style="font-weight:bold"></span><span>USD</span></sp></label><br>-->
-                  <label for="validationDefault01" class="form-label">Stock Actuel : <span th:text="${#numbers.formatDecimal(stockBalance, 0, 'COMMA', 2, 'POINT')}" style="font-weight:bold"></span><span>USD</span></sp></label><br>
-<!--                  <label for="validationDefault01" class="form-label">Dernier Mouvement : <span style="font-weight:bold"></span><span></span></sp></label><br>-->
-              </div>
-              <div class="col-12">
-                  <a th:href="@{/add-recharge(id=${theStock.id})}">
-                      <button class="btn btn-primary" type="submit">Recharger le stock du partenaire</button>
-                  </a>
-                <a th:href="@{/add-movement(id=${theStock.id})}">
-                  <button class="btn btn-warning" type="submit">Corriger le stock</button>
-                </a>
-                  <a th:href="@{/modify-stockInfo(id=${theStock.id})}">
-                      <button class="btn btn-info" type="submit">Modifier les informations du stock</button>
-                  </a>
-              </div>
-              <div class="card-body">
-                <h5 class="card-title">Récentes transactions sur le stock <span th:text="*{stockName}"></span></h5>
-                <div style="margin-top:15px;"></div>
-
-                <table class="table table-borderless datatable">
-                  <thead>
-                  <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Reference</th>
-                    <th scope="col">Date du mouvement</th>
-                      <th scope="col">Montant (USD)</th>
-                    <th scope="col">Montant Equivalent en AED</th>
-                    <th scope="col">Type</th>
-                    <th scope="col">Raison</th>
-                    <th scope="col">Actions</th>
-                  </tr>
-                  </thead>
-                  <tbody>
-                  <tr th:each="tempTransaction, iterStat : ${transactions}">
-
-                        <th th:text="${iterStat.count}" scope="row"><a href="#"></a></th>
-                        <td>
-                          <a>
-                            <i class="bi bi-wallet"></i>
-                            <span th:text="${tempTransaction.referenceTransaction}"></span>
+      <!-- Template Main CSS File -->
+      <link href="assets/css/style.css" rel="stylesheet">
+    </head>
+    <body>
+    <div th:insert="~{/layouts/header :: header}"></div>
+        <main id="main" class="main">
+          <div class="pagetitle">
+            <h1>Information sur le stock</h1>
+            <nav>
+              <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                <li class="breadcrumb-item">Stock</li>
+                <li class="breadcrumb-item active"></li>
+              </ol>
+            </nav>
+          </div><!-- End Page Title -->
+          <section class="section">
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="card">
+                  <div class="card-body">
+                    <h5 class="card-title">
+                        <span><i style="font-size: 50px" class="bi bi-wallet"></i></span>
+                    </h5>
+                    <h5 class="card-title">Information sur le stock</h5>
+                    <!-- General Form Elements -->
+                    <div
+                            th:object="${theStock}"
+                            method="POST"
+                            class="row g-3">
+                      <div class="col-md-12">
+                        <input
+                                type="hidden"
+                                th:field="*{id}"
+                                name="id"
+                                class="form-control"
+                                id="validationDefault01"
+                               required
+                        >
+                        <label
+                                for="validationDefault01"
+                                class="form-label"
+                        >
+                          Nom du Stock :
+                          <span
+                                  type="text"
+                                  th:text="*{stockName}"
+                                  style="font-weight:bold"
+                          ></span>
+                          <span class="badge rounded-pill bg-success">Actif</span>
+                        </label><br>
+                        <label
+                                for="validationDefault01"
+                                class="form-label"
+                        >
+                            Description :
+                            <span
+                                    th:text="*{stockDescription}"
+                                    style="font-weight:bold"
+                            ></span>
+                        </label><br>
+                        <label
+                                for="validationDefault01"
+                                class="form-label"
+                        >
+                            Créé le :
+                            <span
+                                    th:text="*{createdAt}"
+                                    style="font-weight:bold"
+                            ></span>
+                        </label><br>
+                        <label
+                                for="validationDefault01"
+                                class="form-label"
+                        >
+                            Partenaire Titulaire du Stock :
+                            <span
+                                    th:text="*{partner.partnerName}"
+                                  style="font-weight:bold"
+                            ></span>
+                        </label><br><br>
+                          <label
+                                  for="validationDefault01"
+                                  class="form-label"
+                          >
+                              Stock Actuel :
+                              <span
+                                      th:text="${#numbers.formatDecimal(stockBalance, 0, 'COMMA', 2, 'POINT')}"
+                                      style="font-weight:bold"
+                              >
+                              </span><span>
+                              USD</span>
+                          </label><br>
+                      </div>
+                      <div class="col-12">
+                          <a th:href="@{/add-recharge(id=${theStock.id})}" sec:authorize="hasRole('ROLE_SUPERADMIN')">
+                              <button
+                                      class="btn btn-primary"
+                                      type="submit"
+                              >
+                                  Recharger le stock du partenaire
+                              </button>
                           </a>
-                        </td>
-                        <td th:text="${tempTransaction.transactionDate}"></td>
-
-<!--                      Affichage des montants des transactions en USD-->
-                        <div th:if="${tempTransaction.transactionType == 'credit'}">
-                            <td ><span style="color: green">+</span><span th:text="${#numbers.formatDecimal(tempTransaction.transactionAmount, 0, 'COMMA', 2, 'POINT')}"></span></td>
-                        </div>
-                        <div th:if="${tempTransaction.transactionType == 'debit'}">
-                            <td><span style="color: red">-</span><span style="color: red" th:text="${#numbers.formatDecimal(tempTransaction.transactionAmount, 0, 'COMMA', 2, 'POINT')}"></span></td>
-                        </div>
-                      <div th:if="${tempTransaction.transactionType == 'recharge'}">
-                          <td ><span style="color: green">+</span><span th:text="${#numbers.formatDecimal(tempTransaction.transactionAmount, 0, 'COMMA', 2, 'POINT')}"></span></td>
+                        <a th:href="@{/add-movement(id=${theStock.id})}" sec:authorize="hasRole('ROLE_SUPERADMIN')">
+                          <button
+                                  class="btn btn-warning"
+                                  type="submit"
+                          >
+                              Corriger le stock
+                          </button>
+                        </a>
+                          <a th:href="@{/modify-stockInfo(id=${theStock.id})}" sec:authorize="hasAnyRole('ROLE_SUPERADMIN', 'ROLE_ADMIN')">
+                              <button
+                                      class="btn btn-info"
+                                      type="submit"
+                              >
+                                  Modifier les informations du stock
+                              </button>
+                          </a>
+                          <a th:href="@{/mouvementReportPdf(id=${theStock.id})}" sec:authorize="hasAnyRole('ROLE_SUPERADMIN', 'ROLE_ADMIN')">
+                              <button
+                                      class="btn btn-info"
+                                      type="submit"
+                              >
+                                  Télécharger la liste des mouvements
+                              </button>
+                          </a>
                       </div>
+                      <div class="card-body">
+                        <h5 class="card-title">
+                            Récentes transactions sur le stock
+                            <span th:text="*{stockName}"></span>
+                        </h5>
+                        <div style="margin-top:15px;"></div>
+                        <table class="table table-borderless datatable">
+                          <thead>
+                          <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Reference</th>
+                            <th scope="col">Date du mouvement</th>
+                              <th scope="col">Montant (USD)</th>
+                            <th scope="col">Montant Equivalent en AED</th>
+                            <th scope="col">Type</th>
+                            <th scope="col">Raison</th>
+                            <th scope="col">Actions</th>
+                          </tr>
+                          </thead>
+                          <tbody>
+                          <tr th:each="tempTransaction, iterStat : ${transactions}">
+                                <th
+                                        th:text="${iterStat.count}"
+                                        scope="row"
+                                >
+                                    <a href="#"></a>
+                                </th>
+                                <td>
+                                  <a>
+                                    <i class="bi bi-wallet"></i>
+                                    <span th:text="${tempTransaction.referenceTransaction}"></span>
+                                  </a>
+                                </td>
+                                <td th:text="${tempTransaction.transactionDate}"></td>
 
-<!--                      Affichage des montants des transactions en AED-->
-                      <div th:if="${tempTransaction.transactionType == 'credit'}">
-                          <td ><span style="color: green">+</span><span th:text="${#numbers.formatDecimal(tempTransaction.transactionAmount * 3.67 , 0, 'COMMA', 2, 'POINT')}"></span></td>
-                      </div>
-                      <div th:if="${tempTransaction.transactionType == 'debit'}">
-                          <td><span style="color: red">-</span><span style="color: red" th:text="${#numbers.formatDecimal(tempTransaction.transactionAmount * 3.67 , 0, 'COMMA', 2, 'POINT')}"></span></td>
-                      </div>
-                      <div th:if="${tempTransaction.transactionType == 'recharge'}">
-                          <td ><span style="color: green">+</span><span th:text="${#numbers.formatDecimal(tempTransaction.transactionAmount * 3.67 , 0, 'COMMA', 2, 'POINT')}"></span></td>
-                      </div>
+                                <!-- Affichage des montants des transactions en USD-->
+                                <!-- Quand la transaction est de type credit le style est vert et neutre -->
+                                <div th:if="${tempTransaction.transactionType == 'credit'}">
+                                    <td>
+                                        <span style="color: green">
+                                            +
+                                        </span>
+                                        <span th:text="${#numbers.formatDecimal(tempTransaction.transactionAmount, 0, 'COMMA', 2, 'POINT')}"></span>
+                                    </td>
+                                </div>
+                              <!-- Quand la transaction est de type debit le style est rouge -->
+                                <div th:if="${tempTransaction.transactionType == 'debit'}">
+                                    <td>
+                                        <span style="color: red">
+                                            -
+                                        </span>
+                                        <span
+                                                style="color: red"
+                                                th:text="${#numbers.formatDecimal(tempTransaction.transactionAmount, 0, 'COMMA', 2, 'POINT')}"
+                                        ></span>
+                                    </td>
+                                </div>
+                              <!-- Quand la transaction est de type recharge le style est vert et neutre -->
+                              <div th:if="${tempTransaction.transactionType == 'recharge'}">
+                                  <td>
+                                      <span style="color: green">
+                                          +
+                                      </span>
+                                      <span th:text="${#numbers.formatDecimal(tempTransaction.transactionAmount, 0, 'COMMA', 2, 'POINT')}"></span>
+                                  </td>
+                              </div>
 
-                        <div th:if="${tempTransaction.transactionType == 'credit'}">
-                          <td><span th:text="${tempTransaction.transactionType}" class="badge bg-success">credit</span></td>
-                        </div>
-                      <div th:if="${tempTransaction.transactionType == 'recharge'}">
-                          <td><span th:text="${tempTransaction.transactionType}" class="badge bg-success">credit</span></td>
-                      </div>
-                        <div th:if="${tempTransaction.transactionType == 'debit'}">
-                          <td><span th:text="${tempTransaction.transactionType}" class="badge bg-danger">credit</span></td>
-                        </div>
-                        <td th:text="${tempTransaction.reason}"></td>
-                        <td>
-                          <span>
-                                                    <div class="">
-                                                    <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                                                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                                                      <li class="dropdown-header text-start">
-                                                        <h6>Actions</h6>
-                                                      </li>
-                                                        <div sec:authorize="hasRole('ROLE_ADMIN')">
-                                                            <div th:if="${tempTransaction.transactionType == 'recharge'}">
-                                                                <li><a class="dropdown-item" th:href="@{/rechargeReportPdf(id=${tempTransaction.idTransaction})}">imprimer le mouvement</a></li>
-                                                            </div>
-                                                        </div>
-                                                        <div sec:authorize="hasRole('ROLE_ADMIN')">
-                                                            <div th:if="${tempTransaction.transactionType == 'debit'}">
-                                                                <li><a class="dropdown-item" th:href="@{/paymentReportPdf(id=${tempTransaction.idTransaction})}">imprimer le mouvement</a></li>
-                                                            </div>
-                                                        </div>
-                                                      <li><a class="dropdown-item" href="#">Annuler</a></li>
-                                                    </ul>
-                                                  </div>
-                          </span>
-                        </td>
+                              <!-- Affichage des montants des transactions en AED-->
+                              <div th:if="${tempTransaction.transactionType == 'credit'}">
+                                  <td>
+                                      <span style="color: green">
+                                          +
+                                      </span>
+                                      <span th:text="${#numbers.formatDecimal(tempTransaction.transactionAmount * 3.67 , 0, 'COMMA', 2, 'POINT')}"></span>
+                                  </td>
+                              </div>
+                              <div th:if="${tempTransaction.transactionType == 'debit'}">
+                                  <td>
+                                      <span style="color: red">
+                                          -
+                                      </span>
+                                      <span
+                                              style="color: red"
+                                              th:text="${#numbers.formatDecimal(tempTransaction.transactionAmount * 3.67 , 0, 'COMMA', 2, 'POINT')}"
+                                      ></span>
+                                  </td>
+                              </div>
+                              <div th:if="${tempTransaction.transactionType == 'recharge'}">
+                                  <td>
+                                      <span style="color: green">
+                                          +
+                                      </span>
+                                      <span th:text="${#numbers.formatDecimal(tempTransaction.transactionAmount * 3.67 , 0, 'COMMA', 2, 'POINT')}"></span>
+                                  </td>
+                              </div>
+                                <div th:if="${tempTransaction.transactionType == 'credit'}">
+                                  <td>
+                                      <span
+                                              th:text="${tempTransaction.transactionType}"
+                                              class="badge bg-success"
+                                      >
+                                          credit
+                                      </span>
+                                  </td>
+                                </div>
+                              <div th:if="${tempTransaction.transactionType == 'recharge'}">
+                                  <td>
+                                      <span
+                                              th:text="${tempTransaction.transactionType}"
+                                              class="badge bg-success"
+                                      >
+                                          credit
+                                      </span>
+                                  </td>
+                              </div>
+                              <div th:if="${tempTransaction.transactionType == 'debit'}">
+                                  <td>
+                                      <span
+                                              th:text="${tempTransaction.transactionType}"
+                                              class="badge bg-danger"
+                                      >
+                                          credit
+                                      </span>
+                                  </td>
+                              </div>
+                                <td th:text="${tempTransaction.reason}"></td>
+                                <td>
+                                  <span>
+                                        <div class="">
+                                         <a
+                                                 class="icon"
+                                                 href="#"
+                                                 data-bs-toggle="dropdown"
+                                         >
+                                             <i class="bi bi-three-dots"></i>
+                                         </a>
+                                            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                                               <li class="dropdown-header text-start">
+                                                   <h6>Actions</h6>
+                                               </li>
+                                                <div sec:authorize="hasRole('ROLE_ADMIN')">
+                                                    <div th:if="${tempTransaction.transactionType == 'recharge'}">
+                                                        <li>
+                                                            <a
+                                                                    class="dropdown-item"
+                                                                    th:href="@{/rechargeReportPdf(id=${tempTransaction.idTransaction})}"
+                                                            >
+                                                                imprimer le mouvement
+                                                            </a>
+                                                        </li>
+                                                    </div>
+                                                </div>
+                                                <div sec:authorize="hasRole('ROLE_ADMIN')">
+                                                    <div th:if="${tempTransaction.transactionType == 'debit'}">
+                                                        <li>
+                                                            <a
+                                                                    class="dropdown-item"
+                                                                    th:href="@{/paymentReportPdf(id=${tempTransaction.idTransaction})}"
+                                                            >
+                                                                imprimer le mouvement
+                                                            </a>
+                                                        </li>
+                                                    </div>
+                                                </div>
+                                                <li><a class="dropdown-item" href="#">Annuler</a></li>
+                                            </ul>
+                                        </div>
+                                  </span>
+                                </td>
 
 
-                  </tr>
-                  </tbody>
-                </table>
+                          </tr>
+                          </tbody>
+                        </table>
+                    </div>
+                    </div>
+
+                  </div>
+                </div>
+
+              </div>
             </div>
-            </div>
+          </section>
+        </main>
 
-          </div>
-        </div>
+        <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
+        <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="assets/vendor/chart.js/chart.umd.js"></script>
+        <script src="assets/vendor/echarts/echarts.min.js"></script>
+        <script src="assets/vendor/quill/quill.min.js"></script>
+        <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
+        <script src="assets/vendor/tinymce/tinymce.min.js"></script>
+        <script src="assets/vendor/php-email-form/validate.js"></script>
 
-      </div>
-    </div>
-  </section>
-</main>
-
-<script>
-  // This function will hash the password using bcrypt.
-  function hashPassword(password) {
-    const salt = bcrypt.genSaltSync(10);
-    const hashedPassword = bcrypt.hashSync(password, salt);
-    return hashedPassword;
-  }
-
-  // This function will validate the password against the hashed password.
-  function validatePassword(password, hashedPassword) {
-    return bcrypt.compareSync(password, hashedPassword);
-  }
-</script>
-
-<script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
-<script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="assets/vendor/chart.js/chart.umd.js"></script>
-<script src="assets/vendor/echarts/echarts.min.js"></script>
-<script src="assets/vendor/quill/quill.min.js"></script>
-<script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
-<script src="assets/vendor/tinymce/tinymce.min.js"></script>
-<script src="assets/vendor/php-email-form/validate.js"></script>
-
-<!-- Template Main JS File -->
-<script src="assets/js/main.js"></script>
-</body>
+        <!-- Template Main JS File -->
+        <script src="assets/js/main.js"></script>
+    </body>
 </html>

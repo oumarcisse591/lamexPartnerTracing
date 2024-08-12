@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -27,6 +28,11 @@ public class UserController {
         return "user/list-user";
     }
 
+    @GetMapping("/list-user-partner")
+    public String listUserPartner(Model theModel){
+        return "";
+    }
+
     @GetMapping("/add-user")
     public String addUser(Model theModel){
         User theUser = new User();
@@ -35,10 +41,29 @@ public class UserController {
     }
 
     @PostMapping("/create-user")
-    public String saveUser(@ModelAttribute("user") User theUser){
+    public String saveUser(@ModelAttribute("user") User theUser, RedirectAttributes redirectAttributes) {
+        // Vérifier si le nom d'utilisateur existe déjà
+        User existingUser = userDao.findByUserName(theUser.getUserName());
+
+        if (existingUser != null) {
+            // Si le nom d'utilisateur existe, ajouter un message d'erreur
+            redirectAttributes.addFlashAttribute("errorMessage", "Le nom d'utilisateur existe déjà. Veuillez en choisir un autre.");
+            return "redirect:/add-user"; // Rediriger vers la page de création d'utilisateur
+        }
+
+        // Si le nom d'utilisateur n'existe pas, enregistrer l'utilisateur
         userDao.saveUser(theUser);
+        redirectAttributes.addFlashAttribute("successMessage", "Utilisateur créé avec succès.");
         return "redirect:/list-user";
     }
+
+    @PostMapping("/save-user")
+    public String saveUpdatedUser(@ModelAttribute("user") User theUser, RedirectAttributes redirectAttributes) {
+        userDao.saveUser(theUser);
+        redirectAttributes.addFlashAttribute("successMessage", "Utilisateur créé avec succès.");
+        return "redirect:/list-user";
+    }
+
 
     @GetMapping("/update-user")
     public String updateUser(@RequestParam("id") int theId, Model theModel){

@@ -1,6 +1,9 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en">
+<html
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+        lang="en"
+>
 <head>
   <meta charset="UTF-8">
   <title>Faire un paiement</title>
@@ -34,176 +37,257 @@
   </style>
 </head>
 <body>
-<div th:replace="/layouts/header :: header"> </div>
-<main id="main" class="main">
-
-  <div class="pagetitle">
-    <h1>Paiement</h1>
-    <nav>
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-        <li class="breadcrumb-item">Paiement</li>
-      </ol>
-    </nav>
-  </div><!-- End Page Title -->
-  <form action="#" id="" th:action="@{/save-payment}" th:object="${payment}" method="POST" enctype="multipart/form-data">
-    <section class="section">
-      <div class="row">
-        <div class="col-lg-12">
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">Stock du partenaire :</h5>
-              <div th:if="${error}">
-                <div class="alert alert-danger alert-dismissible fade show" th:text="${error}" role="alert">
-                  A simple success alert—check it out!
-                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-              </div>
-              <select th:field="*{stock.id}" id="inputState" class="form-select">
-                <div th:each="tempStock, iterStat : ${stocks}">
-                  <div th:if="${tempStock.partner.enabled}">
-                    <option th:text="${tempStock.stockName} + ' - ' + ${#numbers.formatDecimal(stockBalances[tempStock.id], 0, 'COMMA', 2, 'POINT')}"
-                            th:value="${tempStock.id}"
-                            th:selected="${iterStat.index == 0}">
-                    </option>
+  <div th:insert="~{/layouts/header :: header}"></div>
+  <main id="main" class="main">
+    <div class="pagetitle">
+      <h1>Paiement</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a href="index.html">Home</a>
+          </li>
+          <li class="breadcrumb-item">Paiement</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+    <form
+            action="#"
+            th:action="@{/save-payment}"
+            th:object="${payment}"
+            method="POST"
+            enctype="multipart/form-data"
+    >
+      <section class="section">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="card">
+              <div class="card-body">
+                <!-- Message en cas d'erreur -->
+                <div th:if="${error}">
+                  <div
+                          class="alert alert-danger alert-dismissible fade show"
+                          th:text="${error}"
+                          role="alert">
+                    <button
+                            type="button"
+                            class="btn-close"
+                            data-bs-dismiss="alert"
+                            aria-label="Close"
+                    >
+                    </button>
                   </div>
                 </div>
-              </select>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-12">
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">Le Client :</h5>
-              <label for="validationDefault01" class="form-label">Nom complet du client :</label>
-              <input type="text" th:field="*{clientName}"  name="client_name" class="form-control" id="validationDefault01"
-                     required>
-              <label for="validationDefault01" class="form-label">Adresse du client et ou Numero de telephone :</label>
-              <input type="text" th:field="*{clientAddress}" name="client_address" class="form-control" id="validationDefault01"
-                     >
-              <label for="validationDefault01" class="form-label">CNI / Passeport No :</label>
-              <input type="text" th:field="*{clientIdCard}" name="client_id_card" class="form-control" id="validationDefault02"
-                     >
-              <label for="validationDefault01" class="form-label">Televersez la photo de la CNI ou du passeport:</label>
-              <input type="file" name="image" accept="image/*" class="form-control" id="validationDefault02"
-              >
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-12">
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">Détails de la transaction</h5>
-              <label for="validationDefault01" class="form-label">Montant en USD :</label>
-              <input type="text" th:field="*{transactionAmount}" name="transaction_amount" class="form-control" id="inputNumber" oninput="multiplyByThree()"
-                     required>
-<!--              <input type="number" id="inputNumber" oninput="multiplyByThree()">-->
-              <div class="alert alert-success alert-dismissible fade show" th:text="${message}" role="alert" id="result" style="margin-top:5px">
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-              </div>
-              <label for="validationDefault01" class="form-label">En quelle devise souhaitez vous faire le paiement?</label>
-              <select th:field="*{currencyPayment}" class="form-select" aria-label="Default select example">
-                <option th:field="*{currencyPayment}" th:value="USD">USD</option>
-                <option th:field="*{currencyPayment}" th:value="AED">AED</option>
-              </select>
-              <div class="col-sm-12">
-                <label for="validationDefault01" class="form-label">Entrez une remarque sur ce paiement</label>
-                <textarea class="form-control" th:field="*{remark}" name="remark" style="height: 100px"></textarea>
-              </div>
-
-<!--              <label for="validationDefault01" class="form-label">Devise :</label>-->
-<!--              <select name="currency" id="inputState" class="form-select">-->
-<!--                <option th:value="AED" >The United Arab Emirates dirham - AED</option>-->
-<!--              </select>-->
-              <label for="validationDefault01" class="form-label">Signature du payeur ou du guichetier</label>
-              <div id="signature-pad">
-                <canvas></canvas>
-              </div>
-              <div style="margin-top: 5px;">
-                <button class="btn" type="button" id="clear">Effacer la signature</button>
-                <input type="hidden" name="signature_agent" id="signature">
+                <!-- Fin Message en cas d'erreur -->
+                <h5 class="card-title">Stock :</h5>
+                <select
+                        th:field="*{stock.id}"
+                        id="inputState"
+                        class="form-select"
+                >
+                  <div th:each="tempStock, iterStat : ${stocks}">
+                    <div th:if="${tempStock.partner.enabled}">
+                      <option th:text="${tempStock.stockName} + ' - ' + ${#numbers.formatDecimal(stockBalances[tempStock.id], 0, 'COMMA', 2, 'POINT')}"
+                              th:value="${tempStock.id}"
+                              th:selected="${iterStat.index == 0}"
+                      >
+                      </option>
+                    </div>
+                  </div>
+                </select>
               </div>
             </div>
           </div>
+          <div class="col-lg-12">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Le Client :</h5>
+                <label
+                        for="validationDefault01"
+                        class="form-label"
+                >
+                  Nom complet du client :
+                </label>
+                <input
+                        type="text"
+                        th:field="*{clientName}"
+                        name="client_name"
+                        class="form-control"
+                        id="validationDefault01"
+                       required
+                >
+                <label
+                        for="validationDefault01"
+                        class="form-label"
+                >
+                  Adresse du client et ou Numero de telephone :
+                </label>
+                <input
+                        type="text"
+                        th:field="*{clientAddress}"
+                        name="client_address"
+                        class="form-control"
+                        id="validationDefault02"
+                       >
+                <label
+                        for="validationDefault01"
+                        class="form-label"
+                >
+                  CNI / Passeport No :
+                </label>
+                <input
+                        type="text"
+                        th:field="*{clientIdCard}"
+                        name="client_id_card"
+                        class="form-control"
+                        id="validationDefault03"
+                >
+                <label
+                        for="validationDefault01"
+                        class="form-label"
+                >
+                  Televersez la photo de la CNI ou du passeport:
+                </label>
+                <input
+                        type="file"
+                        name="image"
+                        accept="image/*"
+                        class="form-control"
+                        id="validationDefault04"
+                >
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-12">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Détails de la transaction</h5>
+                <label
+                        for="validationDefault01"
+                        class="form-label"
+                >
+                  En quelle devise souhaitez vous faire le paiement?
+                </label>
+                <select
+                        th:field="*{currencyPayment}"
+                        class="form-select"
+                        aria-label="Default select example"
+                        id="currencySelect"
+                        onchange="convertCurrency()"
+                >
+                  <option
+                          th:field="*{currencyPayment}"
+                          th:value="USD"
+                          value="USD"
+                  >
+                    USD
+                  </option>
+                  <option
+                          th:field="*{currencyPayment}"
+                          th:value="AED"
+                          value="AED"
+                  >
+                    AED
+                  </option>
+                </select>
+                <label
+                        for="validationDefault01"
+                        class="form-label"
+                >
+                  Montant :
+                </label>
+                <input
+                        type="text"
+                        th:field="*{transactionAmount}"
+                        name="transaction_amount"
+                        class="form-control"
+                        id="transactionAmount"
+                        oninput="convertCurrency()"
+                       required
+                >
+                <!-- Affiche la conversion du dollar en AED en instantanee -->
+                <div
+                        class="alert alert-success alert-dismissible fade show"
+                        th:text="${message}"
+                        role="alert"
+                        id="result"
+                        style="margin-top:5px"
+                >
+                  <button
+                          type="button"
+                          class="btn-close"
+                          data-bs-dismiss="alert"
+                          aria-label="Close"
+                  >
+                  </button>
+                </div>
+                <!-- Fin Affiche la conversion du dollar en AED en instantanee -->
+
+                <div class="col-sm-12">
+                  <label
+                          for="validationDefault01"
+                          class="form-label"
+                  >
+                    Entrez une remarque sur ce paiement
+                  </label>
+                  <textarea
+                          class="form-control"
+                          th:field="*{remark}"
+                          name="remark"
+                          style="height: 100px"
+                  >
+                  </textarea>
+                </div>
+                <label
+                        for="validationDefault01"
+                        class="form-label"
+                >
+                  Signature du payeur ou du guichetier
+                </label>
+                <div id="signature-pad">
+                  <canvas></canvas>
+                </div>
+                <div style="margin-top: 5px;">
+                  <button
+                          class="btn"
+                          type="button"
+                          id="clear"
+                  >
+                    Effacer la signature
+                  </button>
+                  <input
+                          type="hidden"
+                          name="signature_agent"
+                          id="signature"
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
-      <div class="">
-        <button id="save" class="btn btn-primary" type="submit">Valider</button>
-      </div>
-    </section>
-  </form>
+        <div class="">
+          <button
+                  id="save"
+                  class="btn btn-primary"
+                  type="submit"
+          >
+            Valider
+          </button>
+        </div>
+      </section>
+    </form>
 
-  <script>
-    function multiplyByThree() {
-      // Récupérer la valeur du champ input
-      var inputValue = document.getElementById("inputNumber").value;
+    <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
+    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/vendor/chart.js/chart.umd.js"></script>
+    <script src="assets/vendor/echarts/echarts.min.js"></script>
+    <script src="assets/vendor/quill/quill.min.js"></script>
+    <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
+    <script src="assets/vendor/tinymce/tinymce.min.js"></script>
+    <script src="assets/vendor/php-email-form/validate.js"></script>
 
-      // Vérifier si l'entrée est un nombre valide
-      if (!isNaN(inputValue)) {
-        // Multiplier la valeur par 3
-        var result = parseFloat(inputValue) * 3.67;
-
-        // Afficher le résultat dans un élément HTML
-        document.getElementById("result").textContent = "L'equivalence en AED est " + result;
-      } else {
-        // Afficher un message d'erreur si l'entrée n'est pas un nombre valide
-        document.getElementById("result").textContent = "Veuillez saisir un nombre valide";
-      }
-    }
-  </script>
-  <script>
-    document.getElementById('paymentForm').addEventListener('submit', function(event) {
-        event.preventDefault(); // Empêche la soumission par défaut
-
-        var form = document.getElementById('paymentForm');
-        var formData = new FormData(form);
-
-        fetch('/submit-payment', {
-            method: 'POST',
-            body: formData
-        })
-        .then(response => {
-            if (response.ok) {
-                console.log('Payment submitted successfully');
-            } else {
-                console.log('Error submitting payment');
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
-    });
-  </script>
-  <script>
-    var canvas = document.querySelector("canvas");
-    var signaturePad = new SignaturePad(canvas);
-
-    document.getElementById("clear").addEventListener("click", function () {
-        signaturePad.clear();
-    });
-
-    document.getElementById("save").addEventListener("click", function () {
-        if (!signaturePad.isEmpty()) {
-            var dataURL = signaturePad.toDataURL();
-            document.getElementById("signature").value = dataURL;
-        } else {
-            alert("Mettez votre signature d'abord SVP");
-        }
-    });
-  </script>
-
-  <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
-  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="assets/vendor/chart.js/chart.umd.js"></script>
-  <script src="assets/vendor/echarts/echarts.min.js"></script>
-  <script src="assets/vendor/quill/quill.min.js"></script>
-  <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
-  <script src="assets/vendor/tinymce/tinymce.min.js"></script>
-  <script src="assets/vendor/php-email-form/validate.js"></script>
-
-  <!-- Template Main JS File -->
-  <script src="assets/js/main.js"></script>
-</main>
+    <!-- Template Main JS File -->
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/file.js"></script>
+  </main>
 </body>
 </html>

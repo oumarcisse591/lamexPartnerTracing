@@ -26,19 +26,32 @@
     </div>
     <!-- End Logo -->
     <div class="search-bar">
-      <form class="search-form d-flex align-items-center" method="POST" action="">
-        <input type="text" name="query" placeholder="Search" title="Enter search keyword">
-        <button type="submit" title="Search"><i class="bi bi-search"></i></button>
-      </form>
+      <div  ><span class="card-title" th:text="${globalVariable}"></span>-<span class="card-title" th:text="${guichet}"></span></div>
     </div><!-- End Search Bar -->
 
     <nav class="header-nav ms-auto">
       <ul class="d-flex align-items-center">
         <li class="nav-item d-block d-lg-none">
-          <a class="nav-link nav-icon search-bar-toggle " href="">
-            <i class="bi bi-search"></i>
-          </a>
+          <div class="pagetitle">
+<!--            <p th:text="${globalVariable}"></p>-->
+<!--            <p th:text="${guichet}"></p>-->
+          </div>
         </li><!-- End Search Icon-->
+
+        <li >
+          <div class="form-floating mb-3" style="margin-top: 10px">
+            <select
+                    class="form-select"
+                    id="floatingSelect"
+                    aria-label="Floating label select example"
+            >
+              <option th:each="tempStock : ${GlobalStocks}"
+                      th:text="*{tempStock.stockName} + ' - ' + ${#numbers.formatDecimal(tempStock.balance, 0, 'COMMA', 2, 'POINT')}"
+                      ></option>
+            </select>
+            <label for="floatingSelect">Mes soldes de Stock</label>
+          </div>
+        </li>
         <li class="nav-item dropdown">
           <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
             <i class="bi bi-bell"></i>
@@ -116,68 +129,68 @@
         </a>
       </li>
       <!-- End Dashboard Nav -->
+      <div sec:authorize="hasRole('ROLE_SUPERADMIN')">
+          <li  style="font-size: 16; font-weight: bold; margin-top: 14px;">Gestion du transfert TT</li>
 
-      <li  style="font-size: 16; font-weight: bold; margin-top: 14px;">Gestion du transfert TT</li>
+          <li class="nav-item">
+            <a class="nav-link collapsed" data-bs-target="#client-nav" data-bs-toggle="collapse" href="#">
+              <i class="bi bi-person"></i><span>Client</span><i class="bi bi-chevron-down ms-auto"></i>
+            </a>
+            <ul id="client-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+              <li>
+                <a th:href="@{/add-client}">
+                  <i class="bi bi-circle"></i><span>Ajouter un client</span>
+                </a>
+              </li>
+              <li>
+                <a th:href="@{/list-client}">
+                  <i class="bi bi-circle"></i><span>Liste des clients</span>
+                </a>
+              </li>
+            </ul>
+          </li>
+          <!-- End Components Nav -->
 
-      <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#client-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-person"></i><span>Client</span><i class="bi bi-chevron-down ms-auto"></i>
-        </a>
-        <ul id="client-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-          <li>
-            <a th:href="@{/add-client}">
-              <i class="bi bi-circle"></i><span>Ajouter un client</span>
+          <li class="nav-item">
+            <a class="nav-link collapsed" data-bs-target="#beneficiary-nav" data-bs-toggle="collapse" href="#">
+              <i class="bi bi-gem"></i><span>Partenaires ou Bénéficiaires</span><i class="bi bi-chevron-down ms-auto"></i>
             </a>
+            <ul id="beneficiary-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+              <li>
+                <a th:href="@{/add-beneficiary}">
+                  <i class="bi bi-circle"></i><span>Ajouter un Partenaire/Bénéficiaire</span>
+                </a>
+              </li>
+              <li>
+                <a th:href="@{/list-beneficiary}">
+                  <i class="bi bi-circle"></i><span>Liste de Partenaire/bénéficiaires</span>
+                </a>
+              </li>
+            </ul>
           </li>
-          <li>
-            <a th:href="@{/list-client}">
-              <i class="bi bi-circle"></i><span>Liste des clients</span>
-            </a>
-          </li>
-        </ul>
-      </li>
-      <!-- End Components Nav -->
+          <!-- End Icons Nav -->
 
-      <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#beneficiary-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-gem"></i><span>Partenaires ou Bénéficiaires</span><i class="bi bi-chevron-down ms-auto"></i>
-        </a>
-        <ul id="beneficiary-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-          <li>
-            <a th:href="@{/add-beneficiary}">
-              <i class="bi bi-circle"></i><span>Ajouter un Partenaire/Bénéficiaire</span>
+          <li class="nav-item">
+            <a class="nav-link collapsed" data-bs-target="#transfert-nav" data-bs-toggle="collapse" href="#">
+              <i class="bi bi-journal-text"></i><span>Transfert</span><i class="bi bi-chevron-down ms-auto"></i>
             </a>
+            <ul id="transfert-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+              <div sec:authorize="hasRole('ROLE_SUPERADMIN')">
+                <li>
+                  <a th:href="@{/add-receipt}">
+                    <i class="bi bi-circle"></i><span>Faire un transfert</span>
+                  </a>
+                </li>
+              </div>
+              <li>
+                <a th:href="@{/list-receipt}">
+                  <i class="bi bi-circle"></i><span>Récapitulatif des transferts</span>
+                </a>
+              </li>
+            </ul>
           </li>
-          <li>
-            <a th:href="@{/list-beneficiary}">
-              <i class="bi bi-circle"></i><span>Liste de Partenaire/bénéficiaires</span>
-            </a>
-          </li>
-        </ul>
-      </li>
-      <!-- End Icons Nav -->
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#transfert-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-journal-text"></i><span>Transfert</span><i class="bi bi-chevron-down ms-auto"></i>
-        </a>
-        <ul id="transfert-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-          <div sec:authorize="hasRole('ROLE_ADMIN')">
-            <li>
-              <a th:href="@{/add-receipt}">
-                <i class="bi bi-circle"></i><span>Faire un transfert</span>
-              </a>
-            </li>
-          </div>
-          <li>
-            <a th:href="@{/list-receipt}">
-              <i class="bi bi-circle"></i><span>Récapitulatif des transferts</span>
-            </a>
-          </li>
-        </ul>
-      </li>
+      </div>
       <!-- End Forms Nav -->
-      <!-- End Tables Nav -->
 
       <li  style="font-size: 16; font-weight: bold">Gestion du Stock et Paiement</li>
       <li class="nav-item">
@@ -185,7 +198,7 @@
           <i class="bi bi-person"></i><span>Paiement</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
         <ul id="paiement-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-          <li>
+          <li sec:authorize="hasAnyRole('ADMIN', 'SUPERADMIN')">
             <a th:href="@{/add-payment}">
               <i class="bi bi-circle"></i><span>Faire un paiement</span>
             </a>
@@ -204,9 +217,9 @@
           <i class="bi bi-journal-text"></i><span>Management du stock</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
         <ul id="stock-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-          <div sec:authorize="hasRole('ROLE_ADMIN')">
-            <li>
-              <a th:href="@{/add-stock}">
+          <div>
+            <li th:if="${globalVariable != null && !globalVariable.isEmpty()}">
+              <a th:href="@{/add-stock}" sec:authorize="hasAnyRole('ROLE_SUPERADMIN')">
                 <i class="bi bi-circle"></i><span>Créer un stock</span>
               </a>
             </li>
@@ -219,26 +232,28 @@
         </ul>
       </li>
 
-      <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#partenaire-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-gem"></i><span>Partenaires</span><i class="bi bi-chevron-down ms-auto"></i>
-        </a>
-        <ul id="partenaire-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-          <li>
-            <a th:href="@{/add-partner}">
-              <i class="bi bi-circle"></i><span>Ajouter un Partenaire</span>
-            </a>
-          </li>
-          <li>
-            <a th:href="@{/list-partner}">
-              <i class="bi bi-circle"></i><span>Liste de Partenaires</span>
-            </a>
-          </li>
-        </ul>
-      </li>
+<!--      <div sec:authorize="hasRole('ROLE_SUPERADMIN')">-->
+<!--        <li class="nav-item">-->
+<!--          <a class="nav-link collapsed" data-bs-target="#partenaire-nav" data-bs-toggle="collapse" href="#">-->
+<!--            <i class="bi bi-gem"></i><span>Partenaires</span><i class="bi bi-chevron-down ms-auto"></i>-->
+<!--          </a>-->
+<!--          <ul id="partenaire-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">-->
+<!--            <li>-->
+<!--              <a th:href="@{/add-partner}">-->
+<!--                <i class="bi bi-circle"></i><span>Ajouter un Partenaire</span>-->
+<!--              </a>-->
+<!--            </li>-->
+<!--            <li>-->
+<!--              <a th:href="@{/list-partner}">-->
+<!--                <i class="bi bi-circle"></i><span>Liste de Partenaires</span>-->
+<!--              </a>-->
+<!--            </li>-->
+<!--          </ul>-->
+<!--        </li>-->
+<!--      </div>-->
       <!-- End Icons Nav -->
 
-      <div sec:authorize="hasRole('ROLE_ADMIN')">
+      <div sec:authorize="hasRole('ROLE_SUPERADMIN')">
         <li class="nav-heading">Pages</li>
         <li class="nav-item">
           <a class="nav-link collapsed"  th:href="@{/society}">
@@ -247,7 +262,7 @@
           </a>
         </li>
       </div>
-      <div sec:authorize="hasRole('ROLE_ADMIN')">
+      <div sec:authorize="hasRole('ROLE_SUPERADMIN')">
         <li class="nav-item">
           <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
             <i class="bi bi-person"></i><span>Utilisateurs</span><i class="bi bi-chevron-down ms-auto"></i>

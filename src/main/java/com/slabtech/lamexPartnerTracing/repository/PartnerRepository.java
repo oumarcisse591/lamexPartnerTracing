@@ -4,7 +4,9 @@ import com.slabtech.lamexPartnerTracing.entity.Partner;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-public interface PartnerRepository extends JpaRepository<Partner, Integer> {
+import java.util.UUID;
+
+public interface PartnerRepository extends JpaRepository<Partner, UUID> {
 
     @Query("SELECT COUNT(p) FROM Partner p")
     long countAllPartners();

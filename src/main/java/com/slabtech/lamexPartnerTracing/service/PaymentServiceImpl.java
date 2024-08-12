@@ -1,14 +1,18 @@
 package com.slabtech.lamexPartnerTracing.service;
 
+import com.slabtech.lamexPartnerTracing.entity.Partner;
 import com.slabtech.lamexPartnerTracing.entity.Payment;
 import com.slabtech.lamexPartnerTracing.exception.InsufficientStockException;
 import com.slabtech.lamexPartnerTracing.exception.NullAmountException;
 import com.slabtech.lamexPartnerTracing.repository.PaymentRepository;
 import com.slabtech.lamexPartnerTracing.repository.StockRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class PaymentServiceImpl implements PaymentService{
@@ -31,13 +35,27 @@ public class PaymentServiceImpl implements PaymentService{
         return paymentRepository.findAll();
     }
 
+    /**
+     * Renvoie tous les payements
+     * @return
+     */
     @Override
     public List<Payment> findAllPaymentDesc() {
         return paymentRepository.findAllByOrderByIdTransactionDesc();
     }
 
+    /**
+     * Renvoyer la liste de de payement lie au partenaire
+     * @param thePartner
+     * @return
+     */
     @Override
-    public Payment findPaymentById(int theId) {
+    public Page<Payment> findAllByPartner(Partner thePartner, PageRequest pageRequest) {
+        return paymentRepository.findByPartnerOrderByTransactionDateDesc(thePartner, pageRequest);
+    }
+
+    @Override
+    public Payment findPaymentById(UUID theId) {
         return paymentRepository.findById(theId).orElse(null);
     }
 
@@ -58,6 +76,16 @@ public class PaymentServiceImpl implements PaymentService{
     @Override
     public long getTotalTransactions() {
         return paymentRepository.countAllTransactions();
+    }
+
+    @Override
+    public long getTotalPaymentsByPartner(Partner thePartner) {
+        return paymentRepository.countPaymentsByPartner(thePartner);
+    }
+
+    @Override
+    public List<Payment> getLatestPaymentsByPartner(Partner thePartner) {
+        return paymentRepository.findTop5ByPartnerOrderByTransactionDateDesc(thePartner);
     }
 
     @Override

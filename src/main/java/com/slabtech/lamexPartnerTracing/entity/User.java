@@ -2,17 +2,19 @@ package com.slabtech.lamexPartnerTracing.entity;
 
 import jakarta.persistence.*;
 
+import javax.mail.Part;
 import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Table(name = "user")
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
+    @GeneratedValue
+    @Column(updatable = false, nullable = false)
+    private UUID id;
 
     @Column(name = "username")
     private String userName;
@@ -35,14 +37,43 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<Transaction> transactions;
 
+    @ManyToOne
+    private Partner partner;
+
+    @ManyToOne
+    private Guichet guichet;
+
+
     public User() {
     }
 
-    public User(String userName, String name, String password, boolean enabled) {
+    public User(String userName, String name, String password, boolean enabled, List<Transaction> transactions, Partner partner) {
         this.userName = userName;
         this.name = name;
         this.password = password;
         this.enabled = enabled;
+        this.transactions = transactions;
+        this.partner = partner;
+    }
+
+    public User(UUID id, String userName, String name, String password, boolean enabled, Collection<Role> roles, List<Transaction> transactions, Partner partner, Guichet guichet) {
+        this.id = id;
+        this.userName = userName;
+        this.name = name;
+        this.password = password;
+        this.enabled = enabled;
+        this.roles = roles;
+        this.transactions = transactions;
+        this.partner = partner;
+        this.guichet = guichet;
+    }
+
+    public Guichet getGuichet() {
+        return guichet;
+    }
+
+    public void setGuichet(Guichet guichet) {
+        this.guichet = guichet;
     }
 
     public User(String userName, String name, String password, boolean enabled,
@@ -54,11 +85,11 @@ public class User {
         this.roles = roles;
     }
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -100,6 +131,22 @@ public class User {
 
     public void setRoles(Collection<Role> roles) {
         this.roles = roles;
+    }
+
+    public List<Transaction> getTransactions() {
+        return transactions;
+    }
+
+    public void setTransactions(List<Transaction> transactions) {
+        this.transactions = transactions;
+    }
+
+    public Partner getPartner() {
+        return partner;
+    }
+
+    public void setPartner(Partner partner) {
+        this.partner = partner;
     }
 
     @Override

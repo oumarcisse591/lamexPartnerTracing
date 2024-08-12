@@ -45,9 +45,17 @@
           <div class="card">
             <div class="card-body">
               <h5 class="card-title">Le Remettant :</h5>
-              <!--              <label for="validationDefault01" class="form-label">Le Client :</label>-->
-              <select th:field="*{society.id}" id="inputState" class="form-select">
-                <option th:each="tempSociety : ${societies}" th:text="${tempSociety.societyName}"  th:value="${tempSociety.id}" selected></option>
+              <select
+                      th:field="*{society.id}"
+                      id="inputState1"
+                      class="form-select"
+              >
+                <option
+                        th:each="tempSociety : ${societies}"
+                        th:text="${tempSociety.societyName}"
+                        th:value="${tempSociety.id}"
+                        selected
+                ></option>
               </select>
             </div>
           </div>
@@ -56,9 +64,17 @@
           <div class="card">
             <div class="card-body">
               <h5 class="card-title">Le client :</h5>
-              <!--              <label for="validationDefault01" class="form-label">Le Client :</label>-->
-              <select th:field="*{client.id}" id="inputState" class="form-select">
-                <option th:each="tempClient : ${clients}" th:text="${tempClient.nom}"  th:value="${tempClient.id}" selected></option>
+              <select
+                      th:field="*{client.id}"
+                      id="inputState2"
+                      class="form-select"
+              >
+                <option
+                        th:each="tempClient : ${clients}"
+                        th:text="${tempClient.nom}"
+                        th:value="${tempClient.id}"
+                        selected
+                ></option>
               </select>
             </div>
           </div>
@@ -67,23 +83,72 @@
           <div class="card">
             <div class="card-body">
               <h5 class="card-title">Le Bénéficiaire :</h5>
-              <!--                <label for="validationDefault01" class="form-label">Le client :</label>-->
-              <select th:field="*{beneficiary.id}" id="inputState" class="form-select">
-                <!--                <div th></div>-->
-                <option th:each="tempBeneficiary : ${beneficiaries}" th:text="${tempBeneficiary.beneficiaryName}"  th:value="${tempBeneficiary.id}" selected></option>
+              <select
+                      th:field="*{beneficiary.id}"
+                      id="inputState3"
+                      class="form-select"
+              >
+                <option
+                        th:each="tempBeneficiary : ${beneficiaries}"
+                        th:text="${tempBeneficiary.beneficiaryName}"
+                        th:value="${tempBeneficiary.id}"
+                        selected
+                ></option>
               </select>
-              <label for="validationDefault01" class="form-label">Banque du client bénéficiaire :</label>
-              <input type="text" th:field="*{beneficiaryBank}" name="beneficiary_bank" class="form-control" id="validationDefault01"
+              <label
+                      for="validationDefault01"
+                      class="form-label"
+              >
+                Banque du client bénéficiaire :
+              </label>
+              <input
+                      type="text"
+                      th:field="*{beneficiaryBank}"
+                      name="beneficiary_bank"
+                      class="form-control"
+                      id="validationDefault01"
                      required>
-              <label for="validationDefault01" class="form-label">Adresse de la banque du bénéficiaire :</label>
-              <input type="text" th:field="*{beneficiaryBankAddress}" name="beneficiary_bank_adress" class="form-control" id="validationDefault01"
+              <label
+                      for="validationDefault01"
+                      class="form-label"
+              >
+                Adresse de la banque du bénéficiaire :
+              </label>
+              <input
+                      type="text"
+                      th:field="*{beneficiaryBankAddress}"
+                      name="beneficiary_bank_adress"
+                      class="form-control"
+                      id="validationDefault02"
                      required>
-              <label for="validationDefault01" class="form-label">Numéro IBAN rattaché :</label>
-              <input type="text" th:field="*{beneficiaryAccount}" name="beneficiary_account"  class="form-control" id="validationDefault02"
-                     required>
-              <label for="validationDefault01" class="form-label">Code Swift Correspondant :</label>
-              <input type="text" th:field="*{swift_code}" name="swift_code" class="form-control" id="validationDefault01"
-                     required>
+              <label
+                      for="validationDefault01"
+                      class="form-label"
+              >
+                Numéro IBAN rattaché :
+              </label>
+              <input
+                      type="text"
+                      th:field="*{beneficiaryAccount}"
+                      name="beneficiary_account"
+                      class="form-control"
+                      id="validationDefault03"
+                     required
+              >
+              <label
+                      for="validationDefault01"
+                      class="form-label"
+              >
+                Code Swift Correspondant :
+              </label>
+              <input
+                      type="text"
+                      th:field="*{swift_code}"
+                      name="swift_code"
+                      class="form-control"
+                      id="validationDefault04"
+                     required
+              >
             </div>
           </div>
         </div>
@@ -91,12 +156,38 @@
           <div class="card">
             <div class="card-body">
               <h5 class="card-title">Détails de la transaction</h5>
-              <label for="validationDefault01" class="form-label">Montant :</label>
-              <input type="text" th:field="*{amount}" name="amount" class="form-control" id="validationDefault01"
-                     required>
-              <label for="validationDefault01" class="form-label">Devise :</label>
-              <select th:field="*{currency}" name="currency" id="inputState" class="form-select">
-                <option th:value="USD" selected>Dollar Américain - USD</option>
+              <label
+                      for="validationDefault01"
+                      class="form-label"
+              >
+                Montant :
+              </label>
+              <input
+                      type="text"
+                      th:field="*{amount}"
+                      name="amount"
+                      class="form-control"
+                      id="validationDefault05"
+                     required
+              >
+              <label
+                      for="validationDefault01"
+                      class="form-label"
+              >
+                Devise :
+              </label>
+              <select
+                      th:field="*{currency}"
+                      name="currency"
+                      id="inputState"
+                      class="form-select"
+              >
+                <option
+                        th:value="USD"
+                        selected
+                >
+                  Dollar Américain - USD
+                </option>
                 <option th:value="CAD" >Dollar Canadien - CAD</option>
                 <option th:value="EUR" >Euro - EUR</option>
                 <option th:value="XAF" >FCFA Afrique Centrale - XAF</option>
@@ -106,19 +197,44 @@
                 <option th:value="RMB" >Remimbi - RMB</option>
                 <option th:value="AED" >The United Arab Emirates dirham - AED</option>
               </select>
-              <label for="validationDefault01" class="form-label">Date de la valeur :</label>
-              <input type="date" th:field="*{valueDate}" name="value_date"  class="form-control" id="validationDefault02"
+              <label
+                      for="validationDefault01"
+                      class="form-label"
+              >
+                Date de la valeur :
+              </label>
+              <input
+                      type="date"
+                      th:field="*{valueDate}"
+                      name="value_date"
+                      class="form-control"
+                      id="validationDefault06"
                      required>
-              <label for="validationDefault01" class="form-label">Motif de la transaction :</label>
-              <input type="text" th:field="*{motifTransaction}" name="motif_transaction"  class="form-control" id="validationDefault02"
-                     required>
+              <label
+                      for="validationDefault01"
+                      class="form-label"
+              >
+                Motif de la transaction :
+              </label>
+              <input
+                      type="text"
+                      th:field="*{motifTransaction}"
+                      name="motif_transaction"
+                      class="form-control"
+                      id="validationDefault07"
+                     required
+              >
             </div>
           </div>
         </div>
       </div>
-      </div>
       <div class="">
-        <button class="btn btn-primary" type="submit">Valider</button>
+        <button
+                class="btn btn-primary"
+                type="submit"
+        >
+          Valider
+        </button>
       </div>
     </section>
   </form>

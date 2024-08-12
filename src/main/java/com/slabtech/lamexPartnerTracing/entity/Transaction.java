@@ -1,8 +1,10 @@
 package com.slabtech.lamexPartnerTracing.entity;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.GenericGenerator;
 
 import java.util.Date;
+import java.util.UUID;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
@@ -11,8 +13,9 @@ import java.util.Date;
 public class Transaction {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idTransaction;
+    @GeneratedValue
+    @Column(updatable = false, nullable = false)
+    private UUID idTransaction;
 
     @Column(name = "reference_transaction")
     private String referenceTransaction;
@@ -43,11 +46,11 @@ public class Transaction {
     @ManyToOne
     private User user;
 
-    public int getIdTransaction() {
+    public UUID getIdTransaction() {
         return idTransaction;
     }
 
-    public void setIdTransaction(int idTransaction) {
+    public void setIdTransaction(UUID idTransaction) {
         this.idTransaction = idTransaction;
     }
 
@@ -134,11 +137,11 @@ public class Transaction {
     public Transaction() {
     }
 
-    public Transaction(int idTransaction) {
+    public Transaction(UUID idTransaction) {
         this.idTransaction = idTransaction;
     }
 
-    public Transaction(int idTransaction, String referenceTransaction, String transactionType, Date transactionDate, String reason, double transactionAmount, String signature, String signatureAgent, Stock stock, Partner partner, User user) {
+    public Transaction(UUID idTransaction, String referenceTransaction, String transactionType, Date transactionDate, String reason, double transactionAmount, String signature, String signatureAgent, Stock stock, Partner partner, User user) {
         this.idTransaction = idTransaction;
         this.referenceTransaction = referenceTransaction;
         this.transactionType = transactionType;

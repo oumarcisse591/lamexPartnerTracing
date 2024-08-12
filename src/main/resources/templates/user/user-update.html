@@ -26,7 +26,7 @@
   <link href="assets/css/style.css" rel="stylesheet">
 </head>
 <body>
-<div th:replace="/layouts/header :: header"> </div>
+<div th:insert="~{/layouts/header :: header}"></div>
 
 
 <main id="main" class="main">
@@ -48,7 +48,7 @@
           <div class="card-body">
             <h5 class="card-title">Formulaire de modification de l'utilisateur</h5>
             <!-- General Form Elements -->
-            <form th:action="@{/create-user}" th:object="${user}" method="POST" class="row g-3">
+            <form th:action="@{/save-user}" th:object="${user}" method="POST" class="row g-3">
               <div class="col-md-12">
                 <input type="hidden" th:field="*{id}" name="id">
                 <label for="validationDefault01" class="form-label">Nom Complet</label>
@@ -69,6 +69,10 @@
                   <option th:field="*{roles}" name="roles" value="ROLE_MANAGER">MANAGER</option>
                   <option th:field="*{roles}" name="roles" value="ROLE_ADMIN">ADMIN</option>
                 </select>
+                <input type="hidden" th:field="*{partner}" name="password"  class="form-control" id="validationDefault02"
+                       required>
+                <input type="hidden" th:field="*{guichet}" name="password"  class="form-control" id="validationDefault02"
+                       required>
                 <div class="col-12" style="margin-top:10px;">
                   <button class="btn btn-primary form-control" type="submit">Enregistrer les modifications</button>
                 </div>

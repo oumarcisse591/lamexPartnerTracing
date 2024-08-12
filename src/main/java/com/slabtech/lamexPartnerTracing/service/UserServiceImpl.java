@@ -3,6 +3,7 @@ package com.slabtech.lamexPartnerTracing.service;
 
 import com.slabtech.lamexPartnerTracing.dao.RoleDao;
 import com.slabtech.lamexPartnerTracing.dao.UserDao;
+import com.slabtech.lamexPartnerTracing.entity.Partner;
 import com.slabtech.lamexPartnerTracing.entity.Role;
 import com.slabtech.lamexPartnerTracing.entity.User;
 import com.slabtech.lamexPartnerTracing.repository.UserRepository;
@@ -15,6 +16,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -38,6 +40,11 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    public long countUserbyPartner(Partner thePartner) {
+        return userRepository.countUsersByPartner(thePartner);
+    }
+
+    @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userDao.findByUserName(username);
         if (user==null){
@@ -51,7 +58,7 @@ public class UserServiceImpl implements UserService{
         return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
     }
 
-    public Long getUserIdByUsername(String username) {
+    public UUID getUserIdByUsername(String username) {
         User user = userRepository.findByUserName(username);
         if (user != null) {
             return user.getId();

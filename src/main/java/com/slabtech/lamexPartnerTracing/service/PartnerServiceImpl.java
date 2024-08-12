@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class PartnerServiceImpl implements PartnerService{
@@ -24,7 +25,7 @@ public class PartnerServiceImpl implements PartnerService{
     }
 
     @Override
-    public Partner findPartnerById(int theId) {
+    public Partner findPartnerById(UUID theId) {
         Optional<Partner> result = partnerRepository.findById(theId);
         Partner thePartner = null;
         if (result.isPresent()){

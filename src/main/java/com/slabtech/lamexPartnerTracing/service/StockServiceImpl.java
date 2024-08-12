@@ -1,5 +1,6 @@
 package com.slabtech.lamexPartnerTracing.service;
 
+import com.slabtech.lamexPartnerTracing.entity.Partner;
 import com.slabtech.lamexPartnerTracing.entity.Stock;
 import com.slabtech.lamexPartnerTracing.exception.InsufficientStockException;
 import com.slabtech.lamexPartnerTracing.repository.StockRepository;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class StockServiceImpl implements StockService{
@@ -27,7 +29,12 @@ public class StockServiceImpl implements StockService{
     }
 
     @Override
-    public Stock findStockById(int theId) {
+    public List<Stock> findAllByPartner(Partner thePartner) {
+        return stockRepository.findByPartnerOrderByIdDesc(thePartner);
+    }
+
+    @Override
+    public Stock findStockById(UUID theId) {
         Optional<Stock> result = stockRepository.findById(theId);
         Stock theStock = null;
 
@@ -46,7 +53,7 @@ public class StockServiceImpl implements StockService{
     }
 
     @Override
-    public void increaseStockQuantity(int id, double amount) {
+    public void increaseStockQuantity(UUID id, double amount) {
         Stock stock = stockRepository.findById(id).orElse(null);
             double newBalance = calculateBalance(id);
             stock.setBalance(newBalance);
@@ -54,7 +61,7 @@ public class StockServiceImpl implements StockService{
     }
 
     @Override
-    public void decreaseStockQuantity(int id, double amount) {
+    public void decreaseStockQuantity(UUID id, double amount) {
         Stock stock = stockRepository.findById(id).orElse(null);
         if (stock != null ){
             if (stock.getBalance() < amount){
@@ -67,7 +74,7 @@ public class StockServiceImpl implements StockService{
     }
 
     @Override
-    public void rechargeStockQuantity(int id, double amount) {
+    public void rechargeStockQuantity(UUID id, double amount) {
         Stock stock = stockRepository.findById(id).orElse(null);
         if (stock != null){
             double newBalance = calculateBalance(id);
@@ -86,13 +93,13 @@ public class StockServiceImpl implements StockService{
         return stockRepository.countInactiveStocks();
     }
 
+
     @Override
-    public double calculateBalance(int id) {
+    public double calculateBalance(UUID id) {
         Stock stock = stockRepository.findById(id).orElse(null);
         Double creditSum = transactionRepository.sumAmountByStockIdAndType(id, "credit");
         Double debitSum = transactionRepository.sumAmountByStockIdAndType(id, "debit");
         Double rechargeSum = transactionRepository.sumAmountByStockIdAndType(id, "recharge");
-
         creditSum = (creditSum == null) ? 0 : creditSum;
         debitSum = (debitSum == null) ? 0 : debitSum;
         rechargeSum = (rechargeSum == null) ? 0 : rechargeSum;
@@ -100,6 +107,34 @@ public class StockServiceImpl implements StockService{
         stock.setBalance(newBalance);
         stockRepository.save(stock);
         return newBalance;
+    }
+
+    @Override
+    public double creditSum(UUID id) {
+        Stock stock = stockRepository.findById(id).orElse(null);
+        return transactionRepository.sumAmountByStockIdAndType(id, "credit");
+    }
+
+    @Override
+    public double debitSum(UUID id) {
+        Stock stock = stockRepository.findById(id).orElse(null);
+        return transactionRepository.sumAmountByStockIdAndType(id, "debit");
+    }
+
+    @Override
+    public double rechargeSum(UUID id) {
+        Stock stock = stockRepository.findById(id).orElse(null);
+        return transactionRepository.sumAmountByStockIdAndType(id, "recharge");
+    }
+
+    @Override
+    public int countTransaction(UUID id) {
+        return 0;
+    }
+
+    @Override
+    public long countStockBypartner(Partner thePartner) {
+        return stockRepository.countStocksByPartner(thePartner);
     }
 
 

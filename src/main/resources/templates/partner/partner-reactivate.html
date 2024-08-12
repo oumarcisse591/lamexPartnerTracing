@@ -26,13 +26,15 @@
     <link href="assets/css/style.css" rel="stylesheet">
 </head>
 <body>
-<div th:replace="/layouts/header :: header"> </div>
+<div th:insert="~{/layouts/header :: header}"></div>
 <main id="main" class="main">
     <div class="pagetitle">
         <h1>Réactivation d'un partenaire</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                <li class="breadcrumb-item">
+                    <a href="index.html">Home</a>
+                </li>
                 <li class="breadcrumb-item">Partenaires</li>
                 <li class="breadcrumb-item active">Réactivation d'un partenaire</li>
             </ol>
@@ -41,38 +43,104 @@
     <section class="section">
         <div class="row">
             <div class="col-lg-12">
-                <form action="#" th:action="@{/activate-partner}" th:object="${thePartner}" method="POST" class="row g-3">
-                    <div class="col-md-12" style="display : none">
-                        <input type="hidden" th:field="*{idPartner}" name="id_partner" class="form-control" id="validationDefault0"
-                               required>
-                        <label for="validationDefault01" class="form-label">Nom complet du Partenaire:</label>
-                        <input type="text" th:field="*{partnerName}" name="partner_name" class="form-control" id="validationDefault01"
-                               required>
-                        <label for="validationDefault01" class="form-label">Adresse du Partenaire:</label>
-                        <input type="text" th:field="*{partnerAddress}" name="partner_address" class="form-control" id="validationDefault02"
-                               required>
-                        <label for="validationDefault01" class="form-label">Adresse email ou courriel du Partenaire:</label>
-                        <input type="text" th:field="*{partnerEmail}" name="partner_email" class="form-control" id="validationDefault03"
-                               required>
-                        <label for="validationDefault01" class="form-label">Numéro de téléphone du partenaire :</label>
-                        <input type="text" th:field="*{partnerPhone}" name="partner_phone" class="form-control" id="validationDefault04"
-                               required>
-
+                <form
+                        action="#"
+                        th:action="@{/activate-partner}"
+                        th:object="${thePartner}"
+                        method="POST"
+                        class="row g-3"
+                >
+                    <div
+                            class="col-md-12"
+                            style="display : none"
+                    >
+                        <input
+                                type="hidden"
+                                th:field="*{idPartner}"
+                                name="id_partner"
+                                class="form-control"
+                                id="validationDefault0"
+                               required
+                        >
+                        <label
+                                for="validationDefault01"
+                                class="form-label"
+                        >
+                            Nom complet du Partenaire:
+                        </label>
+                        <input
+                                type="text"
+                                th:field="*{partnerName}"
+                                name="partner_name"
+                                class="form-control"
+                                id="validationDefault01"
+                               required
+                        >
+                        <label
+                                for="validationDefault01"
+                                class="form-label"
+                        >
+                            Adresse du Partenaire:
+                        </label>
+                        <input
+                                type="text"
+                                th:field="*{partnerAddress}"
+                                name="partner_address"
+                                class="form-control"
+                                id="validationDefault02"
+                               required
+                        >
+                        <label
+                                for="validationDefault01"
+                                class="form-label"
+                        >
+                            Adresse email ou courriel du Partenaire:
+                        </label>
+                        <input
+                                type="text"
+                                th:field="*{partnerEmail}"
+                                name="partner_email"
+                                class="form-control"
+                                id="validationDefault03"
+                               required
+                        >
+                        <label
+                                for="validationDefault01"
+                                class="form-label"
+                        >
+                            Numéro de téléphone du partenaire :
+                        </label>
+                        <input
+                                type="text"
+                                th:field="*{partnerPhone}"
+                                name="partner_phone"
+                                class="form-control"
+                                id="validationDefault04"
+                               required
+                        >
                     </div>
 
                     <div class="col-12">
                         <h6>Voulez-vous réactiver ce partenaire?</h6>
                         <h6>La réactivation du partenaire entraine la réactivation de ses stocks. Mais il peut être désactivé à tout moment par l'utilisateur ADMIN?</h6>
-                        <h7 style="font-weight: bold; font-size: 20px" th:text="*{partnerName}"></h7>
+                        <h7
+                                style="font-weight: bold; font-size: 20px"
+                                th:text="*{partnerName}"></h7>
                         <br>
-                        <h7 style="font-weight: bold; font-size: 16px" th:text="*{partnerAddress}"></h7>
+                        <h7
+                                style="font-weight: bold; font-size: 16px"
+                                th:text="*{partnerAddress}"></h7>
                         <br>
                         <br>
-                        <button onclick="if (!(confirm('Voulez-vous vraiment réactiver ce partenaire?'))) return false" class="btn btn-primary" type="submit">Réactiver le partenaire</button>
+                        <button
+                                onclick="if (!(confirm('Voulez-vous vraiment réactiver ce partenaire?'))) return false"
+                                class="btn btn-primary"
+                                type="submit"
+                        >
+                            Réactiver le partenaire
+                        </button>
                     </div>
                 </form>
-
-
             </div>
         </div>
     </section>

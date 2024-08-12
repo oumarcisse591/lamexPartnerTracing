@@ -335,7 +335,7 @@
         <band height="230">
             <image scaleImage="FillFrame">
                 <reportElement x="167" y="60" width="240" height="160" uuid="14ea79a4-64a9-43d3-8622-b3d3db4f4a54"/>
-                <imageExpression><![CDATA[$P{photo} != null ? new java.io.File($P{photo}).exists() ? $P{photo} : null : null]]></imageExpression>
+                <imageExpression><![CDATA[($P{photo} != null && new java.io.File($P{photo}).length() > 0) ? $P{photo} : null]]></imageExpression>
             </image>
             <rectangle>
                 <reportElement x="0" y="0" width="280" height="57" uuid="75e93b68-4c0a-4cab-a93d-7440baf59d0c"/>

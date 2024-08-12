@@ -26,13 +26,15 @@
     <link href="assets/css/style.css" rel="stylesheet">
 </head>
 <body>
-<div th:replace="/layouts/header :: header"> </div>
+<div th:insert="~{/layouts/header :: header}"></div>
 <main id="main" class="main">
     <div class="pagetitle">
         <h1>Imprimer le recu</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                <li class="breadcrumb-item">
+                    <a href="index.html">Home</a>
+                </li>
                 <li class="breadcrumb-item">Partenaires</li>
                 <li class="breadcrumb-item active">Réactivation d'un partenaire</li>
             </ol>
@@ -41,12 +43,20 @@
     <section class="section">
         <div class="row">
             <div class="col-lg-12">
-                <div th:object="${movement}" method="POST" class="row g-3">
+                <div
+                        th:object="${movement}"
+                        method="POST"
+                        class="row g-3"
+                >
                     <div class="col-md-12" style="display : none">
-                        <input type="hidden" th:field="*{idTransaction}" class="form-control" id="validationDefault0"
-                               required>
+                        <input
+                                type="hidden"
+                                th:field="*{idTransaction}"
+                                class="form-control"
+                                id="validationDefault0"
+                               required
+                        >
                     </div>
-
                     <div class="col-12">
                         <h6>Recharge éffectuée avec succès</h6>
                         <h6>Imprimez le recu de la recharge pour l'envoyer au partenaire</h6>
@@ -63,8 +73,6 @@
                         <a th:href="@{/rechargeReportPdf(id=*{idTransaction})}"></a>
                     </div>
                 </div>
-
-
             </div>
         </div>
     </section>

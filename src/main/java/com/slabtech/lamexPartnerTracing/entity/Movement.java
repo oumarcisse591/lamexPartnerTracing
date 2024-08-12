@@ -3,6 +3,7 @@ package com.slabtech.lamexPartnerTracing.entity;
 import jakarta.persistence.*;
 
 import java.util.Date;
+import java.util.UUID;
 
 @Entity
 @DiscriminatorValue("2")
@@ -40,13 +41,13 @@ public class Movement extends Transaction{
         this.movementCode = movementCode;
     }
 
-    public Movement(int idTransaction, String movementTitle, String movementCode) {
+    public Movement(UUID idTransaction, String movementTitle, String movementCode) {
         super(idTransaction);
         this.movementTitle = movementTitle;
         this.movementCode = movementCode;
     }
 
-    public Movement(int idTransaction, String referenceTransaction, String transactionType, Date transactionDate, String reason, double transactionAmount, String signature, String signatureAgent, Stock stock, Partner partner, User user, String movementTitle, String movementCode) {
+    public Movement(UUID idTransaction, String referenceTransaction, String transactionType, Date transactionDate, String reason, double transactionAmount, String signature, String signatureAgent, Stock stock, Partner partner, User user, String movementTitle, String movementCode) {
         super(idTransaction, referenceTransaction, transactionType, transactionDate, reason, transactionAmount, signature, signatureAgent, stock, partner, user);
         this.movementTitle = movementTitle;
         this.movementCode = movementCode;

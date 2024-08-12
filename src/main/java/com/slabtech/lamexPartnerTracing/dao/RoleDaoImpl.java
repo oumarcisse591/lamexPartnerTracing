@@ -28,5 +28,6 @@ public class RoleDaoImpl implements RoleDao{
         }
         return theRole;
     }
+
 }
 

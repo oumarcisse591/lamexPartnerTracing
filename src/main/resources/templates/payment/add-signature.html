@@ -34,46 +34,74 @@
   </style>
 </head>
 <body>
-<main id="main" class="main">
-  <div th:object="${payment}">
-    <h1>Paiement initie</h1>
-    <h6>Reference : <span th:text="${payment.referenceTransaction}"></span></h6>
-    <h6>Paiement de <span th:text="${#numbers.formatDecimal(payment.transactionAmount, 0, 'COMMA', 2, 'POINT')} + 'USD'"></span> <span th:text="' (' + (${#numbers.formatDecimal(payment.transactionAmount*3.67, 0, 'COMMA', 2, 'POINT')}) + ' AED)'">(</span> A <span th:text="${payment.clientName}"></span> </h6>
-    <h3>M./MME <span th:text="${payment.clientName}"></span>, Signez dans le cadre SVP</h3>
-    <h6>Signature et date du jour:</h6>
-  </div>
-  <form id="invoiceForm" th:action="@{/save-paymentSignature}" th:object="${payment}" method="post" enctype="multipart/form-data">
-    <!-- Autres champs de formulaire pour la facture -->
-    <input type="hidden" th:field="*{idTransaction}"  name="id_transaction" class="form-control" id="validationDefault01"
-           required>
-    <div id="signature-pad">
-      <canvas></canvas>
+  <main
+          id="main"
+          class="main"
+  >
+    <div th:object="${payment}">
+      <h1>Paiement initie</h1>
+      <h6>
+        Reference :
+        <span th:text="${payment.referenceTransaction}"></span>
+      </h6>
+      <h6>
+        Paiement de
+        <span th:text="${#numbers.formatDecimal(payment.transactionAmount, 0, 'COMMA', 2, 'POINT')} + 'USD'"></span>
+        <span th:text="' (' + (${#numbers.formatDecimal(payment.transactionAmount*3.67, 0, 'COMMA', 2, 'POINT')}) + ' AED)'">(</span> A <span th:text="${payment.clientName}"></span>
+      </h6>
+      <h3>
+        M./MME
+        <span th:text="${payment.clientName}"></span>
+        , Signez dans le cadre SVP
+      </h3>
+      <h6>Signature et date du jour:</h6>
     </div>
-    <div style="margin-top: 5px;">
-      <button class="btn" type="button" id="clear">Effacer</button>
-      <input type="hidden" name="signature" id="signature">
-      <button id="save" class="btn btn-success" type="submit">Soumettre</button>
-    </div>
+    <form
+            id="invoiceForm"
+            th:action="@{/save-paymentSignature}"
+            th:object="${payment}"
+            method="post"
+            enctype="multipart/form-data"
+    >
+      <!-- Autres champs de formulaire pour la facture -->
+      <input
+              type="hidden"
+              th:field="*{idTransaction}"
+              name="id_transaction"
+              class="form-control"
+              id="validationDefault01"
+             required
+      >
+      <div
+              id="signature-pad"
+              style="border: 1px solid black; width: 19em; height: 150px;"
+      >
+        <canvas></canvas>
+      </div>
+      <div style="margin-top: 5px;">
+        <button
+                class="btn"
+                type="button"
+                id="clear"
+        >
+          Effacer
+        </button>
+        <input
+                type="hidden"
+                name="signature"
+                id="signature"
+        >
+        <button
+                id="save"
+                class="btn btn-success"
+                type="submit"
+        >
+          Soumettre
+        </button>
+      </div>
+    </form>
 
-  </form>
-
-  <script>
-    var canvas = document.querySelector("canvas");
-    var signaturePad = new SignaturePad(canvas);
-
-    document.getElementById("clear").addEventListener("click", function () {
-        signaturePad.clear();
-    });
-
-    document.getElementById("save").addEventListener("click", function () {
-        if (!signaturePad.isEmpty()) {
-            var dataURL = signaturePad.toDataURL();
-            document.getElementById("signature").value = dataURL;
-        } else {
-            alert("Mettez votre signature d'abord SVP");
-        }
-    });
-  </script>
-</main>
+    <script src="assets/js/file.js"></script>
+  </main>
 </body>
 </html>

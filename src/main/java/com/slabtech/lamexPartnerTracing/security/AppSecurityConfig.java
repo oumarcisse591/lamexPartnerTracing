@@ -37,8 +37,21 @@ public class AppSecurityConfig {
         http.authorizeHttpRequests(configurer ->
                         configurer
                                 .requestMatchers("/").permitAll()
-                                .requestMatchers("/**").hasRole("ADMIN")
-//                                .requestMatchers("/add-receipt/**").hasRole("ADMIN")
+                                .requestMatchers("/add-payment/**").hasAnyRole("ADMIN", "SUPERADMIN")
+                                .requestMatchers("/payment-list/**").hasAnyRole("ADMIN", "SUPERADMIN")
+                                .requestMatchers("/list-stock/**").hasAnyRole("ADMIN", "SUPERADMIN")
+                                .requestMatchers("/save-payment/**").hasAnyRole("ADMIN", "SUPERADMIN")
+                                .requestMatchers("/add-signature/**").hasAnyRole("ADMIN", "SUPERADMIN")
+                                .requestMatchers("/save-paymentSignature/**").hasAnyRole("ADMIN", "SUPERADMIN")
+                                .requestMatchers("/paymentReportClientPdf/**").hasAnyRole("ADMIN", "SUPERADMIN")
+                                .requestMatchers("/info-stock/**").hasAnyRole("ADMIN", "SUPERADMIN")
+                                .requestMatchers("/paymentReportPdf/**").hasAnyRole("ADMIN", "SUPERADMIN")
+                                .requestMatchers("/mouvementReportPdf/**").hasAnyRole("ADMIN", "SUPERADMIN")
+                                .requestMatchers("/modify-stockInfo/**").hasAnyRole("ADMIN", "SUPERADMIN")
+                                .requestMatchers("/save-modify-stock/**").hasAnyRole("ADMIN", "SUPERADMIN")
+
+                                .requestMatchers("/**").hasRole("SUPERADMIN")
+
 //                                .requestMatchers("/add-client/**").hasRole("ADMIN")
 //                                .requestMatchers("/delete-user/**").hasRole("ADMIN")
 //                                .requestMatchers("/update-user/**").hasRole("ADMIN")

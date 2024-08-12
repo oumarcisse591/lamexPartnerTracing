@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class MovementServiceImpl implements MovementService{
@@ -27,7 +28,7 @@ public class MovementServiceImpl implements MovementService{
     }
 
     @Override
-    public Movement findMovementById(int theId) {
+    public Movement findMovementById(UUID theId) {
         Optional<Movement> result = movementRepository.findById(theId);
         Movement theMovement = null;
         if (result.isPresent()){

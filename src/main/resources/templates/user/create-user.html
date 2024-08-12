@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en">
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      lang="en"
+>
 <head>
   <meta charset="UTF-8">
   <title>Ajout d'un utilisateur</title>
@@ -26,7 +28,7 @@
   <link href="assets/css/style.css" rel="stylesheet">
 </head>
 <body>
-<div th:replace="/layouts/header :: header"> </div>
+<div th:insert="~{/layouts/header :: header}"></div>
 <main id="main" class="main">
   <div class="pagetitle">
     <h1>Création d'un utilisateur</h1>
@@ -45,26 +47,38 @@
         <div class="card">
           <div class="card-body">
             <h5 class="card-title">Formulaire de création d'un utilisateur</h5>
+            <div th:if="${errorMessage}">
+              <div
+                      class="alert alert-danger alert-dismissible fade show"
+                      th:text="${errorMessage}"
+                      role="alert">
+                <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="alert"
+                        aria-label="Close"
+                >
+                </button>
+              </div>
+            </div>
             <!-- General Form Elements -->
             <form action="#" th:action="@{/create-user}" th:object="${user}" method="POST" class="row g-3">
               <div class="col-md-12">
                 <label for="validationDefault01" class="form-label">Nom Complet</label>
                 <input type="text" th:field="*{name}" name="name" class="form-control" id="validationDefault01"
                        required>
-                <label for="validationDefault01" class="form-label">Nom de l'utilisateur (username)</label>
-                <input type="text" th:field="*{userName}" name="user_name" class="form-control" id="validationDefault01"
+                <label for="validationDefault01" class="form-label">Nom de l'utilisateur (username utilisé pour se connecter)</label>
+                <input type="text" th:field="*{userName}" name="user_name" class="form-control" id="validationDefault01" autocomplete="new-username"
                        required>
                 <label for="validationDefault01" class="form-label">Mot de passe de l'utilisateur</label>
-                <input type="password" th:field="*{password}" name="password"  class="form-control" id="validationDefault02"
+                <input type="password" th:field="*{password}" name="password"  class="form-control" id="validationDefault02" autocomplete="new-password"
                        required>
                 <label for="validationDefault01" class="form-label">Role de l'utilisateur</label>
                 <select th:field="*{roles}" name="roles" id="inputState" class="form-select">
+                  <option th:field="*{roles}" name="roles" value="ROLE_GUICHET" selected>GUICHET</option>
                   <option th:field="*{roles}" name="roles" value="ROLE_MANAGER" selected>MANAGER</option>
                   <option th:field="*{roles}" name="roles" value="ROLE_ADMIN">ADMIN</option>
                 </select>
-
-                <!--                                <input type="text" th:field="*{roles}" name="roles" class="form-control" id="validationDefault01"-->
-                <!--                                       required>-->
               </div>
 
               <div class="col-12">
