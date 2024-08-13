@@ -43,10 +43,10 @@ import java.util.stream.Collectors;
 @Controller
 public class PaymentController {
 
-    public static String UPLOAD_DIRECTORY = "/Users/admin/Downloads/";
-//    public static String UPLOAD_DIRECTORY = "/opt/AppStorage/IdCard/";
-    private String uploadDirectory = "/Users/admin/Downloads/";
-//    public static String uploadDirectory = "/opt/AppStorage/Signature/";
+//    public static String UPLOAD_DIRECTORY = "/Users/admin/Downloads/";
+    public static String UPLOAD_DIRECTORY = "/opt/AppStorage/IdCard/";
+//    private String uploadDirectory = "/Users/admin/Downloads/";
+    public static String uploadDirectory = "/opt/AppStorage/Signature/";
     private PaymentService paymentService;
 
     private StockService stockService;
